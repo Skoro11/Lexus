@@ -1,0 +1,87 @@
+.flex {
+  display: flex;
+}
+.footer {
+  color: white;
+  background-color: black;
+}
+.footer-container {
+  margin-inline: auto;
+  max-width: 1170px;
+  justify-content: space-between;
+  padding: 3%;
+  gap: 30px;
+}
+.footer-heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+.footer-list-item {
+  margin: 20px 0;
+}
+.column {
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 5px;
+}
+.center {
+  align-items: center;
+}
+.center li {
+  margin-top: 20px;
+  margin-inline: 15px;
+  cursor: pointer;
+}
+.bottom-margin {
+  margin-bottom: 20px;
+}
+.copyright {
+  border-top: 1px solid white;
+  text-align: center;
+  /* opacity: 0.2; */
+  /* display: flex
+; */
+  padding: 11px 0;
+}
+.email-input {
+  background-color: black;
+  border: none;
+  color: white;
+  padding-left: 5%;
+  margin-right: -5%;
+  border-radius: 5px;
+  width: 83%;
+}
+.email-input:focus {
+  outline: none;
+  overflow: hidden;
+}
+
+.input-container {
+  display: flex;
+  border: 1px solid white;
+  background-color: transparent;
+  padding: 5% 1px;
+  border-radius: 5px;
+}
+.input-container:focus-within {
+  border: 1px solid yellow;
+}
+.send-image {
+  padding: 0 3% 0 10%;
+  cursor: pointer;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .footer {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .vanish {
+    display: none;
+  }
+  .footer-container {
+    justify-content: space-around;
+  }
+}

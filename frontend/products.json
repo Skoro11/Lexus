@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Wooden Shelf",
+    "price": 49.99,
+    "tag": "furniture",
+    "imageUrl": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347742/shelf_u3cg5c.png"
+  },
+  {
+    "name": "Metal Shelf",
+    "price": 59.99,
+    "tag": "furniture",
+    "imageUrl": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347742/shelf_u3cg5c.png"
+  },
+  {
+    "name": "Bookshelf",
+    "price": 89.99,
+    "tag": "storage",
+    "imageUrl": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347742/shelf_u3cg5c.png"
+  }
+]

@@ -1,0 +1,340 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+}
+body {
+  font-family: "Poppins", sans-serif;
+}
+.search-results {
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  max-width: 1170px;
+  max-height: 380px;  /* Limit the height of the results */
+  overflow-y: auto;   /* Enable vertical scrolling if content overflows */
+  padding: 10px;      /* Optional: Add padding for spacing */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  border-top:1px solid #02020226; /* Optional: Adds a subtle shadow for better visual */
+}
+.user-active{
+  background-color:#DB4444;
+  border-radius: 20px;
+
+}
+.cart-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
+
+
+
+/* Navbar.css */
+.navbar {
+  border-bottom: 1px solid #02020226;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.sale {
+  background-color: black;
+  padding: 13px 0;
+  font-size: 14px;
+  color: white;
+  text-align: center;
+}
+.underlined {
+  text-decoration: underline;
+}
+
+.bordered {
+  margin-inline: auto;
+  position: relative;
+  max-width: 1170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #ffffff;
+}
+
+.navbar__search {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 20px; /* Space between search and other icons */
+}
+.navbar__search:focus-within {
+  outline: solid black;
+}
+.search-input {
+  background-color: transparent;
+  border: none;
+  font-size: 13px;
+}
+.search-input:focus {
+  outline: none;
+}
+.search-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.search-btn:hover {
+  color: #4caf50;
+}
+
+.navbar__logo img {
+  height: 40px;
+}
+
+.navbar__links {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar__links li {
+  display: inline;
+}
+
+.navbar__links a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+}
+
+.navbar__links a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.438);
+}
+
+.navbar__right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navbar__user-icon,
+.navbar__cart {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.navbar__user-icon:hover,
+.navbar__cart:hover {
+  color: #ff9900;
+}
+.eye-watch {
+  color: white;
+}
+.navbar__cart,
+.navbar__heart {
+  position: relative;
+}
+.popup-item-number {
+  color: white;
+  display: flex; /* Using flex to align content inside the container */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 25px;
+  height: 24px;
+  background-color: #db4444;
+  border-radius: 20px;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 15px;
+  font-weight: 200;
+}
+.heart-popup {
+  background-color: #db4444;
+  top: -46%;
+  right: -66%;
+}
+.navbar__dropdown {
+  backdrop-filter: blur(30px);
+  color: white;
+  position: absolute;
+  top: 78%;
+  right: 2%; /* Align the dropdown to the right */
+  background-color: #0000007c;
+  border-radius: 5px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  width: auto;
+  z-index: 10;
+}
+
+.navbar__dropdown ul {
+  list-style-type: none;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.navbar__dropdown li {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__dropdown li:hover {
+  background-color: #555;
+  cursor: pointer;
+}
+
+.navbar__dropdown li i {
+  margin-right: 10px;
+}
+
+.navbar__dropdown li:hover i {
+  color: #ff9900;
+}
+
+svg {
+  padding-right: 10px;
+}
+/* Base styles for mobile links */
+.mobile-links {
+  position: sticky; /* Make it stick to the viewport */
+  bottom: 0; /* Stick to the bottom of the viewport */
+  width: 100%; /* Full width for mobile devices */
+  background-color: #f8f8f8; /* Background color for the sticky bar */
+ /* Top and bottom padding */
+  z-index: 1000; /* Ensure it stays above other elements */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for elevation */
+  display: none;
+  padding: 5px 0;
+  margin-top: 600px;
+}
+
+/* Style the list inside the sticky footer */
+.mobile-links ul {
+  display: flex; /* Enable flexbox for layout */
+  justify-content: space-evenly; /* Evenly space out the items */
+  margin: 0;
+  padding: 0;
+  list-style-type: none; /* Remove bullet points */
+}
+
+/* Style for each list item */
+.mobile-links li {
+  font-size: 16px; /* Adjust font size for readability */
+  color: #333; /* Example text color */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  text-align: center; /* Center-align the text */
+}
+
+
+
+.mobile-hover:hover {
+  border-top: 1px solid black;
+}
+.cart-item-mobile {
+  position: relative;
+}
+
+.home {
+  width: 25px;
+  padding-top: 4px;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .bordered {
+    background-color: black;
+    padding: 21px 20px;
+  }
+  .navbar {
+    border-bottom: none;
+  }
+  .navbar__links {
+    display: none;
+  }
+  .navbar__search {
+    background-color: white;
+    margin-right: 0;
+    border-radius: 20px;
+  }
+  .navbar__search:focus-within {
+    outline: solid yellow;
+  }
+  .navbar__logo {
+    display: none;
+  }
+  .navbar__icon {
+    display: none;
+  }
+  .navbar__right {
+    display: block;
+    width: 100%;
+  }
+  .burger {
+    display: block;
+  }
+  .search-input {
+    width: 97%;
+  }
+  .search-input:focus {
+    outline: none;
+  }
+  .mobile-links {
+    display: block;
+  }
+
+  .popup-item-number {
+    width: 22px;
+    height: 22px;
+  }
+  .desktop-item {
+    display: none;
+  }
+ 
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sale {
+    background-color: rgb(208, 255, 0);
+  }
+  .navbar__links {
+    display: none;
+  }
+}
+
+
+.box-line {
+  width: 32px;
+  height: 5px;
+  background-color: rgb(0, 0, 0);
+  margin: 5px 0;
+}
