@@ -4,7 +4,7 @@ import { products } from "../components/Products"; // Import the product list
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import "../styles/ProductUrl.css";
-
+import axios from "axios"
 function ProductUrl() {
   const { slug, id } = useParams(); // Get slug and id from the URL
   const [product, setProduct] = useState(null); // State to hold the product data
@@ -15,19 +15,22 @@ function ProductUrl() {
   const isLiked = (productId) => likeList.some((item) => item.id === productId);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const fetchedProduct = products.find(
-        (product) => product.slug === slug && product.id === parseInt(id, 10)
-      );
-      setProduct(fetchedProduct);
-    }, 1000); // 3-second delay before setting product
+    const fetchProduct = async () => {
+      try {
+        // Fetch product using only the ID
+        const res = await axios.get(`/api/products/${id}`);
+        setProduct(res.data);
+        console.log("Fetched product:", res.data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setProduct(null);
+      }
+    };
 
-    return () => clearTimeout(timer); // Cleanup timeout on unmount
-  }, [slug, id]);
+    fetchProduct();
+  }, [id]);
 
-  if (!product) {
-    return <div className="product-container">Loading...</div>; // Show loading while waiting
-  }
+  if (!product) return <div>Loading...</div>;
 
   return (
     <div className="product-container">

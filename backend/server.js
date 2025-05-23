@@ -12,6 +12,21 @@ const port= process.env.PORT
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use(cors())
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    
+    console.log('Connected to the database!')
+
+     app.listen(port,()=>{
+        console.log("App is running on port " + port)
+})
+  })
+    .catch(()=>{
+    console.log("Problem with connecting to the MongoDb")
+  })
+
+
 app.delete("/api/products", async (req, res) => {
   try {
     // Delete all products from the database
@@ -28,20 +43,6 @@ app.delete("/api/products", async (req, res) => {
 });
 
 
-
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    
-    console.log('Connected to the database!')
-
-     app.listen(port,()=>{
-        console.log("App is running on port " + port)
-})
-  })
-    .catch(()=>{
-    console.log("Problem with connecting to the MongoDb")
-  })
-
 app.get("/api/products", async (req, res) => {
   try {
     const products = await Product.find({});
@@ -51,6 +52,17 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
+/* app.get('/api/products/:slug', async (req, res) => {
+  try {
+    const product = await Product.findOne({ slug: req.params.slug });
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}); */
 
 app.get("/api/products/:id",async (req,res)=>{
   try{

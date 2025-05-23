@@ -25,6 +25,8 @@ const ProductSchema= mongoose.Schema(
         slug:{
             type:String,
             required:true,
+            unique: true,
+            lowercase:true
         },
         stars:{
             type:Number,
