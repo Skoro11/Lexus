@@ -1,9 +1,8 @@
 import express from "express";
-import mongoose from "mongoose"
 import dotenv from "dotenv"
 import Product from "./models/product.model.js"
 import cors from "cors"
-
+import { connectDB } from "./config/db.js";
 dotenv.config()
 
 const app = express();
@@ -13,20 +12,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use(cors())
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    
-    console.log('Connected to the database!')
+app.listen(port, async (req,res)=>{
+try{
+  await connectDB();
+  console.log("App is running on port " + port)
+  
+}catch(error){
+  console.log("There is an error " + error)
+}
 
-     app.listen(port,()=>{
-        console.log("App is running on port " + port)
+
 })
-  })
-    .catch(()=>{
-    console.log("Problem with connecting to the MongoDb")
-  })
-
-
 app.delete("/api/products", async (req, res) => {
   try {
     // Delete all products from the database

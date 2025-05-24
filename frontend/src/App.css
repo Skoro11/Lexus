@@ -1,7 +1,9 @@
 .width-60px{
   max-width:60px;
 }
-
+.flex{
+  display:flex;
+}
 
 .bg-btn-primary{
   background-color: #db4444;
