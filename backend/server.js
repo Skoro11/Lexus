@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/product.routes.js";
 
+
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(cors());
 
 // Routes
 app.use("/api/products", productRoutes);
+
 app.get("/", (req, res) => {
   res.send("This is the backend");
 });

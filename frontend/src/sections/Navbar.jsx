@@ -206,7 +206,7 @@ function Navbar() {
             <a href="/login">Sign in</a>
           </li>
           <li>
-            <a href="/admin">Admin</a>
+            {/* <a href="/admin">Admin</a> */}
           </li>
         </ul>
 
