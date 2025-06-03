@@ -1,33 +1,12 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import { connectDB } from "./config/db.js";
-import productRoutes from "./routes/product.routes.js";
+import app from "./app.js"
+const port =process.env.PORT
 
-
-dotenv.config();
-
-const app = express();
-const port = process.env.PORT;
-
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-
-// Routes
-app.use("/api/products", productRoutes);
-
-app.get("/", (req, res) => {
-  res.send("This is the backend");
-});
-
-// Start server
-app.listen(port, async () => {
-  try {
-    await connectDB();
-    console.log("App is running on port " + port);
-  } catch (error) {
-    console.log("There is an error " + error);
-  }
-});
+import { DbConnection } from "./config/db.js"
+app.listen(port, async ()=>{
+    try{
+        await DbConnection(process.env.MONGO_DB_CONNECTION_STRING)
+        console.log("Backend is listening on http://localhost:"+ port )
+    }catch(error){
+        console.log(error)
+    }
+})

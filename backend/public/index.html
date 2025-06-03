@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <label for="name">Name:</label><br />
+    <input type="text" id="name" name="name" value="Toni" required /><br /><br />
+
+    <label for="email">Email:</label><br />
+    <input type="email" id="email" name="email" value="test@gmail.com" required /><br /><br />
+
+    <label for="password">Password:</label><br />
+    <input type="password" id="password" name="password" value="123" required /><br /><br />
+
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('loginForm');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/api/auth/login', {
+          method: 'POST',
+          credentials: 'include',  // send cookies if server sets them
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert('Login successful!');
+          // Optionally, redirect or do something else here
+        } else {
+          alert('Login failed: ' + data.message);
+        }
+      } catch (error) {
+        alert('Fetch error: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
