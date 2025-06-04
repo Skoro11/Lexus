@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import authRoutes from "./routes/authRoutes.js"
 import cartRoutes from "./routes/cartRoutes.js"
+import productRoutes from "./routes/productRoutes.js"
 import cookieParser from "cookie-parser"
 import path from "path";
 import { fileURLToPath } from "url";
@@ -17,12 +18,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.use(express.json())
-app.use(cors());
-app.use(cookieParser())
+app.use(cors({
+  origin: process.env.FRONTEND_PATH,  // your frontend origin
+  credentials: true,                
+}));
 
+app.use(cookieParser())
 app.use("/api/auth",authRoutes)
 app.use("/api/cart", cartRoutes)
-
+app.use("/api/product",productRoutes)
 app.get("/",(req,res)=>{
  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 })

@@ -10,14 +10,11 @@ Content-Type: application/json
     "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzlhMzVmYmUzY2JlNmU5ODIzNWVjZCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDg4NDkxODgsImV4cCI6MTc0OTQ1Mzk4OH0.CWwaVrqDXSNvY5C8lvzZxI92xiCihOiRwtfE8mmI3a0"
 }
 ###
-//Logout
+//Logout (clears accessToken)
 
 DELETE http://localhost:3000/api/auth/logout
 Content-Type: application/json
 
-{
-    "email":"test@gmail.com"
-}
 
 ###
 //Login
@@ -25,7 +22,6 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "name":"Toni",
     "email": "test@gmail.com",
     "password":"123"
 }
@@ -41,4 +37,12 @@ Content-Type: application/json
     "name":"Toni",
     "email": "test@gmail.com",
     "password":"123"
+}
+
+###Fetching user id
+GET http://localhost:3000/api/auth/me
+Content-Type: application/json
+
+{
+    "accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDA1MmQ0ZjJiMDI1ODdiNDI5MjdmZCIsImVtYWlsIjoidGVzdEBnbWFpbDIxMzEuY29tIiwiaWF0IjoxNzQ5MDQ1OTc1LCJleHAiOjE3NDkwNDc0NzV9.wVYpJafqJt7UCW0cZf0vZFgDpIW1oFFrYgfHs8MOdno"
 }

@@ -10,7 +10,7 @@ dotenv.config()
 
 
 export async function RegisterUser(req,res){
-
+    console.log(req.body)
       if(!req.body.name || !req.body.email || !req.body.password) res.sendStatus(400)
     else{
     
@@ -25,7 +25,9 @@ export async function RegisterUser(req,res){
 
         /* const savedUser = await newUser.save() */
         db.push(newUser)
-        res.send(newUser)
+        res.status(200).json({message:"Successfully created a new user",
+            user: newUser
+        })
     }catch(error){
 
         res.status(400).send(error)
@@ -36,9 +38,8 @@ export async function RegisterUser(req,res){
 
 
 export async function LoginUser(req,res){
-
  try{
-    if(!req.body.name || !req.body.email || !req.body.password){
+    if(!req.body.email || !req.body.password){
         return res.status(400).json({message: "Missing required credentials"})
     }
 
@@ -74,7 +75,6 @@ export async function LoginUser(req,res){
             maxAge: 60*60*1000
         })
 
-
         }
 
         CookieCreation(accessTokenCreation(payload),"accessToken");
@@ -83,7 +83,7 @@ export async function LoginUser(req,res){
          wantedUser.refreshToken = accessTokenCreation(payload)
 
         res.status(200).json({
-            message:"Successfully logged in;", 
+            message:"Successfully logged in", 
             user:wantedUser
         });
 
@@ -139,5 +139,23 @@ export function generateNewAccessToken(req,res){
     })
     
 }
+
+export function Me(req, res) {
+  const token = req.cookies.accessToken;
+  console.log(token);
+
+  if (!token) {
+    return res.status(401).json({ message: "User not logged in" });
+  }
+
+  try {
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ id: user.id });
+  } catch (err) {
+    console.error("JWT verification error:", err.message);
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
+}
+
 
 
