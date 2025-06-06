@@ -9,6 +9,8 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 
+
+
 // CartProvider Component to wrap the root of the app (or part of the component tree)
 export const CartProvider = ({ children }) => {
   const [APICart,setAPICart] = useState([])

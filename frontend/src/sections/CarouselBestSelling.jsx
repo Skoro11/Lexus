@@ -9,6 +9,7 @@ import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import { useWatchlist } from "../context/ContextWatchlist";
 import {Link} from "react-router-dom"
+import axios from "axios"
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
@@ -25,12 +26,13 @@ function CarouselBestSelling() {
     async function fetchData(){
 
       const response= await fetch(`${API_BASE_URL}/api/product/best_selling`,{
-        method:"GET"
+      method:"GET"
       })
 
       const data = await response.json()
 
-      if(response.ok){
+      if(response.status===200){
+        console.log()
        setBestSellingProduct(data.bestSellingProducts)
 
       }else{
