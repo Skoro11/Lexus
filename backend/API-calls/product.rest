@@ -4,7 +4,7 @@ GET http://localhost:3000/api/product/all
 
 
 ### Flash Sales products
-GET http://localhost:3000/api/product/flash_sales
+GET https://vite-react-production-736b.up.railway.app/api/product/flash_sales
 
 
 ### Best selling products
