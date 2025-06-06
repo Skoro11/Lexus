@@ -26,10 +26,10 @@ export const WatchlistProvider = ({ children }) => {
 
   // Add product to the watchlist or remove it if already present
   const addToWatchlist = (product) => {
-    const existingProduct = watchlist.find((item) => item.id === product.id);
+    const existingProduct = watchlist.find((item) => item._id === product._id);
     if (existingProduct) {
       // If the product is already in the watchlist, remove it
-      setWatchlist(watchlist.filter((item) => item.id !== product.id));
+      setWatchlist(watchlist.filter((item) => item._id !== product._id));
     } else {
       // Add the product to the watchlist
       setWatchlist([...watchlist, product]);

@@ -1,26 +1,35 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { products } from "../components/Products"; // Import the product list
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import "../styles/ProductUrl.css";
-import axios from "axios"
 function ProductUrl() {
-  const { slug, id } = useParams(); // Get slug and id from the URL
-  const [product, setProduct] = useState(null); // State to hold the product data
+  const { id } = useParams(); // Get slug and id from the URL
+  const [product, setProduct] = useState([]); // State to hold the product data
   const { addToCart } = useCart();
   const { addToLike, likeList } = useLike();
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // Function to check if a product is already liked
-  const isLiked = (productId) => likeList.some((item) => item.id === productId);
-
+  const isLiked = (productId) => likeList.some((item) => item._id === productId);
   useEffect(() => {
+    window.scrollTo(0,0)
     const fetchProduct = async () => {
       try {
-        // Fetch product using only the ID
-        const res = await axios.get(`/api/products/${id}`);
-        setProduct(res.data);
-        console.log("Fetched product:", res.data);
+       
+        const response = await fetch(`${API_BASE_URL}/api/product/${id}`,{
+          method:"GET"
+        });
+
+        const data = await response.json();
+
+        if(response.ok){
+          setProduct(data.IdItem[0])
+        }else{
+          console.log({message:"This data was a response",
+            data: data.IdItem[0]
+          })
+        }
       } catch (error) {
         console.error("Error fetching product:", error);
         setProduct(null);
@@ -29,6 +38,8 @@ function ProductUrl() {
 
     fetchProduct();
   }, [id]);
+
+ 
 
   if (!product) return <div>Loading...</div>;
 
@@ -47,7 +58,7 @@ function ProductUrl() {
         <div className="product-name-product">
           <h2>{product.name}</h2>
           <img
-            src={isLiked(product.id) ? "heart-fill.png" : "heart-empty.png"}
+            src={isLiked(product._id) ? "heart-fill.png" : "heart-empty.png"}
             onClick={() => addToLike(product)}
             style={{ cursor: "pointer" }}
             alt="like"

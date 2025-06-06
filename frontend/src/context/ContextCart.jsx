@@ -1,30 +1,41 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { VscChevronUp, VscChevronDown, VscClose } from "react-icons/vsc";
+import axios from "axios"
+import { useAuth } from "./AuthContext";
 
 // Create Context
 const CartContext = createContext();
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 
 // CartProvider Component to wrap the root of the app (or part of the component tree)
 export const CartProvider = ({ children }) => {
+  const [APICart,setAPICart] = useState([])
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state for fetch
   const [showPopup, setShowPopup] = useState(false); // Popup visibility state
-
-  // Fetch the cart items from the backend
-  const fetchCartItems = async () => {
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  
+ 
+useEffect(() => {
+  async function getCartItemsAPI() {
     try {
-      const response = await fetch("/api/cart"); // Replace with your backend endpoint
-      const data = await response.json();
+      const response = await axios.get(`${API_BASE_URL}/api/cart/get`, {
+        withCredentials: true,
+      });
 
-      if (data && Array.isArray(data)) {
-        setCart(data);
-      }
+      const items = response.data.userCart;
+      setAPICart(items); // Set the state here
+      console.log("Fetched Cart Items:", items); // Proper log
     } catch (error) {
       console.error("Error fetching cart items:", error);
-    } finally {
-      setLoading(false);
     }
-  };
+  }
+
+  getCartItemsAPI();
+}, []);
+
 
   // Load cart from localStorage when the component mounts
   useEffect(() => {
@@ -33,7 +44,7 @@ export const CartProvider = ({ children }) => {
       setCart(storedCart);
     }
     // Fetch the cart from the backend after loading localStorage data
-    fetchCartItems();
+    /* fetchCartItems(); */
   }, []);
 
   // Update localStorage whenever the cart changes
@@ -46,8 +57,35 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
   // Add product to the cart
-  const addToCart = (product) => {
-    const existingProduct = cart.find((item) => item.id === product.id);
+  async function addToCart(product){
+    
+
+    if(isLoggedIn){
+        console.log("User is logged in")
+     
+      const response = await axios.post(
+             "http://localhost:3000/api/cart/add",
+       {
+           _id: product._id,
+           name: product.name,
+           price: product.price,
+           image:product.image,
+           quantity: 1
+      },
+      {
+           withCredentials: true
+      }
+            );
+            
+            console.log(product)
+      const data = response.data.user
+          console.log(data.cart)
+    }else{
+    console.log("User is not logged in")
+    const existingProduct = cart.find((item) => item._id === product._id);
+
+      
+
     if (existingProduct) {
       // Only update the cart if the product is already there
       existingProduct.quantity += 1;
@@ -63,12 +101,33 @@ export const CartProvider = ({ children }) => {
 
     // Hide the popup after 3 seconds
     setTimeout(() => setShowPopup(false), 6000);
+  }
   };
 
   // Remove product from the cart
   const removeFromCart = (productId) => {
-    const updatedCart = cart.filter((item) => item.id !== productId);
+    console.log(productId)
+    if(!isLoggedIn){
+      const updatedCart = cart.filter((item) => item._id !== productId);
+    console.log(updatedCart)
     setCart(updatedCart);
+    }else{
+     const updatedAPICart = APICart.filter((item) => item._id !== productId);
+    console.log(updatedAPICart)
+    setAPICart(updatedAPICart);
+
+    async function removeItem(){
+        const response = await axios.post("http://localhost:3000/api/cart/remove",
+          { withCredentials: true }
+        )
+    }
+        
+
+
+    }
+
+
+    
   };
 
   const moveAllToCart = (likeList, addToCart, addToLike) => {
@@ -78,7 +137,7 @@ export const CartProvider = ({ children }) => {
     likeList.forEach((product) => {
       // Check if product is already in the cart
       const existingProduct = updatedCart.find(
-        (item) => item.id === product.id
+        (item) => item._id === product._id
       );
 
       if (existingProduct) {
@@ -101,7 +160,7 @@ export const CartProvider = ({ children }) => {
   // Update quantity of a product in the cart
   const updateQuantity = (productId, action) => {
     const updatedCart = cart.map((item) => {
-      if (item.id === productId) {
+      if (item._id === productId) {
         if (action === "add") item.quantity += 1;
         if (action === "subtract" && item.quantity > 1) item.quantity -= 1;
       }
@@ -135,7 +194,69 @@ export const CartProvider = ({ children }) => {
   
 
   // Function to show the items inside the cart (HTML/JSX representation)
-  const showCartItems = () => {
+   const showCartItems = () => {
+
+    if(isLoggedIn && APICart.length === 0){
+      console.log(APICart)
+       return (
+        <tbody>
+          <tr className="cart-product-row">
+            <td className="empty-cart">Your cart is empty</td>
+          </tr>
+        </tbody>
+      );
+
+    
+    
+    }if(isLoggedIn && APICart.length > 0){
+
+      return(
+        <tbody>
+        {APICart.map((item) => (
+          <tr className="cart-product-row" key={item._id}>
+
+            <td className="table-data first-element photo-item">
+              <VscClose
+                className="x-icon"
+                onClick={() => removeFromCart(item._id)}
+              />
+              <img className="cart-row-image" src={item.image}></img>
+              <span className="text">{item.name}{item._id}</span>
+            </td>
+            <td className="table-data">${item.price}</td>
+            <td className="table-data">
+              <div className="operation-box">
+                <span className="quantity-box">{item.quantity}</span>
+                <span className="operations-quantity">
+                  <VscChevronUp
+                    className="operation-btn"
+                    onClick={() => updateQuantity(item._id, "add")}
+                  />
+                  <VscChevronDown
+                    className="operation-btn"
+                    onClick={() => updateQuantity(item._id, "subtract")}
+                    disabled={item.quantity === 1}
+                  />
+                </span>
+              </div>
+            </td>
+
+            <td className="table-data last-element">
+              $ 
+              {
+  (
+    (typeof item.price === 'string'
+      ? parseFloat(item.price.replace("$", ""))
+      : item.price) * item.quantity
+  ).toFixed(2)
+}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+      )
+    }
+
     if (cart.length === 0) {
       return (
         <tbody>
@@ -146,14 +267,14 @@ export const CartProvider = ({ children }) => {
       );
     }
 
-    return (
+    if(!isLoggedIn)return (
       <tbody>
         {cart.map((item) => (
-          <tr className="cart-product-row" key={item.id}>
+          <tr className="cart-product-row" key={item._id}>
             <td className="table-data first-element photo-item">
               <VscClose
                 className="x-icon"
-                onClick={() => removeFromCart(item.id)}
+                onClick={() => removeFromCart(item._id)}
               />
               <img className="cart-row-image" src={item.image}></img>
               <span className="text">{item.name}</span>
@@ -165,11 +286,11 @@ export const CartProvider = ({ children }) => {
                 <span className="operations-quantity">
                   <VscChevronUp
                     className="operation-btn"
-                    onClick={() => updateQuantity(item.id, "add")}
+                    onClick={() => updateQuantity(item._id, "add")}
                   />
                   <VscChevronDown
                     className="operation-btn"
-                    onClick={() => updateQuantity(item.id, "subtract")}
+                    onClick={() => updateQuantity(item._id, "subtract")}
                     disabled={item.quantity === 1}
                   />
                 </span>
@@ -215,7 +336,7 @@ export const CartProvider = ({ children }) => {
               <div className="flex padding-top">
                 <div className="image-section-mobile">
                   <span
-                    onClick={() => updateQuantity(item.id, "subtract")}
+                    onClick={() => updateQuantity(item._id, "subtract")}
                     className="operation-btn-mobile"
                   >
                     -

@@ -3,32 +3,30 @@
 //Add to cart
 POST http://localhost:3000/api/cart/add
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDkyMDgyMTAsImV4cCI6MTc0OTIwOTExMH0.P9AH1leWLdu8_6wcojGYSlxyDKcFsI1TDwtCXvDGTfY 
 
 {
-    "accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDg5NDAzODMsImV4cCI6MTc0ODk0MTg4M30.s05mg9BelaBe2wDp79MhJ9rvJjYz1wUdXRVatPcPSVg",
-    "productId": "12345",
+    "_id": "12345",
     "name": "Awesome Item",
     "price": 19.99,
     "quantity": 1
 }
 ###
+//Fetch Cart
+GET http://localhost:3000/api/cart/get
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDkyMDcwODcsImV4cCI6MTc0OTIwNzk4N30.O-LCo0BBMI8DqAZ_jvJqpjkGbyQ8Dfio0GxKyw9IkBc
+###
 // Remove from Cart
 POST http://localhost:3000/api/cart/remove
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDkyMDgyMTAsImV4cCI6MTc0OTIwOTExMH0.P9AH1leWLdu8_6wcojGYSlxyDKcFsI1TDwtCXvDGTfY 
 
 {
-    "accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDg5NDAzODMsImV4cCI6MTc0ODk0MTg4M30.s05mg9BelaBe2wDp79MhJ9rvJjYz1wUdXRVatPcPSVg",
-    "productId": "12345",
-    "name": "Awesome Item",
-    "price": 19.99,
-    "quantity": 1
+    "_id": 12345
 }
 
 ###
 // Remove all from Cart
 POST http://localhost:3000/api/cart/remove/all
 Content-Type: application/json
-
-{
-    "accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDg5NDAzODMsImV4cCI6MTc0ODk0MTg4M30.s05mg9BelaBe2wDp79MhJ9rvJjYz1wUdXRVatPcPSVg"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDkxOTIyNTcsImV4cCI6MTc0OTE5MzE1N30.PFd7SFUEkSRimAWOzjp5Z7Nm9xxwiWDiPlz4zXnszbQ

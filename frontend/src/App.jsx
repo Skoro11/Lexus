@@ -27,13 +27,15 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import MobileOptions from "./pages/Options"
 import AllProductsPage from "./pages/AllProductPage"
-import Search from "./components/Search";
 import MayLikeSection from "./sections/MayLike"
 import AdminTrack from "./admin/admin";
+import  Test  from "./test";
+import { AuthProvider } from "./context/AuthContext";
 function App() {
   return (
     <Router>
-      <CartProvider>
+      <AuthProvider>
+<CartProvider>
         <LikeProvider>
           <WatchlistProvider>
             <Navbar />
@@ -74,7 +76,7 @@ function App() {
                   
                 }
               />
-              <Route path="/product/:slug/:id" element={
+              <Route path="/product/:id" element={
                 <>
                 
                 <ProductUrl />
@@ -109,7 +111,6 @@ function App() {
                  
                 }
               />
-              <Route path="/search" element={Search} />
               <Route
                 path="/signup"
                 element={
@@ -142,6 +143,8 @@ function App() {
                  
                 }
               />
+              <Route path = "/test" 
+              element={<Test />}/>
               
 
               <Route path="*" element={<NotFound />} />
@@ -150,6 +153,10 @@ function App() {
           </WatchlistProvider>
         </LikeProvider>
       </CartProvider>
+
+
+      </AuthProvider>
+      
     </Router>
   );
 }

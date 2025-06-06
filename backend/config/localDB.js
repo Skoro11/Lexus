@@ -5,9 +5,10 @@
       password: "$2b$10$k/.8MYtS0V9xr4SHXdoyLuOqomplWfUS8eH0hNTiakZ95omMsjyb6",
       _id: "683eb334a15d176527547963",
       cart: [{
-        productId:"hjfoish980984u759hos",
-        name: "Tractor",
-        price: 245,
+        _id:"1",
+        name: "Breed Dry Dog Food",
+        image:"https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
+        price: 55,
         quantity:1
       }],
       refreshToken:

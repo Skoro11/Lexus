@@ -2,8 +2,7 @@ import "../styles/Navbar.css";
 import { useState,useEffect } from "react";
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
-import { products } from "../components/Products";
-import { useLocation } from "react-router-dom";
+import axios from "axios"
 // Importing React Icons
 import {
   FaSignOutAlt,
@@ -15,94 +14,79 @@ function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]); // State for filtered items
-  const [showSearchResults, setShowSearchResults] = useState(false); // State to control search result visibility
-  
+  const [isDisabled, setIsDisabled] = useState(false)
   const { getCartItemsCount, addToCart } = useCart();
   const { getLikeItemsCount } = useLike();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState("");
   const [notification, setNotification] = useState(""); // Store notification message
   const [notificationType, setNotificationType] = useState(""); 
-  useEffect(() => {
-    // Check if user is logged in based on the localStorage
-    const loggedInStatus = localStorage.getItem("loggedIn");
-    setIsLoggedIn(loggedInStatus === "true"); // Set state based on the loggedIn value
-  }, []);
+  const [user,setUser] = useState(null);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  // Store notification type (success/error)
+function changeText(event){
+  setSearchTerm(event.target.value)
+}
 
-  useEffect(() => {
-    // Check if there's a notification in sessionStorage
-    const message = sessionStorage.getItem("notification");
-    const type = sessionStorage.getItem("notificationType");
 
-    if (message) {
-      setNotification(message);
-      setNotificationType(type);
+async function sendSearchQuery(searchTerm){
+  setIsDisabled(true)
+const response = await axios.post(`${API_BASE_URL}api/product?search=` + searchTerm)
 
-      // Remove notification from sessionStorage after showing it
-      sessionStorage.removeItem("notification");
-      sessionStorage.removeItem("notificationType");
+    setFilteredItems(response.data.filteredProducts)
+  setIsDisabled(false)
+}
+
+
+useEffect(() => {
+  async function fetchData() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (data.id) {
+        setUser(data);
+        console.log(data.id)
+        setIsLoggedIn(true)
+      }else {
+        setIsLoggedIn(false);
+      }
+// Correctly logging the parsed data
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
-  }, []);
-  useEffect(() => {
-    // Check if there is a logout message stored in sessionStorage
-    const message = sessionStorage.getItem("logoutMessage");
-    if (message) {
-      setLogoutMessage(message);
-      // Optionally, remove the message after 5 seconds
-      setTimeout(() => {
-        setLogoutMessage("");
-        sessionStorage.removeItem("logoutMessage");
-      }, 6000);
-    }
-  }, []);
+  }
 
-  const handleLogout = () => {
-    // Remove the 'loggedIn' flag from localStorage
-    localStorage.removeItem("loggedIn");
-    
-    // Store the logout message in sessionStorage to display it after reload
-    sessionStorage.setItem("logoutMessage", "You have logged out!");
+  fetchData();
+}, []);
 
-    // Optionally, reload the page after a delay to simulate a logout effect
+
+  const handleLogout = async () => {
     
+     const response= await fetch(`${API_BASE_URL}/api/auth/logout`,{
+        method:"DELETE",
+        credentials: "include",
+      })
       window.location.reload();
-     // Wait 2 seconds before reload
-  };
 
+      if (response.ok) {
+    // Successfully logged out
+    window.location.reload();
+  } else {
+    console.error("Logout failed");
+  }
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    // Reset the filtered items if the search term is cleared
-    if (event.target.value === "") {
-      setFilteredItems([]);
-      setShowSearchResults(false); // Hide search results when search bar is empty
-    }
-  };
-
-  const handleSearchClick = () => {
-    // If the search term is empty, do nothing
-    if (searchTerm === "") {
-      setShowSearchResults(false);
-      return;
-    }
-
-    setShowSearchResults(true); // Show search results if there is a search term
-
-    // Filter items based on search term
-    const results = products.filter(item =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredItems(results);
   };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  
-  const handleAddToCart = (item) => {
+   const handleAddToCart = (item) => {
     addToCart(item); // Add the product to the cart
     showPopup(); // Show the popup
   };
@@ -128,63 +112,63 @@ function Navbar() {
           {notification}
         </div>
       )}
+
+
       <div className="sale">
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
         <span className="underlined">Shop now</span>
       </div>
+
+
       <div className="bordered">
-        {showSearchResults && searchTerm !== "" && (
-          <div className="search-results">
-            {filteredItems.length > 0 ? (
-              <ul>
-                <div className="cart-table">
-                  <table className="cart-table">
-                    <thead>
-                      <tr className="cart-product-row">
-                        <th className="">Product</th>
-                        <th className="price-column">Price</th>
-                        <th className="quantity-column">Stock</th>
-                        <th className="">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredItems.length > 0 ? (
-                        filteredItems.map(item => (
-                          <tr key={item.id} className="cart-product-row">
-                            <td className="">
-                              <div className="flex align-center">
-                                <img className="width-10 padding-right-5" src={item.image} alt={item.name} />
-                                <div><a href={`/product/${item.slug}/${item.id}`}>{item.name}</a></div>
-                              </div>
-                            </td>
-                            <td className="price-column">{item.price}$</td>
-                            <td className="quantity-column">
-                              <span className="green">In stock</span>
-                            </td>
-                            <td className="">
-                              <button
-                                className="bg-black"
-                                onClick={() => handleAddToCart(item)} // Add the product to the cart and show popup
-                              >
-                                Add To Cart
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr className="cart-product-row">
-                          <td >No items found</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+       {filteredItems.length > 0  ? (
+  <div className="search-results">
+    <div className="cart-table">
+      <table className="cart-table">
+        <thead>
+          <tr className="cart-product-row">
+            <th>Product</th>
+            <th className="price-column">Price</th>
+            <th className="quantity-column">Stock</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredItems.map(item => (
+            <tr key={item._id} className="cart-product-row">
+              <td>
+                <div className="flex align-center">
+                  <img src={item.image} className="width-10 padding-right-5" alt={item.name} />
+                  <div>
+                    <a href={`/product/${item._id}`}>{item.name}</a>
+                  </div>
                 </div>
-              </ul>
-            ) : (
-              <p>No items found</p>
-            )}
-          </div>
-        )}
+              </td>
+              <td className="price-column">{item.price}$</td>
+              <td className="quantity-column">
+                <span className="green">In stock</span>
+              </td>
+              <td>
+                <button
+                  className="bg-black"
+                  onClick={() => handleAddToCart(item)}
+                >
+                  Add To Cart
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+) : (
+  <div className="search-results"  style={{ display: filteredItems.length === 0 ? "none" : "block" }}>
+    No products
+  </div>
+)}
+
+
 
         <div className="navbar__logo">
           <h1>
@@ -203,7 +187,10 @@ function Navbar() {
             <a href="/about">About</a>
           </li>
           <li>
-            <a href="/login">Sign in</a>
+            <a href="/signup">Sign in</a>
+          </li>
+          <li>
+            <a href="/login">Log in</a>
           </li>
           <li>
             {/* <a href="/admin">Admin</a> */}
@@ -216,13 +203,19 @@ function Navbar() {
               type="text"
               placeholder="What are you looking for? "
               className="search-input"
+              onChange={changeText}
+              onKeyDown={(e)=>{
+                if(e.key ==="Enter")sendSearchQuery(searchTerm)
+              }}
               value={searchTerm}
-              onChange={handleSearchChange}
             />
             <button
               type="button"
               className="search-btn"
-              onClick={handleSearchClick} // Handle search button click
+              disabled={isDisabled}
+              onClick={() => sendSearchQuery(searchTerm)
+              
+              }
             >
               <img src="search-icon.png" alt="Search icon" />
               {/* Search icon */}

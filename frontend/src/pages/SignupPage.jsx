@@ -2,28 +2,45 @@
 import { useState } from "react";
 
 function SignupPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const handleSignup = async () => {
-    const response = await fetch("http://localhost:8080/auth/signup", {  // Ensure your backend is listening at this endpoint
+  const handleSignup = async (event) => {
+    event.preventDefault()
+    try {
+    const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({  // Sending name, email, and password
-        email: email,         // Changed username to email to match backend
-        password: password,   // Sending password
-        name: name            // Sending the name as well
-      }),
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password
+      })
     });
 
-    const message = await response.text();
-    alert(message); // Show the server response
-
+    // Check if response is OK (status 200-299)
     if (response.ok) {
-      window.location.href = "/login"; // Redirect to login page after successful signup
+      alert("User created")
     }
+  } catch (error) {
+    console.error("Error during signup:", error);
+  }
   };
+
+  function nameChange(event){
+    setName(event.target.value)
+    console.log(event.target.value)
+  }
+
+  function emailChange(event){
+    setEmail(event.target.value)
+  }
+
+  function passwordChange(event){
+    setPassword(event.target.value)
+  }
 
   return (
     <section className="mx-width-1170px mg-inline contact-page pd-in-30p pd-in-15-mb mg-bottom-5">
@@ -39,11 +56,11 @@ function SignupPage() {
 
           <h1 className="font-32px mg-bottom-5">Create an account</h1>
           <h5 className="mg-bottom-5">Enter your details below</h5>
-
-          <input
+    <form><input
             className="input-signup mg-bottom-5"
             placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
+            value={name}
+            onChange={nameChange}
           />
           <br />
 
@@ -51,7 +68,8 @@ function SignupPage() {
             type="email"
             className="input-signup mg-bottom-5"
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            onChange={emailChange}
           />
           <br />
 
@@ -59,13 +77,16 @@ function SignupPage() {
             type="password"
             className="input-signup mg-bottom-5"
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            onChange={passwordChange}
           />
           <br />
 
           <button className="width-100 mg-bottom-5" onClick={handleSignup}>
             Create Account
           </button>
+          </form>
+          
           <br />
           <button className="signup-btn width-100">
             <img className="padding-right-5" src="Icon-Google.png" alt="Google" />

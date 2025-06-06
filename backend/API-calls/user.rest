@@ -42,7 +42,4 @@ Content-Type: application/json
 ###Fetching user id
 GET http://localhost:3000/api/auth/me
 Content-Type: application/json
-
-{
-    "accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDA1MmQ0ZjJiMDI1ODdiNDI5MjdmZCIsImVtYWlsIjoidGVzdEBnbWFpbDIxMzEuY29tIiwiaWF0IjoxNzQ5MDQ1OTc1LCJleHAiOjE3NDkwNDc0NzV9.wVYpJafqJt7UCW0cZf0vZFgDpIW1oFFrYgfHs8MOdno"
-}
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2ViMzM0YTE1ZDE3NjUyNzU0Nzk2MyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NDkxOTIyNTcsImV4cCI6MTc0OTE5MzE1N30.PFd7SFUEkSRimAWOzjp5Z7Nm9xxwiWDiPlz4zXnszbQ

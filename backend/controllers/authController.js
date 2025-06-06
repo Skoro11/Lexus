@@ -142,8 +142,6 @@ export function generateNewAccessToken(req,res){
 
 export function Me(req, res) {
   const token = req.cookies.accessToken;
-  console.log(token);
-
   if (!token) {
     return res.status(401).json({ message: "User not logged in" });
   }

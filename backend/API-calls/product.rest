@@ -1,4 +1,23 @@
+
+### All products
 GET http://localhost:3000/api/product/all
-Content-Type: application/json
 
 
+### Flash Sales products
+GET http://localhost:3000/api/product/flash_sales
+
+
+### Best selling products
+GET http://localhost:3000/api/product/best_selling
+
+### Explore products
+GET http://localhost:3000/api/product/explore
+
+
+### Product by ID
+GET http://localhost:3000/api/product/3
+
+
+###Product by search query
+
+GET http://localhost:3000/api/product?search=laptop

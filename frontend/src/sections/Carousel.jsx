@@ -1,6 +1,6 @@
-import { useRef } from "react";
+import { useRef,useEffect,useState} from "react";
 import Slider from "react-slick";
-import { flashSaleProducts } from "../components/Products"; // Import products from Products.jsx
+import {Link} from "react-router-dom"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Carousel.css"; // Custom CSS for styling
@@ -17,7 +17,9 @@ function Carousel() {
   const { addToCart } = useCart();
   const { addToLike, likeList } = useLike(); // Get `likeList` from the context to check if item is already liked
   const { addToWatchlist, watchlist } = useWatchlist(); // Get `watchlist` from the context to check if item is already in the watchlist
- 
+  const [ flashProduct, setFlashProduct] = useState([])
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const settings = {
     dots: false,
     infinite: true,
@@ -52,6 +54,32 @@ function Carousel() {
     ],
   };
 
+  useEffect(()=>{
+    async function fetchData(){
+      try{
+          const response = await fetch(`${API_BASE_URL}/api/product/flash_sales`,{
+            method:"GET"
+          })
+          
+          const data = await response.json()
+
+          if(response.ok){
+            setFlashProduct(data.flashSaleProducts)
+          }
+          else{
+            console.log("Unsuccessful fetch")
+          }
+        }catch(error){
+          console.log(error)
+        }
+
+         
+    }
+     fetchData()
+  },[])
+
+
+
   // Move to the previous slide
   const handlePrev = () => {
     if (sliderRef.current) {
@@ -68,12 +96,12 @@ function Carousel() {
 
   // Function to check if a product is already liked
   const isLiked = (productId) => {
-    return likeList.some((item) => item.id === productId);
+    return likeList.some((item) => item._id === productId);
   };
 
   // Function to check if a product is in the watchlist
   const isInWatchlist = (productId) => {
-    return watchlist.some((item) => item.id === productId);
+    return watchlist.some((item) => item._id === productId);
   };
 
   return (
@@ -137,8 +165,8 @@ function Carousel() {
       <div className="slider-container carousel-wrapper-product-line">
         <Slider ref={sliderRef} {...settings}>
           {/* Dynamically map through the products */}
-          {flashSaleProducts.map((product) => (
-            <div key={product.id}>
+          {flashProduct.map((product) => (
+            <div key={product._id}>
               <div className="relative">
                 <img src={product.image} alt={product.name} />
 
@@ -155,7 +183,7 @@ function Carousel() {
                 {/* Image based Like button */}
                 <img
                   src={
-                    isLiked(product.id) ? "heart-fill.png" : "heart-empty.png"
+                    isLiked(product._id) ? "heart-fill.png" : "heart-empty.png"
                   } // Replace with your icon paths
                   className="like-icon"
                   onClick={() => {
@@ -167,7 +195,7 @@ function Carousel() {
                 {/* Watchlist button */}
                 <img
                   src={
-                    isInWatchlist(product.id)
+                    isInWatchlist(product._id)
                       ? "eye-fill.png" // Icon for "Remove from Watchlist"
                       : "eye-empty.png" // Icon for "Add to Watchlist"
                   }
@@ -181,9 +209,9 @@ function Carousel() {
 
               <div className="product-info mg-inline">
                 <span className="product-name">
-                  <a href={`/product/${product.slug}/${product.id}`}>
-                    {product.name}
-                  </a>
+                  <Link to={`/product/${product._id}`}>
+                      {product.name}
+                  </Link>
                 </span>
                 <p className="product-description">
                   <span className="full-price">{product.price}$</span>
@@ -203,7 +231,7 @@ function Carousel() {
       <a href="/all"><button className="view-all">View all</button></a>
 
       <div  className="item-list">
-        {flashSaleProducts.map((product) => (
+        {flashProduct.map((product) => (
           <div key={product.id}>
             <div className="relative">
               <img src={product.image} alt={product.name} />

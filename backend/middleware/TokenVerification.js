@@ -4,29 +4,25 @@ import cookieParser from "cookie-parser"
 dotenv.config()
 
 
-export function authenticateToken(req,res,next){
-const authHeader = req.headers["authorization"]
-const token = authHeader && authHeader.split(" ")[1];
-if(!token) return res.status(403).json({message:"There is no access token"})
-    else{
+export function authenticateToken(req, res, next) {
+ 
+  const authHeader = req.headers["authorization"];
+  let token = authHeader && authHeader.split(" ")[1];
 
-    jwt.verify(token, process.env.JWT_SECRET, (err,user) =>{
+  // If no token in header, check cookie
+  if (!token && req.cookies) {
+    token = req.cookies.accessToken;
+  }
 
-        if(err) return res.status(403).json({message:"Access token is invalid"})
-        req.user=user;
-    next()
-    })
+  if (!token) {
+    return res.status(403).json({ message: "There is no access token" });
+  }
 
-    }
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Access token is invalid" });
+    req.user = user;
+    next();
+  });
 }
 
 
-export function authenticateTokenFromCookie(req,res,next){
-    const token = req.cookies.accessToken
-
-    if(!token){
-        return res.status(401).json({message: "No token provided"})
-    }
-    next()
-       
-}

@@ -26,10 +26,11 @@ export const LikeProvider = ({ children }) => {
 
   // Add product to the like list or remove it if already present
   const addToLike = (product) => {
-    const existingProduct = likeList.find((item) => item.id === product.id);
+    console.log(product._id)
+    const existingProduct = likeList.find((item) => item._id === product._id);
     if (existingProduct) {
       // If the product is already liked, remove it from the like list
-      setLikeList(likeList.filter((item) => item.id !== product.id));
+      setLikeList(likeList.filter((item) => item._id !== product._id));
     } else {
       // Add the product to the like list
       setLikeList([...likeList, product]);

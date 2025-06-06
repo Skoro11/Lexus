@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from "react";
 import Slider from "react-slick";
-import { products } from "../components/Products";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Carousel.css";
@@ -9,24 +8,32 @@ import GetTag from "../components/Tags";
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import { useWatchlist } from "../context/ContextWatchlist";
-
+import {Link} from "react-router-dom"
+import axios from "axios"
 function CarouselBestSelling() {
   const sliderRef = useRef(null);
   const componentRef = useRef(null);
-  const [shouldRender, setShouldRender] = useState(false);
   const { addToCart } = useCart();
   const { addToLike, likeList } = useLike();
   const { addToWatchlist, watchlist } = useWatchlist();
+  const [recommendedProduct, setRecommendedProduct] = useState([])
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShouldRender(true);
-    }, 1000);
+   useEffect(()=>{
+    async function fetchRecommendedProducts(){
+      try{
+        const response = await axios.get(`${API_BASE_URL}/api/product/all`)
+        
+        const filteredData = response.data.products
+        console.log(response.data.products)
 
-    return () => clearTimeout(timer); // Cleanup function to avoid memory leaks
-  }, []);
-
-  if (!shouldRender) return <div ref={componentRef} style={{ minHeight: "300px" }}></div>;
+        setRecommendedProduct(filteredData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+    fetchRecommendedProducts();
+  },[])
 
   const settings = {
     dots: false,
@@ -46,8 +53,8 @@ function CarouselBestSelling() {
 
   const handlePrev = () => sliderRef.current?.slickPrev();
   const handleNext = () => sliderRef.current?.slickNext();
-  const isLiked = (id) => likeList.some((item) => item.id === id);
-  const isInWatchlist = (id) => watchlist.some((item) => item.id === id);
+  const isLiked = (id) => likeList.some((item) => item._id === id);
+  const isInWatchlist = (id) => watchlist.some((item) => item._id === id);
 
   return (
     <div ref={componentRef} className=" mg-bottom-2" >
@@ -74,9 +81,9 @@ function CarouselBestSelling() {
 
       <div className="slider-container carousel-wrapper-product-line">
         <Slider ref={sliderRef} {...settings}>
-          {products.length > 0 ? (
-            products.map((product) => (
-              <div key={product.id}>
+          {recommendedProduct.length > 0 ? (
+            recommendedProduct.map((product) => (
+              <div key={product._id}>
                 <div className="relative">
                   <img src={product.image} alt={product.name} />
                   <button className="addTo-cart" onClick={() => addToCart(product)}>
@@ -84,13 +91,13 @@ function CarouselBestSelling() {
                   </button>
                   <div className="product-tag">{GetTag(product.tag)}</div>
                   <img
-                    src={isLiked(product.id) ? "heart-fill.png" : "heart-empty.png"}
+                    src={isLiked(product._id) ? "heart-fill.png" : "heart-empty.png"}
                     className="like-icon"
                     onClick={() => addToLike(product)}
                     style={{ cursor: "pointer" }}
                   />
                   <img
-                    src={isInWatchlist(product.id) ? "eye-fill.png" : "eye-empty.png"}
+                    src={isInWatchlist(product._id) ? "eye-fill.png" : "eye-empty.png"}
                     className="watchlist-icon"
                     onClick={() => addToWatchlist(product)}
                     style={{ cursor: "pointer" }}
@@ -98,7 +105,9 @@ function CarouselBestSelling() {
                 </div>
                 <div className="product-info mg-inline">
                   <span className="product-name">
-                    <a href={`/product/${product.slug}/${product.id}`}>{product.name}</a>
+                  <Link to={`/product/${product._id}`}>
+                      {product.name}
+                  </Link>                  
                   </span>
                   <p className="product-description">
                     <span className="full-price">{product.price}$</span>
