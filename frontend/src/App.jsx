@@ -28,7 +28,6 @@ import LoginPage from "./pages/LoginPage";
 import MobileOptions from "./pages/Options"
 import AllProductsPage from "./pages/AllProductPage"
 import MayLikeSection from "./sections/MayLike"
-import AdminTrack from "./admin/admin";
 import  Test  from "./test";
 import { AuthProvider } from "./context/AuthContext";
 function App() {
@@ -44,7 +43,7 @@ function App() {
                 path="/"
                 element={
                   <>
-                    {/* <AdminPanel /> */}
+                   
                     <HeroSection />
                     <Carousel />
 
@@ -68,14 +67,7 @@ function App() {
                   </>
                 }
               />
-              <Route
-                path="/admin"
-                element={
-                 
-                    <AdminTrack />
-                  
-                }
-              />
+              
               <Route path="/product/:id" element={
                 <>
                 
