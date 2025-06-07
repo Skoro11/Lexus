@@ -1,13 +1,13 @@
 import  { useState, useEffect } from "react";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  /* const [email, setEmail] = useState("");
+  const [password, setPassword] = useState(""); */
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
-   /* const [email, setEmail] = useState("test@gmail.com");
-  const [password, setPassword] = useState("123"); */
+   const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("123");
 
     
   const [notification, setNotification] = useState(""); // Store notification text

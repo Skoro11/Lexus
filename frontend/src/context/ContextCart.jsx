@@ -41,13 +41,15 @@ useEffect(() => {
 
   // Load cart from localStorage when the component mounts
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart"));
+    if(!isLoggedIn){
+       const storedCart = JSON.parse(localStorage.getItem("cart"));
     if (storedCart) {
       setCart(storedCart);
     }
-    // Fetch the cart from the backend after loading localStorage data
-    /* fetchCartItems(); */
+    }
+
   }, []);
+
 
   // Update localStorage whenever the cart changes
   useEffect(() => {
@@ -82,6 +84,7 @@ useEffect(() => {
             console.log(product)
       const data = response.data.user
           console.log(data.cart)
+          setAPICart(data.cart)
     }else{
     console.log("User is not logged in")
     const existingProduct = cart.find((item) => item._id === product._id);
@@ -107,6 +110,8 @@ useEffect(() => {
   };
 
   // Remove product from the cart
+
+
   const removeFromCart = (productId) => {
     console.log(productId)
     if(!isLoggedIn){
@@ -120,12 +125,13 @@ useEffect(() => {
 
     async function removeItem(){
         const response = await axios.post("http://localhost:3000/api/cart/remove",
-          { withCredentials: true }
+          {_id:productId},
+          { withCredentials: true },
+
         )
+        console.log(response.data.user.cart)
     }
-        
-
-
+        removeItem()
     }
 
 
@@ -161,7 +167,8 @@ useEffect(() => {
 
   // Update quantity of a product in the cart
   const updateQuantity = (productId, action) => {
-    const updatedCart = cart.map((item) => {
+    if(!isLoggedIn){
+      const updatedCart = cart.map((item) => {
       if (item._id === productId) {
         if (action === "add") item.quantity += 1;
         if (action === "subtract" && item.quantity > 1) item.quantity -= 1;
@@ -169,21 +176,81 @@ useEffect(() => {
       return item;
     });
     setCart(updatedCart);
+    }else if(isLoggedIn){
+      
+       const updatedAPICart = APICart.map((item) => {
+      if (item._id === productId) {
+        if (action === "add"){
+                item.quantity += 1;
+                addToCart(item)
+
+        } 
+        if (action === "subtract" && item.quantity > 1){
+          item.quantity -= 1;
+          async function SubtractItemByOne(){
+            try{
+                await axios.post("http://localhost:3000/api/cart/subtract",
+                {_id: item._id},
+                {
+           withCredentials: true
+      }
+               )
+
+    
+              }catch(error){
+                console.log("Error " +error)
+              }
+
+              
+          }
+SubtractItemByOne()
+          
+        }
+      }
+      return item;
+    });
+    setAPICart(updatedAPICart);
+    }
+    
   };
 
   // Clear the cart
   const clearCart = () => {
-    setCart([]);
+    if(!isLoggedIn){
+      setCart([]);
+    }else{
+      setAPICart([])
+        async function removeAllFromCartAPI() {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/cart/remove/all",
+          {}, 
+          { withCredentials: true }
+        );
+        console.log(response);
+      } catch (error) {
+        console.error("Failed to clear API cart:", error);
+      }
+    }
+      removeAllFromCartAPI()
+    }
+    
   };
 
   // Get total items count
   const getCartItemsCount = () => {
-    return cart.reduce((acc, item) => acc + item.quantity, 0);
+    if(!isLoggedIn){
+        return cart.reduce((acc, item) => acc + item.quantity, 0);
+    }else{
+        return APICart.reduce((acc, item) => acc + item.quantity, 0);
+    }
+    
   };
 
   // Function to calculate the total price of items in the cart
   const calculateTotal = () => {
-    return cart
+    if(!isLoggedIn){
+      return cart
       .reduce((total, item) => {
         // Check if item.price is a string and remove the dollar sign if so, or use it directly if it's a number
         const price = typeof item.price === 'string' 
@@ -192,9 +259,20 @@ useEffect(() => {
         return total + price * item.quantity;
       }, 0)
       .toFixed(2); // Round to two decimal places
+    }else{
+return APICart
+      .reduce((total, item) => {
+        // Check if item.price is a string and remove the dollar sign if so, or use it directly if it's a number
+        const price = typeof item.price === 'string' 
+          ? parseFloat(item.price.replace("$", "")) 
+          : item.price;  
+        return total + price * item.quantity;
+      }, 0)
+      .toFixed(2); // Round to two decimal places
+    }
+    
   };
   
-
   // Function to show the items inside the cart (HTML/JSX representation)
    const showCartItems = () => {
 

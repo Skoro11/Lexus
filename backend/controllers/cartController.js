@@ -1,7 +1,7 @@
 import {db} from "../config/localDB.js"
 
 export async function AddToCart(req, res) {
-  const { _id, name, price, quantity,image } = req.body;
+  const { _id, name, price,image,quantity} = req.body;
   const userId = req.user.id;
 
   const foundedUser = db.find(user => user._id === userId);
@@ -14,13 +14,47 @@ export async function AddToCart(req, res) {
   const existingItem = userCart.find(item => item._id === _id);
 
   if (existingItem) {
-    existingItem.quantity += quantity;
+    existingItem.quantity ++;
   } else {
     userCart.push({ _id, name, price, quantity,image});
   }
 
  
   res.status(200).json({ user: foundedUser });
+}
+
+export async function SubtractQuantityByOne(req,res){
+  try{
+      const { _id} = req.body;
+      const userId = req.user.id;
+       const foundedUser = db.find(user => user._id === userId);
+        if (!foundedUser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const userCart = foundedUser.cart || [];
+
+  const existingItem = userCart.find(item => item._id === _id);
+
+  if (existingItem && existingItem.quantity >=2) {
+    existingItem.quantity--;
+    res.status(200).json({ user: foundedUser })
+  } else {
+    // Safely get user's cart, defaulting to empty array if not set
+  const userCart = foundedUser.cart || [];
+
+  // Filter out the item with the given _id
+  const updatedCart = userCart.filter(item => item._id !== _id);
+
+  // Update user's cart
+  foundedUser.cart = updatedCart;
+
+  return res.status(200).json({ user: foundedUser });
+    }
+
+  }catch(error){
+    console.log("Error " + error)
+  }
 }
 
 export async function  GetCartItems(req,res){

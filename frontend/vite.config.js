@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     server: mode === 'development' ? {
       proxy: {
         '/api': {
-          target: env.VITE_BASE_PROXY, // your backend URL for dev (e.g., http://localhost:3000)
+          target: env. VITE_API_BASE_URL, // your backend URL for dev (e.g., http://localhost:3000)
           changeOrigin: true,
           secure: false,
         },
@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
 
     // You can also expose env variables to your app code if needed here
     define: {
-      __API_BASE_URL__: JSON.stringify(env.VITE_BASE_PROXY),
+      __API_BASE_URL__: JSON.stringify(env. VITE_API_BASE_URL),
     },
   };
 });
