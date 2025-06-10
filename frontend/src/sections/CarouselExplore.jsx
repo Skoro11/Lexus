@@ -10,17 +10,18 @@ import GetTag from "../components/Tags";
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import { useWatchlist } from "../context/ContextWatchlist";
+import { useAuth } from "../context/AuthContext";
 
 function CarouselExplore() {
   const sliderRef = useRef(null);
   const componentRef = useRef(null);
-  const [shouldRender, setShouldRender] = useState(false);
   const { addToCart } = useCart();
-  const { addToLike, likeList } = useLike();
+  const { addToLike, likeList,APIlikeList } = useLike();
   const { addToWatchlist, watchlist } = useWatchlist();
   const [exploreProduct, setExploreProduct]= useState([]);
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+    const {isLoggedIn, setIsLoggedIn} = useAuth()
+  
   useEffect(()=>{
     async function fetchData(){
       try{
@@ -63,7 +64,17 @@ function CarouselExplore() {
 
   const handlePrev = () => sliderRef.current?.slickPrev();
   const handleNext = () => sliderRef.current?.slickNext();
-  const isLiked = (id) => likeList.some((item) => item._id === id);
+
+    // Function to check if a product is already liked
+  const isLiked = (productId) => {
+     if (!isLoggedIn) {
+      return likeList.some((item) => item._id === productId);
+     }else if(isLoggedIn){
+      return APIlikeList.some((item) => item._id === productId);
+    }
+  };
+
+
   const isInWatchlist = (id) => watchlist.some((item) => item._id === id);
 
   return (

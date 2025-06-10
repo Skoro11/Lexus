@@ -18,7 +18,6 @@ export const CartProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // Loading state for fetch
   const [showPopup, setShowPopup] = useState(false); // Popup visibility state
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  
  
 useEffect(() => {
   async function getCartItemsAPI() {
@@ -29,6 +28,7 @@ useEffect(() => {
 
       const items = response.data.userCart;
       setAPICart(items); // Set the state here
+   
       console.log("Fetched Cart Items:", items); // Proper log
     } catch (error) {
       console.error("Error fetching cart items:", error);
@@ -68,13 +68,10 @@ useEffect(() => {
         console.log("User is logged in")
      
       const response = await axios.post(
-             "http://localhost:3000/api/cart/add",
+             `${API_BASE_URL}/api/cart/add`,
        {
            _id: product._id,
-           name: product.name,
-           price: product.price,
-           image:product.image,
-           quantity: 1
+
       },
       {
            withCredentials: true
@@ -83,7 +80,7 @@ useEffect(() => {
             
             console.log(product)
       const data = response.data.user
-          console.log(data.cart)
+          console.log("Data cart",data.cart)
           setAPICart(data.cart)
     }else{
     console.log("User is not logged in")
@@ -124,7 +121,7 @@ useEffect(() => {
     setAPICart(updatedAPICart);
 
     async function removeItem(){
-        const response = await axios.post("http://localhost:3000/api/cart/remove",
+        const response = await axios.post(`${API_BASE_URL}/api/cart/remove`,
           {_id:productId},
           { withCredentials: true },
 
@@ -140,6 +137,7 @@ useEffect(() => {
 
   const moveAllToCart = (likeList, addToCart, addToLike) => {
     let updatedCart = [...cart];
+
 
     // Add all items from likeList to the cart and remove them from the likeList
     likeList.forEach((product) => {
@@ -179,17 +177,25 @@ useEffect(() => {
     }else if(isLoggedIn){
       
        const updatedAPICart = APICart.map((item) => {
+        console.log("Item", item._id, "Product id",productId)
+       
       if (item._id === productId) {
+
         if (action === "add"){
                 item.quantity += 1;
-                addToCart(item)
-
+                async function addToCart(){
+                   await axios.post(`${API_BASE_URL}/api/cart/add`,
+                      {_id:item._id},
+                      {withCredentials:true}
+                    )
+                }
+                    addToCart()
         } 
         if (action === "subtract" && item.quantity > 1){
           item.quantity -= 1;
           async function SubtractItemByOne(){
             try{
-                await axios.post("http://localhost:3000/api/cart/subtract",
+                await axios.post(`${API_BASE_URL}/api/cart/subtract`,
                 {_id: item._id},
                 {
            withCredentials: true
@@ -209,6 +215,7 @@ SubtractItemByOne()
       }
       return item;
     });
+     console.log(updatedAPICart)
     setAPICart(updatedAPICart);
     }
     
@@ -223,7 +230,7 @@ SubtractItemByOne()
         async function removeAllFromCartAPI() {
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/cart/remove/all",
+          `${API_BASE_URL}/api/cart/remove/all`,
           {}, 
           { withCredentials: true }
         );
@@ -293,15 +300,15 @@ return APICart
       return(
         <tbody>
         {APICart.map((item) => (
+          
           <tr className="cart-product-row" key={item._id}>
-
             <td className="table-data first-element photo-item">
               <VscClose
                 className="x-icon"
                 onClick={() => removeFromCart(item._id)}
               />
               <img className="cart-row-image" src={item.image}></img>
-              <span className="text">{item.name}{item._id}</span>
+              <span className="text">{item.name}</span>
             </td>
             <td className="table-data">${item.price}</td>
             <td className="table-data">

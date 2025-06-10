@@ -6,11 +6,14 @@
       _id: "683eb334a15d176527547963",
       cart: [{
         _id:"1",
-        name: "Breed Dry Dog Food",
-        image:"https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
-        price: 55,
-        quantity:1
-      }],
+        quantity:"1"
+      },
+      {
+        _id:"3",
+        quantity:"5"
+      }
+
+    ],
       likelist : [
        
       ],

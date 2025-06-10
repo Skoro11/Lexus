@@ -6,7 +6,7 @@ dotenv.config()
 
 export function accessTokenCreation(payload){
 
-const signedJWT = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn: "15m"})
+const signedJWT = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn: "7d"})
 return signedJWT
 
 

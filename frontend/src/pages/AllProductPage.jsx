@@ -5,14 +5,16 @@ import GetTag from "../components/Tags";
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import { useWatchlist } from "../context/ContextWatchlist";
+import { useAuth } from "../context/AuthContext";
 
 function AllProductsPage() {
   const { addToCart } = useCart();
-  const { addToLike, likeList } = useLike();
+  const { addToLike, likeList,APIlikeList} = useLike();
   const { addToWatchlist, watchlist } = useWatchlist();
   const [shouldRender, setShouldRender] = useState(false);
   const[allProduct, setAllProduct]=useState([])
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+    const {isLoggedIn, setIsLoggedIn} = useAuth()
 
 
   useEffect(()=>{
@@ -45,8 +47,15 @@ const response = await fetch(`${API_BASE_URL}/api/product/all`,{
     return () => clearTimeout(timer); // Cleanup timeout on unmount
   }, []);
 
-  const isLiked = (productId) => likeList.some((item) => item._id === productId);
-  const isInWatchlist = (productId) =>
+ // Function to check if a product is already liked
+  const isLiked = (productId) => {
+     if (!isLoggedIn) {
+      return likeList.some((item) => item._id === productId);
+     }else if(isLoggedIn){
+      return APIlikeList.some((item) => item._id === productId);
+    }
+  };
+    const isInWatchlist = (productId) =>
     watchlist.some((item) => item._id === productId);
 
   return (

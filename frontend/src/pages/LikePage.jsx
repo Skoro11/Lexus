@@ -4,21 +4,66 @@ import GetTag from "../components/Tags";
 import RenderStars from "../components/RenderStars";
 import "../styles/LikePage.css";
 import { FaTrashAlt } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
+import { useState,useEffect } from "react";
+import axios from "axios";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const LikePage = () => {
-  const { likeList, clearAllLikes, addToLike, getLikeItemsCount } = useLike(); // Destructure functions and state from like context
+  const { likeList, clearAllLikes, addToLike, getLikeItemsCount, APIlikeList} = useLike(); // Destructure functions and state from like context
   const { addToCart, moveAllToCart } = useCart(); // Get the cart functions
-
+  const {isLoggedIn, setIsLoggedIn} = useAuth()
+  const [hasFetchedAPIList, setHasFetchedAPIList] = useState(false);
+  const [filteredItems, setFilteredItems]=useState([]);
   // Function to handle adding all items to the cart and removing from like list
   const handleMoveAllToCart = () => {
+
+    if(isLoggedIn){
+      console.log(APIlikeList)
+      APIlikeList.forEach((item)=>{
+        console.log("Item",item)
+        addToCart(item)
+      })
+    }
+
+
     moveAllToCart(likeList, addToCart, addToLike);
     clearAllLikes(); // Move all items from like list to cart
+    setFilteredItems([])
   };
 
   const handleAddToCart = (product) => {
     addToCart(product); // Add the product to the cart
     addToLike(product); // Remove the product from the like list (wishlist)
   };
+  
+   useEffect(()=>{
+    
+    async function filteredProducts(){
+        if(isLoggedIn){
+          
+         const itemIds= APIlikeList.map(item => item._id)
+         try{
+            const response = await axios.post(`${API_BASE_URL}/api/likelist/id`,
+          {ids:itemIds},
+        {withCredentials:true})
+        setHasFetchedAPIList(true);
+          setFilteredItems(response.data.foundedItems)
+          return filteredItems
+         }catch(error){
+            console.log("Error with axios filteredProducts() " +error)
+         }
+        }
+        console.log("Likelist", likeList)
+        setFilteredItems(likeList)
+         return filteredItems
+  }
+filteredProducts()
+
+   },[APIlikeList,isLoggedIn,hasFetchedAPIList,filteredItems])
+  
+  let list=filteredItems
 
   return (
     <div className="width-1170 mg-inline pd-in-30p pd-in-15-mb">
@@ -30,10 +75,10 @@ const LikePage = () => {
         </button>
       </div>
       <div className="container-likelist">
-        {likeList.length === 0 ? (
+        {list.length === 0 ? (
           <h3>Your like list is empty.</h3>
         ) : (
-          likeList.map((product) => (
+          list.map((product) => (
             <div className="like-list" key={product.id}>
               <div className="relative product-margin">
                 <img

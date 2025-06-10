@@ -10,6 +10,7 @@ import { useLike } from "../context/ContextLike";
 import { useWatchlist } from "../context/ContextWatchlist";
 import {Link} from "react-router-dom"
 import axios from "axios"
+import { useAuth } from "../context/AuthContext";
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
@@ -17,9 +18,10 @@ function CarouselBestSelling() {
   const sliderRef = useRef(null);
   const componentRef = useRef(null);
   const { addToCart } = useCart();
-  const { addToLike, likeList } = useLike();
+  const { addToLike, likeList,APIlikeList} = useLike();
   const { addToWatchlist, watchlist } = useWatchlist();
   const [bestSellingProduct, setBestSellingProduct]=useState([])
+  const {isLoggedIn, setIsLoggedIn} = useAuth()
 
 
   useEffect(()=>{
@@ -63,7 +65,20 @@ function CarouselBestSelling() {
 
   const handlePrev = () => sliderRef.current?.slickPrev();
   const handleNext = () => sliderRef.current?.slickNext();
-  const isLiked = (id) => likeList.some((item) => item._id === id);
+  
+
+   // Function to check if a product is already liked
+  const isLiked = (productId) => {
+     if (!isLoggedIn) {
+      return likeList.some((item) => item._id === productId);
+     }else if(isLoggedIn){
+      return APIlikeList.some((item) => item._id === productId);
+    }
+  };
+
+
+
+
   const isInWatchlist = (id) => watchlist.some((item) => item._id === id);
 
   return (

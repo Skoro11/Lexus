@@ -2,16 +2,27 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
+import { useAuth } from "../context/AuthContext";
+
 import "../styles/ProductUrl.css";
 function ProductUrl() {
   const { id } = useParams(); // Get slug and id from the URL
   const [product, setProduct] = useState([]); // State to hold the product data
   const { addToCart } = useCart();
-  const { addToLike, likeList } = useLike();
+  const { addToLike, likeList,APIlikeList } = useLike();
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+    const {isLoggedIn, setIsLoggedIn} = useAuth()
+  
   // Function to check if a product is already liked
-  const isLiked = (productId) => likeList.some((item) => item._id === productId);
+ const isLiked = (productId) => {
+     if (!isLoggedIn) {
+      return likeList.some((item) => item._id === productId);
+     }else if(isLoggedIn){
+      return APIlikeList.some((item) => item._id === productId);
+    }
+  };
+  
+  
   useEffect(() => {
     window.scrollTo(0,0)
     const fetchProduct = async () => {
