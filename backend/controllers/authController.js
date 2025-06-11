@@ -103,8 +103,8 @@ export async function LogoutUser(req,res){
 
     res.clearCookie("accessToken",{
         httpOnly:true,
-            secure:false,
-            sameSite:"strict"
+            secure:true,
+            sameSite:"none"
     })
 
     res.status(200).json({message:"Cookie was cleared"})
