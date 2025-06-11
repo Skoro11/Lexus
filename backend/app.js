@@ -15,9 +15,10 @@ const port= process.env.PORT
 
 app.use(express.json())
 app.use(cors({
-  origin: ['https://www.lexusshop.app'], ,
-  credentials: true               
+  origin: ['https://www.lexusshop.app', 'https://lexus-vite-git-main-skoro11s-projects.vercel.app', 'http://localhost:5173'],
+  credentials: true
 }));
+
 
 app.use(cookieParser())
 app.use("/api/auth",authRoutes)
