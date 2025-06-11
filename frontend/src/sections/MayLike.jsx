@@ -59,10 +59,10 @@ function CarouselBestSelling() {
   const handleNext = () => sliderRef.current?.slickNext();
 // Function to check if a product is already liked
   const isLiked = (productId) => {
-     if (!isLoggedIn) {
+     if (isLoggedIn) {
+      return APIlikeList.some((item) => item._id === productId);      
+     }else{
       return likeList.some((item) => item._id === productId);
-     }else if(isLoggedIn){
-      return APIlikeList.some((item) => item._id === productId);
     }
   };
 

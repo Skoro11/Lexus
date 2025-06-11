@@ -118,12 +118,8 @@ useEffect(() => {
 
   const removeFromCart = (productId) => {
     console.log(productId)
-    if(!isLoggedIn){
-      const updatedCart = cart.filter((item) => item._id !== productId);
-    console.log(updatedCart)
-    setCart(updatedCart);
-    }else{
-     const updatedAPICart = APICart.filter((item) => item._id !== productId);
+    if(isLoggedIn){
+       const updatedAPICart = APICart.filter((item) => item._id !== productId);
     console.log(updatedAPICart)
     setAPICart(updatedAPICart);
 
@@ -136,8 +132,11 @@ useEffect(() => {
         console.log(response.data.user.cart)
     }
         removeItem()
+    }else{
+      const updatedCart = cart.filter((item) => item._id !== productId);
+    console.log(updatedCart)
+    setCart(updatedCart);
     }
-
 
     
   };
@@ -172,16 +171,7 @@ useEffect(() => {
 
   // Update quantity of a product in the cart
   const updateQuantity = (productId, action) => {
-    if(!isLoggedIn){
-      const updatedCart = cart.map((item) => {
-      if (item._id === productId) {
-        if (action === "add") item.quantity += 1;
-        if (action === "subtract" && item.quantity > 1) item.quantity -= 1;
-      }
-      return item;
-    });
-    setCart(updatedCart);
-    }else if(isLoggedIn){
+    if(isLoggedIn){
       
        const updatedAPICart = APICart.map((item) => {
         console.log("Item", item._id, "Product id",productId)
@@ -224,15 +214,22 @@ SubtractItemByOne()
     });
      console.log(updatedAPICart)
     setAPICart(updatedAPICart);
+    }else{
+      const updatedCart = cart.map((item) => {
+      if (item._id === productId) {
+        if (action === "add") item.quantity += 1;
+        if (action === "subtract" && item.quantity > 1) item.quantity -= 1;
+      }
+      return item;
+    });
+    setCart(updatedCart);
     }
     
   };
 
   // Clear the cart
   const clearCart = () => {
-    if(!isLoggedIn){
-      setCart([]);
-    }else{
+    if(isLoggedIn){
       setAPICart([])
         async function removeAllFromCartAPI() {
       try {
@@ -247,33 +244,27 @@ SubtractItemByOne()
       }
     }
       removeAllFromCartAPI()
+    }else{
+      setCart([]);
     }
-    
   };
 
   // Get total items count
   const getCartItemsCount = () => {
-    if(!isLoggedIn){
-        return cart.reduce((acc, item) => acc + item.quantity, 0);
+    if(isLoggedIn){
+              return APICart.reduce((acc, item) => acc + item.quantity, 0);
+
     }else{
-        return APICart.reduce((acc, item) => acc + item.quantity, 0);
+              return cart.reduce((acc, item) => acc + item.quantity, 0);
+
     }
     
   };
 
   // Function to calculate the total price of items in the cart
   const calculateTotal = () => {
-    if(!isLoggedIn){
-      return cart
-      .reduce((total, item) => {
-        // Check if item.price is a string and remove the dollar sign if so, or use it directly if it's a number
-        const price = typeof item.price === 'string' 
-          ? parseFloat(item.price.replace("$", "")) 
-          : item.price;  
-        return total + price * item.quantity;
-      }, 0)
-      .toFixed(2); // Round to two decimal places
-    }else{
+    if(isLoggedIn){
+
 return APICart
       .reduce((total, item) => {
         // Check if item.price is a string and remove the dollar sign if so, or use it directly if it's a number
@@ -283,6 +274,17 @@ return APICart
         return total + price * item.quantity;
       }, 0)
       .toFixed(2); // Round to two decimal places
+       // Round to two decimal places
+    }else{
+      return cart
+      .reduce((total, item) => {
+        // Check if item.price is a string and remove the dollar sign if so, or use it directly if it's a number
+        const price = typeof item.price === 'string' 
+          ? parseFloat(item.price.replace("$", "")) 
+          : item.price;  
+        return total + price * item.quantity;
+      }, 0)
+      .toFixed(2);
     }
     
   };

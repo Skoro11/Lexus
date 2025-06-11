@@ -1,6 +1,6 @@
 // Hero.js
 import "../styles/Hero.css";
-import arrowIcon from "../assets/icons/arrow-icon.png";
+
 
 function Hero() {
   return (
@@ -50,7 +50,7 @@ function Hero() {
           </div>
           <div className="hero__shop-now">
             <a className="color-white" href="/all">Shop Now </a>
-            <img src="../assets/icons/arrow-icon.png" alt="Arrow" className="arrow__icon" />
+            <img src="arrow-icon.png" alt="Arrow" className="arrow__icon" />
           </div>
         </div>
       </div>
