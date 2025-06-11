@@ -4,22 +4,68 @@ import GetTag from "../components/Tags";
 import RenderStars from "../components/RenderStars";
 import "../styles/WatchlistPage.css"; // Adjusted CSS file for Watchlist styling
 import { FaTrashAlt } from "react-icons/fa";
+import { useState,useEffect} from "react";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 
 const WatchlistPage = () => {
-  const { watchlist, clearWatchlist, addToWatchlist, getWatchlistItemsCount } =
+  const { watchlist, clearWatchlist, addToWatchlist, getWatchlistItemsCount,APIwatchList } =
     useWatchlist(); // Destructure functions and state from watchlist context
   const { addToCart, moveAllToCart } = useCart(); // Get the cart functions
-
+  const [filteredItems, setFilteredItems]=useState([]);
+    const {isLoggedIn, setIsLoggedIn} = useAuth()
+  
+    const [hasFetchedAPIList, setHasFetchedAPIList] = useState(false);
   // Function to handle adding all items to the cart and removing from watchlist
   const handleMoveAllToCart = () => {
+
+    console.log(APIwatchList)
+      APIwatchList.forEach((item)=>{
+        console.log("Item",item)
+        addToCart(item)
+      })
+
+
     moveAllToCart(watchlist, addToCart, addToWatchlist);
     clearWatchlist(); // Move all items from watchlist to cart and clear watchlist
+     setFilteredItems([])
   };
 
   const handleAddToCart = (product) => {
     addToCart(product); // Add the product to the cart
     addToWatchlist(product); // Remove the product from the watchlist
   };
+
+useEffect(()=>{
+    
+    async function filteredProducts(){
+        if(isLoggedIn){
+          
+         const itemIds= APIwatchList.map(item => item._id)
+         try{
+            const response = await axios.post(`${API_BASE_URL}/api/watchlist/id`,
+          {ids:itemIds},
+        {withCredentials:true})
+        setHasFetchedAPIList(true);
+          setFilteredItems(response.data.foundedItems)
+          return filteredItems
+         }catch(error){
+            console.log("Error with axios filteredProducts() " +error)
+         }
+        }
+        console.log("Watchist", watchlist)
+        setFilteredItems(watchlist)
+         return filteredItems
+  }
+filteredProducts()
+
+   },[APIwatchList,isLoggedIn,hasFetchedAPIList,filteredItems,watchlist])
+  
+let list=filteredItems
 
   return (
     <div className="width-1170 mg-inline pd-in-30p pd-in-15-mb">
@@ -33,10 +79,10 @@ const WatchlistPage = () => {
         </button>
       </div>
       <div className="container-watchlist">
-        {watchlist.length === 0 ? (
+        {list.length === 0 ? (
           <h3>Your watchlist is empty.</h3>
         ) : (
-          watchlist.map((product) => (
+          list.map((product) => (
             <div className="watchlist-item" key={product.id}>
               <div className="relative product-margin">
                 <img

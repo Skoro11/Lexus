@@ -16,7 +16,7 @@ function Carousel() {
   const { days, hours, minutes, seconds } = Clock();
   const { addToCart } = useCart();
   const { addToLike, likeList,APIlikeList} = useLike(); // Get `likeList` from the context to check if item is already liked
-  const { addToWatchlist, watchlist } = useWatchlist(); // Get `watchlist` from the context to check if item is already in the watchlist
+  const { addToWatchlist, watchlist,APIwatchList } = useWatchlist(); // Get `watchlist` from the context to check if item is already in the watchlist
   const [ flashProduct, setFlashProduct] = useState([])
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const {isLoggedIn, setIsLoggedIn} = useAuth()
@@ -105,7 +105,11 @@ function Carousel() {
 
   // Function to check if a product is in the watchlist
   const isInWatchlist = (productId) => {
-    return watchlist.some((item) => item._id === productId);
+     if (isLoggedIn) {
+      return APIwatchList.some((item) => item._id === productId);
+     }else{
+      return watchlist.some((item) => item._id === productId);
+    }
   };
 
   return (
