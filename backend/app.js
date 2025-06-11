@@ -15,7 +15,7 @@ const port= process.env.PORT
 
 app.use(express.json())
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://lexus-vite-git-main-skoro11s-projects.vercel.app'],
+  origin: ['http://localhost:5173', 'https://lexus-vite-git-main-skoro11s-projects.vercel.app',`https://www.lexusshop.app`],
   credentials: true,
 }));
 
