@@ -26,17 +26,24 @@ useEffect(() => {
         withCredentials: true,
       });
 
-      const items = response.data.userCart;
-      setAPICart(items); // Set the state here
-   
-      console.log("Fetched Cart Items:", items); // Proper log
+      // Check if response.data and userCart exist and are valid
+      const items = response?.data?.userCart;
+      if (items && Array.isArray(items)) {
+        setAPICart(items); // Set the state only if items is a valid array
+        console.log("Fetched Cart Items:", items);
+      } else {
+        console.warn("Cart items are undefined or not an array:", items);
+        setAPICart([]); // Set to empty array or fallback value to avoid crashes
+      }
     } catch (error) {
       console.error("Error fetching cart items:", error);
+      setAPICart([]); // Fallback to empty array on error
     }
   }
 
   getCartItemsAPI();
 }, []);
+
 
 
   // Load cart from localStorage when the component mounts
