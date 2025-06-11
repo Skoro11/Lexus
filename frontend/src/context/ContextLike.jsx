@@ -13,27 +13,32 @@ export const LikeProvider = ({ children }) => {
   const [likeList, setLikeList] = useState([]);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [APIlikeList, setAPIlikeList] = useState([])
-
-  useEffect(()=>{
-    async function getLikeItems(){
-      try{
-          const response = await axios.get(`${API_BASE_URL}/api/likelist/get/likelist`, {
+useEffect(() => {
+  async function getLikeItems() {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/likelist/get/likelist`, {
         withCredentials: true,
       });
 
-      const items= response.data.likelist
-      console.log("Fetched Liked Items:", items)
-      setAPIlikeList(items)
-      console.log("APILikeList ", APIlikeList)
-      }catch(error){
-        console.log("Error with fetching LikeItems " +error)
+      const items = response?.data?.likelist;
+      if (items && Array.isArray(items)) {
+        setAPIlikeList(items);
+        console.log("Fetched Liked Items:", items);
+      } else {
+        console.warn("Liked items are undefined or not an array:", items);
+        setAPIlikeList([]); // fallback to empty array
       }
+    } catch (error) {
+      console.error("Error with fetching LikeItems:", error);
+      setAPIlikeList([]); // fallback to empty array on error
     }
-    if(isLoggedIn){
-      getLikeItems()
-    }
-    
-  },[isLoggedIn])
+  }
+
+  if (isLoggedIn) {
+    getLikeItems();
+  }
+}, [isLoggedIn]);
+
 
   useEffect(() => {
     console.log("Updated APILikeList", APIlikeList)
