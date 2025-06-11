@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext";
 function AllProductsPage() {
   const { addToCart } = useCart();
   const { addToLike, likeList,APIlikeList} = useLike();
-  const { addToWatchlist, watchlist } = useWatchlist();
+  const { addToWatchlist, watchlist,APIwatchList} = useWatchlist();
   const [shouldRender, setShouldRender] = useState(false);
   const[allProduct, setAllProduct]=useState([])
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -55,8 +55,15 @@ const response = await fetch(`${API_BASE_URL}/api/product/all`,{
       return APIlikeList.some((item) => item._id === productId);
     }
   };
-    const isInWatchlist = (productId) =>
-    watchlist.some((item) => item._id === productId);
+      const isInWatchlist = (productId) => {
+     if (isLoggedIn) {
+      return APIwatchList.some((item) => item._id === productId);
+      
+     }else{
+      return watchlist.some((item) => item._id === productId);
+    }
+  };
+
 
   return (
     <section className="mx-width-1170px mg-inline pd-in-30p pd-in-15-mb mg-top-3rem">

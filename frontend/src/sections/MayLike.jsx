@@ -17,7 +17,7 @@ function CarouselBestSelling() {
   const componentRef = useRef(null);
   const { addToCart } = useCart();
   const { addToLike, likeList,APIlikeList } = useLike();
-  const { addToWatchlist, watchlist } = useWatchlist();
+  const { addToWatchlist, watchlist,APIwatchList} = useWatchlist();
   const [recommendedProduct, setRecommendedProduct] = useState([])
     const {isLoggedIn, setIsLoggedIn} = useAuth()
 
@@ -66,7 +66,15 @@ function CarouselBestSelling() {
     }
   };
 
-  const isInWatchlist = (id) => watchlist.some((item) => item._id === id);
+    const isInWatchlist = (productId) => {
+     if (isLoggedIn) {
+      return APIwatchList.some((item) => item._id === productId);
+      
+     }else{
+      return watchlist.some((item) => item._id === productId);
+    }
+  };
+
 
   return (
     <div ref={componentRef} className=" mg-bottom-2" >
