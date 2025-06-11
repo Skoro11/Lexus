@@ -15,8 +15,8 @@ const port= process.env.PORT
 
 app.use(express.json())
 app.use(cors({
-  origin: "*", // your frontend origin
-  credentials: true,                
+  origin: ['https://www.lexusshop.app'], ,
+  credentials: true               
 }));
 
 app.use(cookieParser())

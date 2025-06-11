@@ -61,7 +61,7 @@ const LikePage = () => {
   }
 filteredProducts()
 
-   },[APIlikeList,isLoggedIn,hasFetchedAPIList,filteredItems])
+   },[APIlikeList,isLoggedIn,hasFetchedAPIList,filteredItems,likeList])
   
   let list=filteredItems
 

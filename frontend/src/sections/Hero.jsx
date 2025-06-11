@@ -50,7 +50,7 @@ function Hero() {
           </div>
           <div className="hero__shop-now">
             <a className="color-white" href="/all">Shop Now </a>
-            <img src={arrowIcon} alt="Arrow" className="arrow__icon" />
+            <img src="../assets/icons/arrow-icon.png" alt="Arrow" className="arrow__icon" />
           </div>
         </div>
       </div>
