@@ -16,7 +16,7 @@ export const LikeProvider = ({ children }) => {
 useEffect(() => {
   async function getLikeItems() {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/likelist/get/likelist`, {
+      const response = await axios.get(`${API_BASE_URL}/api/likelist/get`, {
         withCredentials: true,
       });
 

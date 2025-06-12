@@ -107,7 +107,7 @@ export function findItemsByIdWatchlist(req,res){
     const foundedItems = products.filter(item => ids.includes(item._id));
 
     
-    console.log(foundedItems)
+    console.log("Founded items findItemsByIdWatchlist",foundedItems)
 
     res.status(200).json({foundedItems})
     }catch(error){

@@ -10,7 +10,7 @@ import axios from "axios";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
-const LikePage = () => {
+ const LikePage = () => {
   const { likeList, clearAllLikes, addToLike, getLikeItemsCount, APIlikeList} = useLike(); // Destructure functions and state from like context
   const { addToCart, moveAllToCart } = useCart(); // Get the cart functions
   const {isLoggedIn, setIsLoggedIn} = useAuth()
@@ -20,7 +20,7 @@ const LikePage = () => {
   const handleMoveAllToCart = () => {
 
     if(isLoggedIn){
-      console.log(APIlikeList)
+      console.log("APIlikeList",APIlikeList)
       APIlikeList.forEach((item)=>{
         console.log("Item",item)
         addToCart(item)
@@ -38,30 +38,34 @@ const LikePage = () => {
     addToLike(product); // Remove the product from the like list (wishlist)
   };
   
-   useEffect(()=>{
-    
-    async function filteredProducts(){
-        if(isLoggedIn){
-          
-         const itemIds= APIlikeList.map(item => item._id)
-         try{
-            const response = await axios.post(`${API_BASE_URL}/api/likelist/id`,
-          {ids:itemIds},
-        {withCredentials:true})
-        setHasFetchedAPIList(true);
-          setFilteredItems(response.data.foundedItems)
-          return filteredItems
-         }catch(error){
-            console.log("Error with axios filteredProducts() " +error)
-         }
+ useEffect(() => {
+    const fetchData = async () => {
+      if (isLoggedIn) {
+        const itemIds = APIlikeList.map((item) => item._id);
+        if (itemIds.length === 0) {
+          setFilteredItems([]);
+          return;
         }
-        console.log("Likelist", likeList)
-        setFilteredItems(likeList)
-         return filteredItems
-  }
-filteredProducts()
 
-   },[APIlikeList,isLoggedIn,hasFetchedAPIList,filteredItems,likeList])
+        try {
+          const response = await axios.post(
+            `${API_BASE_URL}/api/likelist/id`,
+            { ids: itemIds },
+            { withCredentials: true }
+          );
+          setFilteredItems(response.data.foundedItems || []);
+        } catch (error) {
+          console.error("Error fetching liked products:", error);
+          setFilteredItems([]);
+        }
+      } else {
+        setFilteredItems(likeList);
+      }
+    };
+
+    fetchData();
+  }, [isLoggedIn, APIlikeList, likeList]);
+
   
   let list=filteredItems
 

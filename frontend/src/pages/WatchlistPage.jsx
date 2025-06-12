@@ -46,25 +46,28 @@ useEffect(()=>{
         if(isLoggedIn){
           
          const itemIds= APIwatchList.map(item => item._id)
+          if (itemIds.length === 0) {
+          setFilteredItems([]);
+          return;
+        }
          try{
             const response = await axios.post(`${API_BASE_URL}/api/watchlist/id`,
           {ids:itemIds},
         {withCredentials:true})
-        setHasFetchedAPIList(true);
-          setFilteredItems(response.data.foundedItems)
-          return filteredItems
+        setFilteredItems(response.data.foundedItems || []);
          }catch(error){
-            console.log("Error with axios filteredProducts() " +error)
+            console.log("Error with axios Watchlistpage /watchlist/id " +error)
+            setFilteredItems([]);
          }
+        }else{
+          setFilteredItems(watchlist)
         }
-        console.log("Watchist", watchlist)
-        setFilteredItems(watchlist)
-         return filteredItems
+        
   }
 filteredProducts()
 
-   },[APIwatchList,isLoggedIn,hasFetchedAPIList,filteredItems,watchlist])
-  
+   },[APIwatchList,isLoggedIn,watchlist])
+    
 let list=filteredItems
 
   return (
