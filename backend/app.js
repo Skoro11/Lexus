@@ -5,8 +5,9 @@ import authRoutes from "./routes/authRoutes.js"
 import cartRoutes from "./routes/cartRoutes.js"
 import productRoutes from "./routes/productRoutes.js"
 import cookieParser from "cookie-parser"
-import LikeListRoutes from "./routes/LikeListRoutes.js"
+import LikeListRoutes from "./routes/likeListRoutes.js"
 import WatchlistRoutes from "./routes/watchlistRoutes.js"
+import AdminRoutes from "./routes/adminRoutes.js"
 import { authenticateToken } from "./middleware/TokenVerification.js"
 dotenv.config()
 const app = express();
@@ -27,5 +28,7 @@ app.use("/api/cart",authenticateToken,cartRoutes)
 app.use("/api/product",productRoutes)
 app.use("/api/likelist",authenticateToken,LikeListRoutes)
 app.use("/api/watchlist",authenticateToken, WatchlistRoutes)
+app.use("/admin",AdminRoutes)
+
 
 export default app;
