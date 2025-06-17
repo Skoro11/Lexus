@@ -1,24 +1,40 @@
 import { useEffect, useState } from "react";
 import axios from "axios"
+
 function Admin() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const [allItems, setAllItems] = useState([]);
-  const [isSure, setIsSure] = useState(false)
+  const [formIsVisible, setFormIsVisible] = useState(false)
+
   const [formData, setFormData] = useState({
-    _id:3453536754757561,
-    name: "Camera",
-    slug: "camera-test-slug",
-    tag: "40%",
-    price: 250,
-    discounted: 450,
-    stars: 5,
-    reviews: 594,
-    category: "Electronics",
-    special: "Explore",
-    image: "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347588/Camera_lkva3j.png",
-    description:
-      "Capture stunning photos and videos with this versatile DSLR camera from Canon, offering excellent image quality and performance.",
+     _id:null,
+    name:"",
+    slug: "",
+    tag: "",
+    price:null,
+    discountedPrice:null,
+    stars: null,
+    numOfReviews: null,
+    category: "",
+    specialCategory: "",
+    image: "",
+    description:"",
+  });
+
+  const [form, setForm] = useState({
+    _id:null,
+    name:"",
+    slug: "",
+    tag: "",
+    price:null,
+    discountedPrice:null,
+    stars: null,
+    numOfReviews: null,
+    category: "",
+    specialCategory: "",
+    image: "",
+    description:"",
   });
 
   const handleChange = (e) => {
@@ -28,6 +44,21 @@ function Admin() {
       [name]: value,
     }));
   };
+
+  const handleChangeEdit = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+
+  function handleItemClick(item){
+    setFormIsVisible(true)
+    setForm(item)
+    console.log(item)
+  }
 
 
 async function fetchData() {
@@ -63,6 +94,32 @@ async function deleteItem(itemId){
   fetchData()
 }
 
+async function applyChanges(item){
+
+    const response = await axios.put(`${API_BASE_URL}/admin/update`,
+      {
+        _id:item._id,
+        name:item.name,
+        slug: item.slug,
+        tag: item.tag,
+        price:item.price,
+        discountedPrice:item.discountedPrice,
+        stars: item.stars,
+        numOfReviews: item.numOfReviews,
+        category: item.category,
+        specialCategory: item.specialCategory,
+        image: item.image,
+        description:item.description,
+      },
+      {
+        withCredentials:true
+      }
+    )
+    const data = response.data
+    console.log("Response from editing an item",data)
+    setFormIsVisible(false)
+    fetchData()
+}
 
 
 
@@ -81,17 +138,17 @@ async function deleteItem(itemId){
             name: formData.name,
             price: formData.price,
             tag: formData.tag,
-            numOfReviews: formData.reviews,
-            discountedPrice:formData.discounted,
+            numOfReviews: formData.numOfReviews,
+            discountedPrice:formData.discountedPrice,
             description: formData.description,
             category: formData.category,
-            specialCategory: formData.special,
+            specialCategory: formData.specialCategory,
           })
           console.log("Response",response)
           
     }
       addItem()
-      fetchData();
+      
       setFormData({
              _id: "",
              slug: "",
@@ -100,13 +157,13 @@ async function deleteItem(itemId){
              name: "",
              price: 0,
              tag: "",
-             reviews: 0,
-             discounted: 0,
+             numOfReviews: 0,
+             discountedPrice: 0,
              description: "",
              category: "",
-             special: "",
+             specialCategory: "",
             });
-
+      fetchData();
   };
 
   useEffect(() => {
@@ -118,6 +175,102 @@ async function deleteItem(itemId){
     <div className="width-1170 mg-inline">
       <h1>Admin panel</h1>
       <h1>Add new Item</h1>
+      {formIsVisible &&(
+        <div style={{ width: "50%",backgroundColor:"white",padding:"3%", border:"1px solid black",  position: 'fixed', top:"50%", left:"50%", transform: 'translate(-50%, -50%)',}}>
+          <input name="id" value={form._id} placeholder="Id" readOnly style={{marginBottom: `20px`,width:"100%"}} />
+          <div style={{ display: `flex`, marginBottom: `20px`, gap: "1%" }}>
+              
+              <input name="name" placeholder="Name" value={form.name} onChange={handleChangeEdit} required />
+              <input name="slug" placeholder="Slug" value={form.slug} onChange={handleChangeEdit} required />
+              <input name="tag" placeholder="Tag" value={form.tag} onChange={handleChangeEdit} required />
+            </div>
+             <div style={{ display: `flex`, marginBottom: `20px`, gap: "1%" }}>
+              <input
+                name="price"
+                placeholder="Price"
+                value={form.price}
+                onChange={handleChangeEdit}
+                type="number"
+                min="1"
+                required
+              />
+              <input
+                name="discounted"
+                placeholder="Discounted price"
+                value={form.discountedPrice}
+                onChange={handleChangeEdit}
+                type="number"
+                min="1"
+                required
+              />
+              <input
+                name="stars"
+                placeholder="Stars"
+                value={form.stars}
+                onChange={handleChangeEdit}
+                type="number"
+                min="0"
+                max="5"
+                required
+              />
+            </div>
+
+            <div style={{ display: `flex`, marginBottom: `20px`, gap: "1%" }}>
+              <input
+                name="reviews"
+                placeholder="Number of reviews"
+                value={form.numOfReviews}
+                onChange={handleChangeEdit}
+                type="number"
+                min="0"
+                required
+              />
+
+              <span style={{ width: "192px" }}>
+                <label>Category</label>
+                <br />
+                <select name="category" value={form.category} onChange={handleChangeEdit} required>
+                  <option>Electronics</option>
+                  <option>Pet supplies</option>
+                </select>
+              </span>
+
+              <span style={{ width: "192px" }}>
+                <label>Special category</label>
+                <br />
+                <select name="special" value={form.specialCategory} onChange={handleChangeEdit} required>
+                  <option>Best selling</option>
+                  <option>Flash Sales</option>
+                  <option>Explore</option>
+                </select>
+              </span>
+            </div>
+
+            <div>
+              <input
+                name="image"
+                style={{ width: `100%` }}
+                placeholder="Image url"
+                value={form.image}
+                onChange={handleChangeEdit}
+                required
+              />
+              <h1>Image preview</h1>
+              <img src={form.image} alt="Preview" style={{ width: "200px" }} />
+            </div>
+
+            <textarea
+              name="description"
+              style={{ width: `100%`, height: "70px" }}
+              value={form.description}
+              onChange={handleChangeEdit}
+              placeholder="Item description"
+              required
+            />
+
+        <div><button onClick={()=> applyChanges(form)}>Apply changes</button> <button onClick={()=>setFormIsVisible(false)}>Close</button></div>
+        </div>
+      )}
       <div style={{ marginBottom: `50px` }}>
         <div style={{ width: "50%" }}>
           <form onSubmit={itemData}>
@@ -142,7 +295,7 @@ async function deleteItem(itemId){
               <input
                 name="discounted"
                 placeholder="Discounted price"
-                value={formData.discounted}
+                value={formData.discountedPrice}
                 onChange={handleChange}
                 type="number"
                 min="1"
@@ -164,7 +317,7 @@ async function deleteItem(itemId){
               <input
                 name="reviews"
                 placeholder="Number of reviews"
-                value={formData.reviews}
+                value={formData.numOfReviews}
                 onChange={handleChange}
                 type="number"
                 min="0"
@@ -183,7 +336,7 @@ async function deleteItem(itemId){
               <span style={{ width: "192px" }}>
                 <label>Special category</label>
                 <br />
-                <select name="special" value={formData.special} onChange={handleChange} required>
+                <select name="special" value={formData.specialCategory} onChange={handleChange} required>
                   <option>Best selling</option>
                   <option>Flash Sales</option>
                   <option>Explore</option>
@@ -217,9 +370,6 @@ async function deleteItem(itemId){
           </form>
         </div>
       </div>
-
-      <div>Search items</div>
-
       <div>
         <table style={{ width: `100%` }}>
           <thead>
@@ -243,7 +393,7 @@ async function deleteItem(itemId){
                 <td>{item.specialCategory}</td>
                 <td>{item.tag}</td>
                 <td>
-                  <button>Edit</button> <button onClick={()=>deleteItem(item._id)}>Delete</button>
+                  <button onClick={()=>handleItemClick(item)}>Edit</button> <button onClick={()=>deleteItem(item._id)}>Delete</button>
                 </td>
               </tr>
             ))}
