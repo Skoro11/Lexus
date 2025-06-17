@@ -30,6 +30,7 @@ import AllProductsPage from "./pages/AllProductPage"
 import MayLikeSection from "./sections/MayLike"
 import  Test  from "./test";
 import { AuthProvider } from "./context/AuthContext";
+import Admin from "./pages/Admin";
 function App() {
   return (
     <Router>
@@ -39,6 +40,7 @@ function App() {
           <WatchlistProvider>
             <Navbar />
             <Routes>
+              <Route path="/admin" element={<Admin />}/>
               <Route
                 path="/"
                 element={
