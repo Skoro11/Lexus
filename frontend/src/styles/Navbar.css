@@ -1,9 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  list-style: none;
-}
+
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -76,7 +71,7 @@ body {
 .underlined {
   text-decoration: underline;
 }
-
+/* 
 .bordered {
   margin-inline: auto;
   position: relative;
@@ -86,7 +81,7 @@ body {
   align-items: center;
   padding: 15px 30px;
   background-color: #ffffff;
-}
+} */
 
 .navbar__search {
   display: flex;

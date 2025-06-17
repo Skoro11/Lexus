@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
-      tailwindcss()
+      tailwindcss(),
     ],
       base: '/',
     // Only enable proxy in development mode

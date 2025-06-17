@@ -114,13 +114,12 @@ useEffect(() => {
       )}
 
 
-      <div className="sale">
+      <div className="bg-black text-sm md:bg-yellow-500 lg:bg-black py-4 text-white text-center ">
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
-        <span className="underlined">Shop now</span>
+        <span className="underline">Shop now</span>
       </div>
 
-
-      <div className="bordered">
+      <div className="mx-auto relative max-w-[1230px] flex justify-between items-center px-7.5 py-3.5 bg-white">
        {filteredItems.length > 0  ? (
   <div className="search-results">
     <div className="cart-table">
@@ -171,7 +170,7 @@ useEffect(() => {
 
 
         <div className="navbar__logo">
-          <h1>
+          <h1 className="text-3xl font-bold">
             <a href="/">Lexus</a>
           </h1>
         </div>
