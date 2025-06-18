@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../styles/Carousel.css";
+
 import RenderStars from "../components/RenderStars";
 import GetTag from "../components/Tags";
 import { useCart } from "../context/ContextCart";

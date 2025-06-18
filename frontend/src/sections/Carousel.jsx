@@ -3,7 +3,6 @@ import Slider from "react-slick";
 import {Link} from "react-router-dom"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../styles/Carousel.css"; // Custom CSS for styling
 import Clock from "../components/Clock"; // Import Clock component
 import RenderStars from "../components/RenderStars";
 import GetTag from "../components/Tags";
@@ -11,6 +10,7 @@ import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import { useWatchlist } from "../context/ContextWatchlist"; // Import the watchlist context
 import { useAuth } from "../context/AuthContext";
+import ViewAll from "../components/viewAll";
 function Carousel() {
   const sliderRef = useRef(null);
   const { days, hours, minutes, seconds } = Clock();
@@ -113,52 +113,52 @@ function Carousel() {
   };
 
   return (
-    <div className="mg-top-50-sides-30-bottom-0">
-      <div className="width-1170 mg-inline">
-        <div className="heading-description">
-          <span className="orange orange-span"></span>
-          <div className="orange orange-text">Todays</div>
+    <div className="mt-12 mx-8">
+      <div className="max-w-[1170px] mx-auto">
+        <div className="hidden md:flex items-center">
+          <span className="h-8 w-4 lg:h-10 lg:w-5 bg-[#db4444] rounded-md mr-2.5"></span>
+          <div className=" text-[#db4444]">Todays</div>
         </div>
 
-        <div className="heading-section ">
-          <div className="heading-clock">
-            <h1>Flash Sales</h1>
-            <table>
+        <div className="flex justify-between items-center">
+          <div className="flex md:w-3/5 justify-between lg:w-1/2 items-center py-2.5 ">
+            <h1 className="text-base md:text-lg lg:text-3xl font-bold">Flash Sales</h1>
+            <table className="hidden md:block md:mx-3.5">
               <thead>
                 <tr>
-                  <th className="heading-clock">Days</th>
+                  <th className="text-xs font-medium">Days</th>
                   <th></th>
-                  <th className="heading-clock">Hours</th>
+                  <th className="text-xs font-medium">Hours</th>
                   <th></th>
-                  <th className="heading-clock">Minutes</th>
+                  <th className="text-xs font-medium">Minutes</th>
                   <th></th>
-                  <th className="heading-clock">Seconds</th>
+                  <th className="text-xs font-medium">Seconds</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="time-output">{days}</td>
-                  <td className="two-dots">
-                    <span className="dot"></span>
-                    <span className="dot"></span>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{days}</td>
+                  <td className="flex flex-col justify-evenly h-8 w-8">
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
                   </td>
-                  <td className="time-output">{hours}</td>
-                  <td className="two-dots">
-                    <span className="dot"></span>
-                    <span className="dot"></span>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{hours}</td>
+                  <td className="flex flex-col justify-evenly h-8 w-8">
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
                   </td>
-                  <td className="time-output">{minutes}</td>
-                  <td className="two-dots">
-                    <span className="dot"></span>
-                    <span className="dot"></span>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{minutes}</td>
+                  <td className="flex flex-col justify-evenly h-8 w-8">
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1 "></span>
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
                   </td>
-                  <td className="time-output">{seconds}</td>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{seconds}</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <div className="custom-arrows">
+          <div className="hidden lg:flex ">
             <div className="next-arrow" onClick={handlePrev}>
               <img src="arrow-black.png" alt="Next" />
             </div>
@@ -170,16 +170,16 @@ function Carousel() {
       </div>
 
       {/* Slider Container */}
-      <div className="slider-container carousel-wrapper-product-line">
+      <div className="hidden md:block mx-auto max-w-[1188px]">
         <Slider ref={sliderRef} {...settings}>
           {/* Dynamically map through the products */}
           {flashProduct.map((product) => (
             <div key={product._id}>
-              <div className="relative">
-                <img src={product.image} alt={product.name} />
+              <div className="group relative">
+                <img className="w-11/12 mx-auto" src={product.image} alt={product.name} />
 
                 <button
-                  className="addTo-cart"
+                  className="hidden lg:block hover-animation absolute w-[93%] pointer bottom-0 rounded left-[3.5%] py-4 bg-black text-white "
                   onClick={() => {
                     addToCart(product); // Add the product to the cart
                   }}
@@ -187,17 +187,16 @@ function Carousel() {
                   Add To Cart
                 </button>
 
-                <div className="product-tag">{GetTag(product.tag)}</div>
+                <div className="absolute top-1/12 left-1/12">{GetTag(product.tag)}</div>
                 {/* Image based Like button */}
                 <img
                   src={
                     isLiked(product._id) ? "heart-fill.png" : "heart-empty.png"
                   } // Replace with your icon paths
-                  className="like-icon"
+                  className="absolute top-3 right-5 w-fit lg:top-6 pointer p-1.5 rounded-2xl lg:right-9 bg-white "
                   onClick={() => {
                     addToLike(product); // This will add or remove from the like list
                   }}
-                  style={{ cursor: "pointer" }} // Add pointer cursor to indicate it's clickable
                 />
 
                 {/* Watchlist button */}
@@ -207,98 +206,39 @@ function Carousel() {
                       ? "eye-fill.png" // Icon for "Remove from Watchlist"
                       : "eye-empty.png" // Icon for "Add to Watchlist"
                   }
-                  className="watchlist-icon"
+                  className="pointer absolute top-10 right-3.5 w-fit lg:top-15 p-2 rounded-2xl lg:right-7 "
                   onClick={() => {
                     addToWatchlist(product); // This will add or remove from the watchlist
                   }}
-                  style={{ cursor: "pointer" }}
+                  
                 />
               </div>
 
-              <div className="product-info mg-inline">
-                <span className="product-name">
+              <div className="w-[93%] mx-auto">
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis my-2 block">
                   <Link to={`/product/${product._id}`}>
                       {product.name}
                   </Link>
                 </span>
-                <p className="product-description">
-                  <span className="full-price">{product.price}$</span>
-                  <span className="discounted-price">
+                <p className="mb-2">
+                  <span className="text-[#db4444]">{product.price}$</span>
+                  <span className="pl-2 opacity-50 line-through">
                     {product.discountedPrice}
                   </span>
                 </p>
-                <div className="stars">
+                <div className="flex items-center">
                   <RenderStars stars={product.stars} />
-                  <span className="reviews-number">{`(${product.numOfReviews})`}</span>
+                  <span className="opacity-50">{`(${product.numOfReviews})`}</span>
                 </div>
               </div>
             </div>
           ))}
         </Slider>
       </div>
-      <a href="/all"><button className="view-all">View all</button></a>
+      
+      <ViewAll />
 
-      <div  className="item-list">
-        {flashProduct.map((product) => (
-          <div key={product.id}>
-            <div className="relative">
-              <img src={product.image} alt={product.name} />
-              {/* Add onClick handler for "Add to Cart" button */}
-              <button
-                className="addTo-cart"
-                onClick={() => {
-                  addToCart(product); // Add the product to the cart
-                }}
-              >
-                Add To Cart
-              </button>
-
-              <div className="product-tag">{GetTag(product.tag)}</div>
-              {/* Image based Like button */}
-              <img
-                src={isLiked(product.id) ? "heart-fill.png" : "heart-empty.png"} // Replace with your icon paths
-                className="like-icon"
-                onClick={() => {
-                  addToLike(product); // This will add or remove from the like list
-                }}
-                style={{ cursor: "pointer" }} // Add pointer cursor to indicate it's clickable
-              />
-
-              {/* Watchlist button */}
-              <img
-                src={
-                  isInWatchlist(product.id)
-                    ? "eye-fill.png" // Icon for "Remove from Watchlist"
-                    : "eye-empty.png" // Icon for "Add to Watchlist"
-                }
-                className="watchlist-icon"
-                onClick={() => {
-                  addToWatchlist(product); // This will add or remove from the watchlist
-                }}
-                style={{ cursor: "pointer" }}
-              />
-            </div>
-
-            <div className="product-info">
-              <span className="product-name">
-                <a href={`/product/${product.slug}/${product.id}`}>
-                  {product.name}
-                </a>
-              </span>
-              <p className="product-description">
-                <span className="full-price">{product.price}$</span>
-                <span className="discounted-price">
-                  {product.discountedPrice}
-                </span>
-              </p>
-              <div className="stars">
-                <RenderStars stars={product.stars} />
-                <span className="reviews-number">{`(${product.numOfReviews})`}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      
     </div>
   );
 }

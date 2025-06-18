@@ -4,7 +4,6 @@ import {Link} from "react-router-dom"
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../styles/Carousel.css"; // Custom CSS for styling
 import RenderStars from "../components/RenderStars";
 import GetTag from "../components/Tags";
 import { useCart } from "../context/ContextCart";

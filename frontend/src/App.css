@@ -229,15 +229,7 @@ padding-inline:2%;
 
   padding: 50px 30px;
 }
-.heading-clock {
-  display: flex;
-  justify-content: space-between;
-  width: 48%;
-  align-items: center;
-  font-weight: normal;
-  font-size: 12px;
-  padding: 10px 0;
-}
+
 @media (min-width: 320px) and (max-width: 1023px) {
   .no-display-1023{
 display:none;
