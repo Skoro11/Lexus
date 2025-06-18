@@ -1,8 +1,9 @@
-import "../styles/Navbar.css";
+
 import { useState,useEffect } from "react";
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import axios from "axios"
+
 // Importing React Icons
 import {
   FaSignOutAlt,
@@ -30,11 +31,14 @@ function changeText(event){
 
 
 async function sendSearchQuery(searchTerm){
-  setIsDisabled(true)
-const response = await axios.post(`${API_BASE_URL}api/product?search=` + searchTerm)
-
+ try{
+    const response = await axios.get(`${API_BASE_URL}/api/product?search=` + searchTerm)
     setFilteredItems(response.data.filteredProducts)
-  setIsDisabled(false)
+ }catch(error){
+  console.log("Search query",error)
+ }
+
+    
 }
 
 
@@ -93,7 +97,7 @@ useEffect(() => {
 
   return (
     
-    <div className="navbar">
+    <div className="sticky top-0 z-10 border-b border-b-[#02020226]">
       {logoutMessage && (
         <div className="popup">
         <div className="popup-content">
@@ -114,42 +118,46 @@ useEffect(() => {
       )}
 
 
-      <div className="bg-black text-sm md:bg-yellow-500 lg:bg-black py-4 text-white text-center ">
+      <div className="hidden md:block bg-black text-sm md:bg-yellow-500 lg:bg-black py-4 text-white text-center ">
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
         <span className="underline">Shop now</span>
-      </div>
 
+      </div>
+      <div className="md:hidden text-center text-3xl font-bold bg-black py-4 text-white">
+        Lexus
+        
+      </div>
       <div className="mx-auto relative max-w-[1230px] flex justify-between items-center px-7.5 py-3.5 bg-white">
        {filteredItems.length > 0  ? (
-  <div className="search-results">
-    <div className="cart-table">
-      <table className="cart-table">
+  <div className="absolute w-full top-full bg-white text-black max-w-[1170px]  p-3 border-t-1 border-t-[#02020226] ">
+    <div>
+      <table className="w-full">
         <thead>
-          <tr className="cart-product-row">
+          <tr className="">
             <th>Product</th>
-            <th className="price-column">Price</th>
-            <th className="quantity-column">Stock</th>
+            <th>Price</th>
+            <th>Stock</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {filteredItems.map(item => (
-            <tr key={item._id} className="cart-product-row">
-              <td>
-                <div className="flex align-center">
-                  <img src={item.image} className="width-10 padding-right-5" alt={item.name} />
+            <tr key={item._id}>
+              <td className="text-center w-2/5">
+                <div className="flex items-center">
+                  <img src={item.image} className="w-20 pr-3 " alt={item.name} />
                   <div>
                     <a href={`/product/${item._id}`}>{item.name}</a>
                   </div>
                 </div>
               </td>
-              <td className="price-column">{item.price}$</td>
-              <td className="quantity-column">
-                <span className="green">In stock</span>
+              <td className="text-center w-1/4">{item.price}$</td>
+              <td className="text-center w-1/4">
+                <span className="text-green-500">In stock</span>
               </td>
-              <td>
+              <td className="text-center w-1/4">
                 <button
-                  className="bg-black"
+                  className="bg-black text-white p-1.5 rounded-md pointer hover:opacity-70"
                   onClick={() => handleAddToCart(item)}
                 >
                   Add To Cart
@@ -169,13 +177,13 @@ useEffect(() => {
 
 
 
-        <div className="navbar__logo">
+        <div className="hidden md:block">
           <h1 className="text-3xl font-bold">
             <a href="/">Lexus</a>
           </h1>
         </div>
 
-        <ul className="navbar__links">
+        <ul className="hidden list-none lg:flex gap-4">
           <li>
             <a href="/">Home</a>
           </li>
@@ -196,12 +204,12 @@ useEffect(() => {
           </li>
         </ul>
 
-        <div className="navbar__right">
-          <div className="navbar__search">
+        <div className="flex gap-4 items-center">
+          <div className=" bg-white mr-0 flex items-center md:bg-gray-100 rounded-md py-1 px-2 md-mr-5 md:focus-within:outline-2 md:focus-within:outline-2 focus-within:outline-black">
             <input
               type="text"
               placeholder="What are you looking for? "
-              className="search-input"
+              className="focus:outline-none p-2 text-sm"
               onChange={changeText}
               onKeyDown={(e)=>{
                 if(e.key ==="Enter")sendSearchQuery(searchTerm)
@@ -210,7 +218,7 @@ useEffect(() => {
             />
             <button
               type="button"
-              className="search-btn"
+              className="bg-transparent border-0 pointer"
               disabled={isDisabled}
               onClick={() => sendSearchQuery(searchTerm)
               
@@ -223,14 +231,14 @@ useEffect(() => {
 
           {/* Display Search Results only when the search button is clicked and search term is not empty */}
           <a href="/like">
-            <div className="navbar__heart">
+            <div className="relative">
               <img
                 src="heart-icon.png"
                 alt="Heart Icon"
-                className="navbar__icon"
+                className="hidden md:block"
               />
               {getLikeItemsCount() !== 0 && (
-                <span className="popup-item-number heart-popup desktop-item">
+                <span className="hidden bg-[#db4444] text-white absolute md:flex justify-center w-6 h-6 rounded-full bottom-2 left-2">
                   <span>{getLikeItemsCount()}</span>
                 </span>
               )}
@@ -238,14 +246,14 @@ useEffect(() => {
           </a>
 
           <a href="/cart">
-            <div className="navbar__cart">
+            <div className="relative">
               <img
                 src="cart-icon.png"
                 alt="Shopping Cart Icon"
-                className="navbar__icon"
+                className="hidden md:block"
               />
               {getCartItemsCount() !== 0 && (
-                <span className="popup-item-number desktop-item">
+                <span className="hidden bg-[#db4444] text-white absolute md:flex justify-center w-6 h-6 rounded-full bottom-3.5 left-4">
                   <span>{getCartItemsCount()}</span>
                 </span>
               )}
@@ -253,13 +261,13 @@ useEffect(() => {
           </a>
 
           <div
-  className={`navbar__user-icon `}
+  className={`text-xl pointer hover:text-[#ff9900]`}
   onClick={toggleDropdown}
 >
 <img
   src={isLoggedIn ? "user-active.png" : "user-icon.png"}
   alt="User Icon"
-  className={isLoggedIn ? "user-active" : "navbar__icon"} 
+  className={isLoggedIn ? "rounded-full bg-[#DB4444] " : "hidden md:block"} 
 />
 
 
@@ -271,17 +279,18 @@ useEffect(() => {
 
         {/* Dropdown Menu */}
         {isDropdownOpen && (
-          <div className="navbar__dropdown">
-            <ul>
+          <div className="z-10 text-white top-[78%] absolute right-[2%] bg-black border rounded-md  ">
+            <ul className="m-0 py-2 px-5  pointer">
               
               
             {!isLoggedIn ? (
-         <a className="color-white" href="/login"><li style={{ cursor: "pointer" }}>
-         <FaSignOutAlt /> Login
+         <a  href="/login"><li
+         className="text-white flex list-none hover:text-[#ff9900] items-center">
+         <FaSignOutAlt /> <p>Login</p>
        </li></a>
          
         ) : (
-          <li onClick={handleLogout} style={{ cursor: "pointer" }}>
+          <li onClick={handleLogout} className="flex hover:text-[#444443] items-center">
             <FaSignOutAlt /> Logout
           </li>
         )}

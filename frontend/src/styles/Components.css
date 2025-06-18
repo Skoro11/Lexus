@@ -1,5 +1,5 @@
 /* Buttons Styling */
-button {
+/* button {
     padding: 10px;
     background-color: #db4444;
     color: white;
@@ -8,7 +8,7 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
+  } */
 
 .home-btn{
     color: white;
@@ -39,7 +39,7 @@ button {
   .not-found{
     height: 200px;
   }
-  input,
+  /* input, */
   textarea {
     padding: 10px;
     font-size: 14px;
