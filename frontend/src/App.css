@@ -216,10 +216,10 @@ padding-inline:2%;
 .display-none{
   display:none;
 }
-a {
+/* a {
   color: black;
   cursor: pointer;
-}
+} */
 .align-center{
   align-items:center;
 }
