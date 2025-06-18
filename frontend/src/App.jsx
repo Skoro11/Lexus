@@ -3,7 +3,7 @@ import "./App.css";
 import "./styles/Components.css"
 import "./styles/CustomStyles.css"
 import HeroSection from "./sections/Hero";
-import Carousel from "./sections/Carousel";
+
 import { CartProvider } from "./context/ContextCart";
 import MobileLinks from "./sections/MobileLinks";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -14,11 +14,7 @@ import { WatchlistProvider } from "./context/ContextWatchlist";
 import WatchlistPage from "./pages/WatchlistPage";
 import Footer from "./sections/Footer";
 import ProductUrl from "./pages/ProductUrl";
-import CarouselBestSelling from "./sections/CarouselBestSelling";
-import CategorySection from "./sections/CategorySection";
-import CarouselExplore from "./sections/CarouselExplore";
-import Banner from "./sections/Banner";
-import NewArrival from "./sections/NewArrival";
+
 import NotFound from "./pages/NotFound";
 import ContactPage from "./pages/Contact"
 import AboutPage from "./pages/About";
@@ -31,6 +27,8 @@ import MayLikeSection from "./sections/MayLike"
 import  Test  from "./test";
 import { AuthProvider } from "./context/AuthContext";
 import Admin from "./pages/Admin";
+import LandingPage from "./pages/LandingPage";
+
 function App() {
   return (
     <Router>
@@ -45,18 +43,7 @@ function App() {
                 path="/"
                 element={
                   <>
-                   
-                    <HeroSection />
-                    <Carousel />
-
-                    <CategorySection />
-                    <CarouselBestSelling />
-                    <Banner />
-
-                    <CarouselExplore />
-
-                    <NewArrival />
-                    <Services />
+                    <LandingPage />
                   </>
                 }
               />

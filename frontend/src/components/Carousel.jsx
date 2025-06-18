@@ -3,15 +3,16 @@ import Slider from "react-slick";
 import {Link} from "react-router-dom"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Clock from "../components/Clock"; // Import Clock component
-import RenderStars from "../components/RenderStars";
-import GetTag from "../components/Tags";
+import Clock from "./Clock"; // Import Clock component
+import RenderStars from "./RenderStars";
+import GetTag from "./Tags";
 import { useCart } from "../context/ContextCart";
 import { useLike } from "../context/ContextLike";
 import { useWatchlist } from "../context/ContextWatchlist"; // Import the watchlist context
 import { useAuth } from "../context/AuthContext";
-import ViewAll from "../components/viewAll";
-function Carousel() {
+import ViewAll from "./viewAll";
+
+function Carousel({main,title,products,component}) {
   const sliderRef = useRef(null);
   const { days, hours, minutes, seconds } = Clock();
   const { addToCart } = useCart();
@@ -117,45 +118,13 @@ function Carousel() {
       <div className="max-w-[1170px] mx-auto">
         <div className="hidden md:flex items-center">
           <span className="h-8 w-4 lg:h-10 lg:w-5 bg-[#db4444] rounded-md mr-2.5"></span>
-          <div className=" text-[#db4444]">Todays</div>
+          <div className=" text-[#db4444]">{main}</div>
         </div>
 
         <div className="flex justify-between items-center">
           <div className="flex md:w-3/5 justify-between lg:w-1/2 items-center py-2.5 ">
-            <h1 className="text-base md:text-lg lg:text-3xl font-bold">Flash Sales</h1>
-            <table className="hidden md:block md:mx-3.5">
-              <thead>
-                <tr>
-                  <th className="text-xs font-medium">Days</th>
-                  <th></th>
-                  <th className="text-xs font-medium">Hours</th>
-                  <th></th>
-                  <th className="text-xs font-medium">Minutes</th>
-                  <th></th>
-                  <th className="text-xs font-medium">Seconds</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{days}</td>
-                  <td className="flex flex-col justify-evenly h-8 w-8">
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                  </td>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{hours}</td>
-                  <td className="flex flex-col justify-evenly h-8 w-8">
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                  </td>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{minutes}</td>
-                  <td className="flex flex-col justify-evenly h-8 w-8">
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1 "></span>
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                  </td>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{seconds}</td>
-                </tr>
-              </tbody>
-            </table>
+            <h1 className="text-base md:text-lg lg:text-3xl font-bold">{title}</h1>
+            {component}
           </div>
 
           <div className="hidden lg:flex ">
@@ -173,7 +142,7 @@ function Carousel() {
       <div className="hidden md:block mx-auto max-w-[1188px]">
         <Slider ref={sliderRef} {...settings}>
           {/* Dynamically map through the products */}
-          {flashProduct.map((product) => (
+          {products.map((product) => (
             <div key={product._id}>
               <div className="group relative">
                 <img className="w-11/12 mx-auto" src={product.image} alt={product.name} />

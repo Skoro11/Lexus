@@ -55,12 +55,49 @@ function getTargetDateForToday() {
   }, [targetDate]);
 
   // Return just the time values
-  return {
-    days: timeLeft.days,
-    hours: timeLeft.hours,
-    minutes: timeLeft.minutes,
-    seconds: timeLeft.seconds,
-  };
+  return (
+    <table className="hidden md:block md:mx-3.5">
+              <thead>
+                <tr>
+                  <th className="text-xs font-medium">Days</th>
+                  <th></th>
+                  <th className="text-xs font-medium">Hours</th>
+                  <th></th>
+                  <th className="text-xs font-medium">Minutes</th>
+                  <th></th>
+                  <th className="text-xs font-medium">Seconds</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.days}</td>
+                  <td className="flex flex-col justify-evenly h-8 w-8">
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+                  </td>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.hours}</td>
+                  <td className="flex flex-col justify-evenly h-8 w-8">
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+                  </td>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.minutes}</td>
+                  <td className="flex flex-col justify-evenly h-8 w-8">
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1 "></span>
+                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+                  </td>
+                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.seconds}</td>
+                </tr>
+              </tbody>
+            </table>
+
+  );
 }
+
+
+
+
+
+
+
 
 export default Clock;
