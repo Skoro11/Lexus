@@ -4,7 +4,7 @@ const MobileLinks = () => {
   const { getCartItemsCount } = useCart();
 
   return (
-    <div className="mobile-links">
+    <div className="hidden mobile-links">
       <ul>
         <li>
           <a href="/">
