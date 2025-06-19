@@ -14,7 +14,6 @@ import { WatchlistProvider } from "./context/ContextWatchlist";
 import WatchlistPage from "./pages/WatchlistPage";
 import Footer from "./sections/Footer";
 import ProductUrl from "./pages/ProductUrl";
-
 import NotFound from "./pages/NotFound";
 import ContactPage from "./pages/Contact"
 import AboutPage from "./pages/About";

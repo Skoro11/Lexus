@@ -1,103 +1,96 @@
+// Clock.js
 import { useState, useEffect } from "react";
 
-function Clock() {
-function getTargetDateForToday() {
-  const today = new Date();
-  today.setHours(23, 59, 0, 0); // Set the time to 23:59:00
-  return today.getTime();
-}
+// Countdown hook
+function useCountdownToMidnight() {
+  function getTargetDateForToday() {
+    const today = new Date();
+    today.setHours(23, 59, 0, 0);
+    return today.getTime();
+  }
 
-  // Set the target date (e.g., January 18, 2025 at 17:30)
   const targetDate = getTargetDateForToday();
 
-  // State to hold the remaining time
   const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+    days: "00",
+    hours: "00",
+    minutes: "00",
+    seconds: "00",
   });
 
   useEffect(() => {
-    // Function to update the time remaining
     const updateCountdown = () => {
       const now = new Date().getTime();
       const distance = targetDate - now;
 
       if (distance < 0) {
-        // If the countdown reaches zero, stop updating
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setTimeLeft({ days: "00", hours: "00", minutes: "00", seconds: "00" });
         return;
       }
 
-      // Calculate days, hours, minutes, and seconds
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      // Update state with the remaining time, formatting with two digits
       setTimeLeft({
-        days: days.toString().padStart(2, "0"), // pad with 0 if single digit
-        hours: hours.toString().padStart(2, "0"), // pad with 0 if single digit
-        minutes: minutes.toString().padStart(2, "0"), // pad with 0 if single digit
-        seconds: seconds.toString().padStart(2, "0"), // pad with 0 if single digit
+        days: days.toString().padStart(2, "0"),
+        hours: hours.toString().padStart(2, "0"),
+        minutes: minutes.toString().padStart(2, "0"),
+        seconds: seconds.toString().padStart(2, "0"),
       });
     };
 
-    // Update the countdown every second
-    const intervalId = setInterval(updateCountdown, 1000);
-
-    // Cleanup the interval when the component unmounts
-    return () => clearInterval(intervalId);
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
   }, [targetDate]);
 
-  // Return just the time values
+  return timeLeft;
+}
+
+// Component using the countdown
+function Clock() {
+  const timeLeft = useCountdownToMidnight();
+
   return (
     <table className="hidden md:block md:mx-3.5">
-              <thead>
-                <tr>
-                  <th className="text-xs font-medium">Days</th>
-                  <th></th>
-                  <th className="text-xs font-medium">Hours</th>
-                  <th></th>
-                  <th className="text-xs font-medium">Minutes</th>
-                  <th></th>
-                  <th className="text-xs font-medium">Seconds</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.days}</td>
-                  <td className="flex flex-col justify-evenly h-8 w-8">
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                  </td>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.hours}</td>
-                  <td className="flex flex-col justify-evenly h-8 w-8">
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                  </td>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.minutes}</td>
-                  <td className="flex flex-col justify-evenly h-8 w-8">
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1 "></span>
-                    <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
-                  </td>
-                  <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.seconds}</td>
-                </tr>
-              </tbody>
-            </table>
-
+      <thead>
+        <tr>
+          <th className="text-xs font-medium">Days</th>
+          <th></th>
+          <th className="text-xs font-medium">Hours</th>
+          <th></th>
+          <th className="text-xs font-medium">Minutes</th>
+          <th></th>
+          <th className="text-xs font-medium">Seconds</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.days}</td>
+          <td className="flex flex-col justify-evenly h-8 w-8">
+            <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+            <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+          </td>
+          <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.hours}</td>
+          <td className="flex flex-col justify-evenly h-8 w-8">
+            <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+            <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+          </td>
+          <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.minutes}</td>
+          <td className="flex flex-col justify-evenly h-8 w-8">
+            <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1 "></span>
+            <span className="rounded-3xl self-center bg-[#db4444] w-1 h-1"></span>
+          </td>
+          <td className="text-xl lg:text-3xl font-bold text-center">{timeLeft.seconds}</td>
+        </tr>
+      </tbody>
+    </table>
   );
 }
 
-
-
-
-
-
-
-
 export default Clock;
+
+// 👉 This is the export you can use in other components
+export { useCountdownToMidnight };
