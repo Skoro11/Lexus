@@ -43,21 +43,22 @@ function SignupPage() {
   }
 
   return (
-    <section className="mx-width-1170px mg-inline contact-page pd-in-30p pd-in-15-mb mg-bottom-5">
-      <div className="links-home display-none-sm">
-        <a className="home-link" href="/">Home</a> / Sign Up
+    <section className=" mx-8 my-12 mb-20">
+      <div className="max-w-[1170px] mx-auto">
+      <div className="mb-10">
+        <a className="hidden md:block text-gray-500" href="/">Home</a> / Sign Up
       </div>
 
-      <div className="flex space-between align-center">
-        <div className="width-50 display-none-sm">
-          <img className="width-100" src="phone-side.png" alt="Phone" />
+      <div className="flex justify-between items-center">
+        <div className="hidden md:block w-6/12 ">
+          <img src="phone-side.png" alt="Phone" />
         </div>
-        <div className="padding-left-5 min-width-30 signup-box">
+        <div className=" w-full md:w-5/12 lg:w-4/12">
 
-          <h1 className="font-32px mg-bottom-5">Create an account</h1>
-          <h5 className="mg-bottom-5">Enter your details below</h5>
+          <h1 className="text-3xl mb-3 lg:mb-5">Create an account</h1>
+          <h5 className="mb-3 lg:mb-5">Enter your details below</h5>
     <form><input
-            className="input-signup mg-bottom-5"
+            className="border-b w-full border-gray-400 mb-3 lg:mb-5 focus:outline-0"
             placeholder="Name"
             value={name}
             onChange={nameChange}
@@ -66,7 +67,7 @@ function SignupPage() {
 
           <input
             type="email"
-            className="input-signup mg-bottom-5"
+            className="border-b w-full border-gray-400 mb-3 lg:mb-5 focus:outline-0"
             placeholder="Email"
             value={email}
             onChange={emailChange}
@@ -75,30 +76,31 @@ function SignupPage() {
 
           <input
             type="password"
-            className="input-signup mg-bottom-5"
+            className="border-b w-full border-gray-400 mb-3 lg:mb-5 focus:outline-0"
             placeholder="Password"
             value={password}
             onChange={passwordChange}
           />
           <br />
 
-          <button className="width-100 mg-bottom-5" onClick={handleSignup}>
+          <button className="w-full  bg-[#DB4444] text-white py-3 rounded mb-3 lg:mb-5" onClick={handleSignup}>
             Create Account
           </button>
           </form>
           
-          <br />
-          <button className="signup-btn width-100">
-            <img className="padding-right-5" src="Icon-Google.png" alt="Google" />
+          
+          <button className="flex border justify-center py-3 rounded w-full">
+            <img className="pr-3" src="Icon-Google.png" alt="Google" />
             Sign up with Google
           </button>
           <br />
           <div className="flex">
-            <p className="padding-right-5">Already have an account? </p>
-            <a href="/login" className="underlined"> Log in</a>
+            <p className="pr-3">Already have an account? </p>
+            <a href="/login" className="underline"> Log in</a>
           </div>
 
         </div>
+      </div>
       </div>
     </section>
   );

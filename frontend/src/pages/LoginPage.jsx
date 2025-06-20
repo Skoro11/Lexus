@@ -71,26 +71,27 @@ function LoginPage() {
       
     
       {/* Your existing layout here */}
-      <section className="contact-page mx-width-1170px mg-inline pd-in-30p pd-in-15-mb mg-bottom-5">
-  <div className="links-home display-none-sm">
-    <a className="home-link" href="/">Home</a> / Login
+      <section className=" mx-8 my-12 mb-20">
+        <div className="max-w-[1170px] mx-auto">
+  <div className="hidden md:block mb-10">
+    <a className="text-gray-500" href="/">Home</a> / Login
   </div>
 
-  <div className="flex space-between align-center">
+  <div className="flex justify-between items-center">
     {/* Left image (hidden on small screens) */}
-    <div className="width-50 display-none-sm">
-      <img className="width-100" src="phone-side.png" alt="Phone illustration" />
+    <div className="hidden md:block w-6/12">
+      <img src="phone-side.png" alt="Phone illustration" />
     </div>
 
     {/* Login form */}
-    <div className="padding-left-5 min-width-30 signup-box">
-      <h1 className="font-32px mg-bottom-5">Log in to Lexus</h1>
-      <h5 className="mg-bottom-5">Enter your details below</h5>
+    <div className="w-full md:w-5/12 lg:w-4/12">
+      <h1 className="text-3xl mb-3 lg:mb-5">Log in to Lexus</h1>
+      <h5 className="mb-3 lg:mb-5">Enter your details below</h5>
 
       <form onSubmit={handleSubmit}>
         <input
           type="email"
-          className="input-signup mg-bottom-5"
+          className="border-b w-full border-gray-400 mb-3 lg:mb-5 focus:outline-0"
           placeholder="Email or Phone Number"
           value={email}
           onChange={handleChangeEmail}
@@ -100,7 +101,7 @@ function LoginPage() {
 
         <input
           type="password"
-          className="input-signup mg-bottom-5"
+          className="border-b w-full border-gray-400 mb-3 lg:mb-5 focus:outline-0"
           placeholder="Password"
           value={password}
           onChange={handleChangePassword}
@@ -108,14 +109,15 @@ function LoginPage() {
         />
         <br />
 
-        <div className="flex align-center">
-          <button type="submit" className="width-30 mg-right-5">
+        <div className="flex items-center justify-between">
+          <button type="submit" className="pointer hover:opacity-50 hover-change w-4/12 py-2 text-white rounded bg-[#DB4444] mr-5">
             Login
           </button>
-          <p className="color-red">Forgot Password?</p>
+          <p className="text-red-400 ">Forgot Password?</p>
         </div>
       </form>
     </div>
+  </div>
   </div>
 </section>
 
