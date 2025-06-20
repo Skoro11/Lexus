@@ -1,6 +1,6 @@
 function Services (){
     return(
-    <section className="hidden md:block mx-8 py-30">
+    <section className="hidden md:block mx-8 py-15 lg:py-30">
         <div className="flex justify-between  text-center gap-4 mx-auto max-w-[1170px]">
           <div className="flex flex-col justify-center items-center">
             <img className="w-14" src="del.png" />
