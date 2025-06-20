@@ -9,7 +9,9 @@
   
 }
 
-
+.hover-change{
+  transition: opacity 1s ease, background-color 0.7s ease;
+}
 /* Custom needed for refactoring components */
 
 .view-all {

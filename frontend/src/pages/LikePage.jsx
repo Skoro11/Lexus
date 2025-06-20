@@ -2,11 +2,11 @@ import { useLike } from "../context/ContextLike"; // Adjust the import path acco
 import { useCart } from "../context/ContextCart"; // Import for cart functionality
 import GetTag from "../components/Tags";
 import RenderStars from "../components/RenderStars";
-import "../styles/LikePage.css";
 import { FaTrashAlt } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { useState,useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
@@ -70,31 +70,36 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   let list=filteredItems
 
   return (
-    <div className="width-1170 mg-inline pd-in-30p pd-in-15-mb">
-      <div className="like-header">
-        <span className="liked-items">Liked items({getLikeItemsCount()})</span>
+    <section className="mt-12 mx-8">
+        <div className="max-w-[1170px] mx-auto">
+      <div className="my-5 text-xl flex items-center justify-between">
+        <span>Liked items({getLikeItemsCount()})</span>
         {/* Button to move all items to the cart */}
-        <button className="all-bag-btn" onClick={handleMoveAllToCart}>
+        <button className="pointer hover-change text-md px-1  hover:text-white hover:bg-[#db4444] border md:py-3 md:px-6 rounded md:font-bold border-[#808080eb]" onClick={handleMoveAllToCart}>
           Move All To Bag
         </button>
       </div>
-      <div className="container-likelist">
+      <div className="grid gap-5 grid-cols-2 md:gap-5 md:grid-cols-4 justify-between">
         {list.length === 0 ? (
           <h3>Your like list is empty.</h3>
         ) : (
           list.map((product) => (
-            <div className="like-list" key={product.id}>
-              <div className="relative product-margin">
+            <di key={product.id}>
+              <div className="relative group">
+                <Link to={`/product/${product._id}`}>
                 <img
-                  className="likelist-image"
+                  className="w-full"
                   src={product.image}
                   alt={product.name}
                 />
-                <div className="product-tag">{GetTag(product.tag)}</div>
+                </Link>
+                <div className="hidden md:block absolute top-2.5 left-2.5 lg:top-5 lg:left-5">
+                  {GetTag(product.tag)}
+                  </div>
 
                 {/* Add to Cart button with logic to remove from wishlist */}
                 <button
-                  className="add-cart"
+                  className="hover-animation hidden lg:block hover:bg-[#494949] absolute bottom-0 bg-black w-full py-4 text-white rounded pointer"
                   onClick={() => handleAddToCart(product)} // Handle add to cart and remove from wishlist
                 >
                   Add To Cart
@@ -102,28 +107,34 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
                 {/* Remove button for removing from the wishlist */}
                 <FaTrashAlt
-                  className="remove"
+                  className="absolute top-2 right-2.5 lg:right-5 lg:top-5 h-8 py-2 rounded-full bg-white w-8 pointer hover:bg-black hover:text-white hover-change"
                   onClick={() => addToLike(product)} // Remove from wishlist when clicked
                 />
               </div>
               <div>
-                <span className="product-name-likelist">{product.name}</span>
-                <p className="product-description-likelist">
-                  <span className="full-price">{product.price}$</span>
-                  <span className="discounted-price">
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis my-2 block">
+                  <Link to={`/product/${product._id}`}>
+                      {product.name}
+                  </Link>
+                </span>
+                <p className="mb-2">
+                  <span className="text-[#db4444]">{product.price}$</span>
+                  <span className="pl-2 opacity-50 line-through">
                     {product.discountedPrice}
                   </span>
                 </p>
-                <div className="stars">
+                <div className="flex items-center">
                   <RenderStars stars={product.stars} />
-                  <span className="reviews-number">{`(${product.numOfReviews})`}</span>
+                  <span className="opacity-50">{`(${product.numOfReviews})`}</span>
                 </div>
               </div>
-            </div>
+            </di>
           ))
         )}
       </div>
     </div>
+    </section>
+    
   );
 };
 
