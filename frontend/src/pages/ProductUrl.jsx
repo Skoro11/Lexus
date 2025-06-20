@@ -100,7 +100,7 @@ function ProductUrl() {
         </div>
         <div>
           <div className="hidden lg:block border rounded ">
-            <div className="md:flex py-2 pl-4 underline items-center">
+            <div className="md:flex py-2 pl-4 underline-one items-center">
               <img src="delivery.png" alt="delivery" />
               <div>
                 <span>Free Delivery</span>
@@ -111,7 +111,7 @@ function ProductUrl() {
               </div>
             </div>
 
-            <div className=" md:flex py-2 pl-4 underline items-center">
+            <div className=" md:flex py-2 pl-4  items-center">
               <img src="return.png" alt="return" />
               <div>
                 <span>Return Delivery</span>
