@@ -145,7 +145,10 @@ function Carousel({main,title,products,component}) {
           {products.map((product) => (
             <div key={product._id}>
               <div className="group relative">
-                <img className="w-11/12 mx-auto" src={product.image} alt={product.name} />
+                <Link to={`/product/${product._id}`}>
+                    <img className="w-11/12 mx-auto" src={product.image} alt={product.name} />
+
+                  </Link>
 
                 <button
                   className="hidden lg:block hover-animation absolute w-[93%] pointer bottom-0 rounded left-[3.5%] py-4 bg-black text-white "

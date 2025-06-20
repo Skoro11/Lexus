@@ -22,7 +22,6 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import MobileOptions from "./pages/Options"
 import AllProductsPage from "./pages/AllProductPage"
-import MayLikeSection from "./sections/MayLike"
 import  Test  from "./test";
 import { AuthProvider } from "./context/AuthContext";
 import Admin from "./pages/Admin";
@@ -58,9 +57,7 @@ function App() {
               
               <Route path="/product/:id" element={
                 <>
-                
                 <ProductUrl />
-                <MayLikeSection />
                 </>
                 
                 
