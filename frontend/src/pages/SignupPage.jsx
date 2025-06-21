@@ -43,9 +43,9 @@ function SignupPage() {
   }
 
   return (
-    <section className=" mx-8 my-12 mb-20">
+    <section className="mx-8 my-12 ">
       <div className="max-w-[1170px] mx-auto">
-      <div className="mb-10">
+      <div className="mb-10 flex">
         <a className="hidden md:block text-gray-500" href="/">Home</a> / Sign Up
       </div>
 
@@ -55,7 +55,7 @@ function SignupPage() {
         </div>
         <div className=" w-full md:w-5/12 lg:w-4/12">
 
-          <h1 className="text-3xl mb-3 lg:mb-5">Create an account</h1>
+          <h1 className="text-3xl mb-3 lg:mb-5 ">Create an account</h1>
           <h5 className="mb-3 lg:mb-5">Enter your details below</h5>
     <form><input
             className="border-b w-full border-gray-400 mb-3 lg:mb-5 focus:outline-0"
@@ -83,13 +83,13 @@ function SignupPage() {
           />
           <br />
 
-          <button className="w-full  bg-[#DB4444] text-white py-3 rounded mb-3 lg:mb-5" onClick={handleSignup}>
+          <button className="w-full  bg-[#DB4444] text-white py-3 rounded mb-3 lg:mb-5 hover:opacity-50 pointer" onClick={handleSignup}>
             Create Account
           </button>
           </form>
           
           
-          <button className="flex border justify-center py-3 rounded w-full">
+          <button className="flex border justify-center py-3 rounded w-full hover:opacity-50 pointer">
             <img className="pr-3" src="Icon-Google.png" alt="Google" />
             Sign up with Google
           </button>
