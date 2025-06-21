@@ -1,17 +1,20 @@
 @import "tailwindcss";
-.underline-one{
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.underline-one {
   border-bottom: 1px solid black;
 }
-.hover-animation{
+.hover-animation {
   opacity: 0;
   transition: opacity 0.5s ease, background-color 0.3s ease;
 }
 .group:hover .hover-animation {
   opacity: 1;
-  
 }
 
-.hover-change{
+.hover-change {
   transition: opacity 1s ease, background-color 0.7s ease;
 }
 /* Custom needed for refactoring components */
@@ -67,7 +70,7 @@
   background-color: #00ff66;
 }
 .item-category {
-  padding:2% 0;
+  padding: 2% 0;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -91,4 +94,42 @@
 }
 .item-category:hover .svg-container {
   stroke: white;
+}
+
+.popup {
+  position: fixed;
+  bottom: 20px; /* Show near the bottom of the page */
+  right: 20px; /* Show on the right side */
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  z-index: 9999; /* Ensure it appears above most elements */
+  opacity: 0; /* Initially hidden */
+  animation: fadeInOut 6s forwards; /* Combined fade-in and fade-out animation */
+}
+
+/* Content inside popup */
+.popup-content {
+  display: flex;
+  align-items: center;
+}
+
+.popup img {
+  margin-right: 10px;
+}
+
+/* Combined fadeIn and fadeOut animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0; /* Initially invisible */
+  }
+  50% {
+    opacity: 1; /* Fully visible after 1.5 seconds */
+  }
+  100% {
+    opacity: 0; /* Fade back to invisible after 3 seconds */
+  }
 }
