@@ -109,57 +109,58 @@ function Navbar() {
         Lexus
       </div>
       <div className="mx-auto relative max-w-[1230px] flex justify-between items-center px-7.5 py-3.5 bg-white">
-        {filteredItems.length > 0 ? (
-          <div className="absolute w-full top-full bg-white text-black max-w-[1170px]  p-3 border-t-1 border-t-[#02020226] ">
-            <div>
-              <table className="w-full">
-                <thead>
-                  <tr className="">
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredItems.map((item) => (
-                    <tr key={item._id}>
-                      <td className="text-center w-2/5">
-                        <div className="flex items-center">
-                          <img
-                            src={item.image}
-                            className="w-20 pr-3 "
-                            alt={item.name}
-                          />
-                          <div>
-                            <a href={`/product/${item._id}`}>{item.name}</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="text-center w-1/4">{item.price}$</td>
-                      <td className="text-center w-1/4">
-                        <span className="text-green-500">In stock</span>
-                      </td>
-                      <td className="text-center w-1/4">
-                        <button
-                          className="bg-black text-white p-1.5 rounded-md pointer hover:opacity-70"
-                          onClick={() => handleAddToCart(item)}
-                        >
-                          Add To Cart
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {filteredItems.length > 0 && (
+          <div className="absolute z-20 w-full top-full left-0 bg-white text-black px-4 md:px-6 max-w-[1230px] p-3 border-t border-gray-300">
+            <div className="w-full border rounded-lg overflow-hidden max-h-[350px] overflow-y-auto">
+              {/* Table Header */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 bg-gray-100 font-semibold text-center p-3 border-b text-sm md:text-base sticky top-0 z-10 bg-gray-100">
+                <div>Product</div>
+                <div>Price</div>
+                <div className="hidden sm:block">Stock</div>
+                <div className="hidden md:block">Action</div>
+              </div>
+
+              {/* Table Body */}
+              {filteredItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 items-center text-center border-b p-3 hover:bg-gray-50 text-sm"
+                >
+                  {/* Product */}
+                  <div className="flex items-center gap-3 justify-start">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-14 h-14 object-cover rounded"
+                    />
+                    <a
+                      href={`/product/${item._id}`}
+                      className="text-left truncate"
+                    >
+                      {item.name}
+                    </a>
+                  </div>
+
+                  {/* Price */}
+                  <div>{item.price}$</div>
+
+                  {/* Stock */}
+                  <div className="hidden sm:block">
+                    <span className="text-green-500">In stock</span>
+                  </div>
+
+                  {/* Action */}
+                  <div className="hidden md:block">
+                    <button
+                      className="bg-black text-white px-3 py-1.5 rounded-md hover:opacity-70 cursor-pointer"
+                      onClick={() => handleAddToCart(item)}
+                    >
+                      Add To Cart
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ) : (
-          <div
-            className="search-results"
-            style={{ display: filteredItems.length === 0 ? "none" : "block" }}
-          >
-            No products
           </div>
         )}
 
@@ -189,7 +190,7 @@ function Navbar() {
         </ul>
 
         <div className="flex gap-4 items-center">
-          <div className=" bg-white mr-0 flex items-center md:bg-gray-100 rounded-md py-1 px-2 md-mr-5 md:focus-within:outline-2 md:focus-within:outline-2 focus-within:outline-black">
+          <div className=" bg-white mr-0 flex items-center md:bg-gray-100 rounded-md py-1 px-2 md-mr-5 md:focus-within:outline-2 focus-within:outline-black">
             <input
               type="text"
               placeholder="What are you looking for? "
@@ -202,7 +203,7 @@ function Navbar() {
             />
             <button
               type="button"
-              className="bg-transparent border-0 pointer"
+              className="bg-transparent border-0 cursor-pointer"
               disabled={isDisabled}
               onClick={() => sendSearchQuery(searchTerm)}
             >
@@ -250,7 +251,9 @@ function Navbar() {
               src={isLoggedIn ? "user-active.png" : "user-icon.png"}
               alt="User Icon"
               className={
-                isLoggedIn ? "rounded-full bg-[#DB4444] " : "hidden md:block"
+                isLoggedIn
+                  ? "hidden md:block rounded-full bg-[#DB4444] cursor-pointer"
+                  : "hidden md:block cursor-pointer"
               }
             />
           </div>
@@ -261,17 +264,19 @@ function Navbar() {
           <div className="z-10 text-white top-[78%] absolute right-[2%] bg-black border rounded-md  ">
             <ul className="m-0 py-2 px-5  pointer">
               {!isLoggedIn ? (
-                <a href="/login">
-                  <li className="text-white flex list-none hover:text-[#ff9900] items-center">
-                    <FaSignOutAlt /> <p>Login</p>
+                <a href="/login" className="no-underline">
+                  <li className="flex items-center space-x-2 text-white cursor-pointer list-none transition-colors duration-300 hover:text-[#ff9900]">
+                    <FaSignOutAlt className="text-lg" />
+                    <p className="m-0 font-medium">Login</p>
                   </li>
                 </a>
               ) : (
                 <li
                   onClick={handleLogout}
-                  className="flex hover:text-[#444443] items-center"
+                  className="flex items-center space-x-2 text-white cursor-pointer list-none transition-colors duration-300 hover:text-[#ff9900]"
                 >
-                  <FaSignOutAlt /> Logout
+                  <FaSignOutAlt className="text-lg" />{" "}
+                  <p className="m-0 font-medium">Logout</p>
                 </li>
               )}
             </ul>

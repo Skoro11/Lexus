@@ -20,7 +20,7 @@ import MobileOptions from "./pages/Options";
 import AllProductsPage from "./pages/AllProductPage";
 import Test from "./test";
 import { AuthProvider } from "./context/AuthContext";
-import Admin from "./pages/Admin";
+
 import LandingPage from "./pages/LandingPage";
 
 function App() {
@@ -32,7 +32,6 @@ function App() {
             <WatchlistProvider>
               <Navbar />
               <Routes>
-                <Route path="/admin" element={<Admin />} />
                 <Route path="/" element={<LandingPage />} />
                 <Route
                   path="/like"

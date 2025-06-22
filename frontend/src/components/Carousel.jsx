@@ -154,7 +154,7 @@ function Carousel({ main, title, products, component }) {
                 </Link>
 
                 <button
-                  className="hidden lg:block hover-animation absolute w-[93%] pointer bottom-0 rounded left-[3.5%] py-4 bg-black text-white "
+                  className="hidden lg:block hover-animation absolute w-[93%] cursor-pointer bottom-0 rounded left-[3.5%] py-4 bg-black text-white "
                   onClick={() => {
                     addToCart(product); // Add the product to the cart
                   }}
