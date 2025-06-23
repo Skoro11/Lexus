@@ -87,7 +87,7 @@ function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 z-10 border-b border-b-[#02020226]">
+    <div className="sticky top-0 z-10 md:border-b md:border-b-[#02020226]">
       {logoutMessage && (
         <div className="popup">
           <div className="popup-content">{logoutMessage}</div>
@@ -105,10 +105,55 @@ function Navbar() {
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
         <span className="underline">Shop now</span>
       </div>
-      <div className="md:hidden text-center text-3xl font-bold bg-black py-4 text-white">
-        Lexus
-      </div>
-      <div className="mx-auto relative max-w-[1230px] flex justify-between items-center px-7.5 py-3.5 bg-white">
+      <nav className="bg-white">
+        <div className="mobile md:hidden pl-4 text-3xl font-bold bg-white py-4 flex justify-between text-black items-center">
+          <a href="/">Lexus</a>
+          <div className="flex w-30 pr-4 justify-between items-center">
+            <a href="/like">
+              <div className="relative h-5 ">
+                <img
+                  src="heart-icon.png"
+                  alt="Heart Icon"
+                  className=" md:block float-right "
+                />
+                {getLikeItemsCount() !== 0 && (
+                  <span className=" bg-[#db4444] text-white flex absolute justify-center w-5 h-5 text-sm rounded-full items-center bottom-2 left-3">
+                    <span>{getLikeItemsCount()}</span>
+                  </span>
+                )}
+              </div>
+            </a>
+            <a href="/cart">
+              <div className="relative">
+                <img
+                  src="cart-icon.png"
+                  alt="Shopping Cart Icon"
+                  className="md:block float-right"
+                />
+                {getCartItemsCount() !== 0 && (
+                  <span className=" bg-[#db4444] text-white flex absolute justify-center w-5 h-5 text-sm rounded-full items-center -top-2 left-4 ">
+                    <span>{getCartItemsCount()}</span>
+                  </span>
+                )}
+              </div>
+            </a>
+            <div>
+              <img
+                src={isLoggedIn ? "user-active.png" : "user-icon.png"}
+                alt="User Icon"
+                className={
+                  isLoggedIn
+                    ? " rounded-full bg-[#DB4444] cursor-pointer float-right"
+                    : "  cursor-pointer float-right"
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div className=" border bg-white h-10 mx-2 mb-4 rounded-full"></div>
+      </nav>
+
+      <div className="hidden mx-auto relative max-w-[1230px] md:flex justify-between items-center px-7.5 py-3.5 bg-white">
         {filteredItems.length > 0 && (
           <div className="absolute z-20 w-full top-full left-0 bg-white text-black px-4 md:px-6 max-w-[1230px] p-3 border-t border-gray-300">
             <div className="w-full border rounded-lg overflow-hidden max-h-[350px] overflow-y-auto">
@@ -190,7 +235,7 @@ function Navbar() {
         </ul>
 
         <div className="flex gap-4 items-center">
-          <div className=" bg-white mr-0 flex items-center md:bg-gray-100 rounded-md py-1 px-2 md-mr-5 md:focus-within:outline-2 focus-within:outline-black">
+          <div className="hidden md:flex bg-white mr-0  items-center md:bg-gray-100 rounded-md py-1 px-2 md-mr-5 md:focus-within:outline-2 focus-within:outline-black">
             <input
               type="text"
               placeholder="What are you looking for? "
