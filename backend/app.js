@@ -20,6 +20,7 @@ app.use(
       "http://localhost:5173",
       "https://lexus-vite-git-main-skoro11s-projects.vercel.app",
       `https://www.lexusshop.app`,
+      "https://lexusshop.app",
     ],
     credentials: true,
   })
