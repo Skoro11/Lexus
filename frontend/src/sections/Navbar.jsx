@@ -21,6 +21,8 @@ function Navbar() {
   const [user, setUser] = useState(null);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+  const [showItem, setShowItem] = useState(false);
+
   function changeText(event) {
     setSearchTerm(event.target.value);
   }
@@ -86,6 +88,11 @@ function Navbar() {
     showPopup(); // Show the popup
   };
 
+  function showDrop() {
+    console.log("Clicked");
+    if (showItem === true) setShowItem(false);
+    if (showItem === false) setShowItem(true);
+  }
   return (
     <div className="sticky top-0 z-10 md:border-b md:border-b-[#02020226]">
       {logoutMessage && (
@@ -105,10 +112,13 @@ function Navbar() {
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
         <span className="underline">Shop now</span>
       </div>
-      <nav className="bg-white mobile py-2 md:hidden ">
+      <nav className="mobile bg-white mobile py-2 md:hidden ">
         <div className="pl-4 text-3xl font-bold bg-white py-4 flex justify-between text-black items-center">
           <a href="/">Lexus</a>
-          <div className="flex w-30 pr-4 justify-between items-center">
+          <div className="flex w-40 pr-4 justify-between items-center">
+            <button onClick={() => showDrop()}>
+              <img src="search-icon.png" alt="Search icon" />
+            </button>
             <a href="/like">
               <div className="relative h-5 ">
                 <img
@@ -150,32 +160,85 @@ function Navbar() {
             </div>
           </div>
         </div>
-        <div className="flex  border border-gray-400 rounded-full justify-between items-center md:bg-gray-100  py-2 mx-2  px-2 md:focus-within:outline-2 focus-within:outline-black">
-          <input
-            type="text"
-            placeholder="What are you looking for? "
-            className="focus:outline-none text-sm"
-            onChange={changeText}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") sendSearchQuery(searchTerm);
-            }}
-            value={searchTerm}
-          />
-          <button
-            type="button"
-            className="bg-transparent border-0 cursor-pointer"
-            disabled={isDisabled}
-            onClick={() => sendSearchQuery(searchTerm)}
-          >
-            <img src="search-icon.png" alt="Search icon" />
-            {/* Search icon */}
-          </button>
-        </div>
+        {showItem && (
+          <div className="flex border border-gray-400 rounded-full justify-between items-center md:bg-gray-100  py-2 mx-2  px-2 md:focus-within:outline-2 focus-within:outline-black">
+            <input
+              type="text"
+              placeholder="What are you looking for? "
+              className="focus:outline-none text-sm"
+              onChange={changeText}
+              value={searchTerm}
+            />
+            <button
+              type="button"
+              className="bg-transparent border-0 cursor-pointer"
+              disabled={isDisabled}
+              onClick={() => sendSearchQuery(searchTerm)}
+            >
+              <img src="search-icon.png" alt="Search icon" />
+              {/* Search icon */}
+            </button>
+            {filteredItems.length > 0 && showItem && (
+              <div className="absolute z-20 w-full top-full left-0 bg-white text-black px-4 md:px-6 max-w-[1230px] p-3 border-t border-gray-300">
+                <div className="w-full border rounded-lg overflow-hidden max-h-[350px] overflow-y-auto">
+                  {/* Table Header */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 bg-gray-100 font-semibold text-center p-3 border-b text-sm md:text-base sticky top-0 z-10 bg-gray-100">
+                    <div>Product</div>
+                    <div>Price</div>
+                    <div className="hidden sm:block">Stock</div>
+                    <div className="hidden md:block">Action</div>
+                  </div>
+
+                  {/* Table Body */}
+                  {filteredItems.map((item) => (
+                    <div
+                      key={item._id}
+                      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 items-center text-center border-b p-3 hover:bg-gray-50 text-sm"
+                    >
+                      {/* Product */}
+                      <div className="flex items-center gap-3 justify-start">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-14 h-14 object-cover rounded"
+                        />
+                        <a
+                          href={`/product/${item._id}`}
+                          className="text-left truncate"
+                        >
+                          {item.name}
+                        </a>
+                      </div>
+
+                      {/* Price */}
+                      <div>{item.price}$</div>
+
+                      {/* Stock */}
+                      <div className="hidden sm:block">
+                        <span className="text-green-500">In stock</span>
+                      </div>
+
+                      {/* Action */}
+                      <div className="hidden md:block">
+                        <button
+                          className="bg-black text-white px-3 py-1.5 rounded-md hover:opacity-70 cursor-pointer"
+                          onClick={() => handleAddToCart(item)}
+                        >
+                          Add To Cart
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </nav>
 
-      <div className="hidden mx-auto relative max-w-[1230px] md:flex justify-between items-center px-7.5 py-3.5 bg-white">
+      <nav className="py-0 mx-auto relative max-w-[1230px] md:flex justify-between items-center px-7.5 md:py-3.5 bg-white">
         {filteredItems.length > 0 && (
-          <div className="absolute z-20 w-full top-full left-0 bg-white text-black px-4 md:px-6 max-w-[1230px] p-3 border-t border-gray-300">
+          <div className="absolute hidden md:block z-20 w-full top-full left-0 bg-white text-black px-4 md:px-6 max-w-[1230px] p-3 border-t border-gray-300">
             <div className="w-full border rounded-lg overflow-hidden max-h-[350px] overflow-y-auto">
               {/* Table Header */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 bg-gray-100 font-semibold text-center p-3 border-b text-sm md:text-base sticky top-0 z-10 bg-gray-100">
@@ -347,7 +410,7 @@ function Navbar() {
             </ul>
           </div>
         )}
-      </div>
+      </nav>
     </div>
   );
 }
