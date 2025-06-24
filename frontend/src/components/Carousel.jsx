@@ -48,8 +48,11 @@ function Carousel({ main, title, products, component }) {
       {
         breakpoint: 425,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2, // Dynamic scroll on mobile
+          speed: 500,
+          dots: true,
+          infinite: true,
+          slidesToShow: 3,
+          // Dynamic scroll on mobile
         },
       },
     ],
@@ -112,16 +115,16 @@ function Carousel({ main, title, products, component }) {
   };
 
   return (
-    <div className="mt-12 mx-8">
+    <div className="mx-3 md:mt-12 md:mx-8">
       <div className="max-w-[1170px] mx-auto">
         <div className="hidden md:flex items-center">
           <span className="h-8 w-4 lg:h-10 lg:w-5 bg-[#db4444] rounded-md mr-2.5"></span>
           <div className=" text-[#db4444]">{main}</div>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center ">
           <div className="flex md:w-3/5 justify-between lg:w-1/2 items-center py-2.5 ">
-            <h1 className="text-base md:text-lg lg:text-3xl font-bold">
+            <h1 className="text-base md:text-lg lg:text-3xl font-bold pl-1">
               {title}
             </h1>
             {component}
@@ -137,10 +140,30 @@ function Carousel({ main, title, products, component }) {
           </div>
         </div>
       </div>
+      <div>
+        <div className="md:hidden w-full flex flex-wrap">
+          {products.map((product) => (
+            <section key={product._id} className="w-1/2 ">
+              <div className="m-2 relative">
+                <div className="absolute top-2 left-2 bg-[var(--orange-primary)] text-white rounded-full px-1">
+                  {product.tag}
+                </div>
+                <Link to={`/product/${product._id}`}>
+                  <img className="w-full rounded-xl " src={product.image} />
+                </Link>
 
+                <div className="text-xs pt-2 truncate overflow-hidden whitespace-nowrap">
+                  <Link to={`/product/${product._id}`}>{product.name}</Link>
+                </div>
+                <div className="text-xs">{product.price}$</div>
+              </div>
+            </section>
+          ))}
+        </div>
+      </div>
       {/* Slider Container */}
       <div className="hidden md:block mx-auto max-w-[1188px]">
-        <Slider ref={sliderRef} {...settings}>
+        <Slider ref={sliderRef} {...settings} className="hidden mb:block">
           {/* Dynamically map through the products */}
           {products.map((product) => (
             <div key={product._id}>

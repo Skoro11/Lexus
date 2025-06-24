@@ -105,8 +105,8 @@ function Navbar() {
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
         <span className="underline">Shop now</span>
       </div>
-      <nav className="bg-white">
-        <div className="mobile md:hidden pl-4 text-3xl font-bold bg-white py-4 flex justify-between text-black items-center">
+      <nav className="bg-white mobile py-2 md:hidden ">
+        <div className="pl-4 text-3xl font-bold bg-white py-4 flex justify-between text-black items-center">
           <a href="/">Lexus</a>
           <div className="flex w-30 pr-4 justify-between items-center">
             <a href="/like">
@@ -150,7 +150,27 @@ function Navbar() {
             </div>
           </div>
         </div>
-        <div className=" border bg-white h-10 mx-2 mb-4 rounded-full"></div>
+        <div className="flex  border border-gray-400 rounded-full justify-between items-center md:bg-gray-100  py-2 mx-2  px-2 md:focus-within:outline-2 focus-within:outline-black">
+          <input
+            type="text"
+            placeholder="What are you looking for? "
+            className="focus:outline-none text-sm"
+            onChange={changeText}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") sendSearchQuery(searchTerm);
+            }}
+            value={searchTerm}
+          />
+          <button
+            type="button"
+            className="bg-transparent border-0 cursor-pointer"
+            disabled={isDisabled}
+            onClick={() => sendSearchQuery(searchTerm)}
+          >
+            <img src="search-icon.png" alt="Search icon" />
+            {/* Search icon */}
+          </button>
+        </div>
       </nav>
 
       <div className="hidden mx-auto relative max-w-[1230px] md:flex justify-between items-center px-7.5 py-3.5 bg-white">
