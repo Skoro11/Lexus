@@ -16,20 +16,13 @@
   "version": "1.0.0",
   "main": "server.js",
   "type": "module",
-  "jest": {
-    "transform": {}
-  },
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll",
+    "test": "jest",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "mongodb-memory-server": "^10.1.4",
-    "supertest": "^7.1.1"
-  }
+  "description": ""
 }

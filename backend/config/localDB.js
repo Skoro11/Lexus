@@ -4,14 +4,18 @@
       email: "test@gmail.com",
       password: "$2b$10$k/.8MYtS0V9xr4SHXdoyLuOqomplWfUS8eH0hNTiakZ95omMsjyb6",
       _id: "683eb334a15d176527547963",
-      cart: [
+      cart: [{
+        _id:"1",
+        quantity:"1"
+      },
+      {
+        _id:"3",
+        quantity:"5"
+      }
 
     ],
       likelist : [
        
-      ],
-      watchlist:[
-
       ],
 
 
