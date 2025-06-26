@@ -94,7 +94,7 @@ function Navbar() {
     if (showItem === false) setShowItem(true);
   }
   return (
-    <div className="sticky top-0 z-10 md:border-b md:border-b-[#02020226]">
+    <div className="sticky top-0 z-10 md:border-b md:border-b-[#02020226] bg-white">
       {logoutMessage && (
         <div className="popup">
           <div className="popup-content">{logoutMessage}</div>

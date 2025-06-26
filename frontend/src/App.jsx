@@ -20,7 +20,7 @@ import MobileOptions from "./pages/Options";
 import AllProductsPage from "./pages/AllProductPage";
 import Test from "./test";
 import { AuthProvider } from "./context/AuthContext";
-
+import Admin from "./pages/Admin";
 import LandingPage from "./pages/LandingPage";
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
                     </>
                   }
                 />
-
+                <Route path="/admin" element={<Admin />}></Route>
                 <Route path="/product/:id" element={<ProductUrl />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route

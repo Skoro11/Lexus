@@ -19,7 +19,7 @@ function Carousel({ main, title, products, component }) {
   const { addToLike, likeList, APIlikeList } = useLike(); // Get `likeList` from the context to check if item is already liked
   const { addToWatchlist, watchlist, APIwatchList } = useWatchlist(); // Get `watchlist` from the context to check if item is already in the watchlist
   const [flashProduct, setFlashProduct] = useState([]);
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const settings = {
     dots: false,
@@ -57,30 +57,6 @@ function Carousel({ main, title, products, component }) {
       },
     ],
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/api/product/flash_sales`,
-          {
-            method: "GET",
-          }
-        );
-
-        const data = await response.json();
-
-        if (response.ok) {
-          setFlashProduct(data.flashSaleProducts);
-        } else {
-          console.log("Unsuccessful fetch");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
 
   // Move to the previous slide
   const handlePrev = () => {
