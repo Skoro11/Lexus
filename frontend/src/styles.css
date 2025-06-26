@@ -3,6 +3,9 @@
 :root {
   --orange-primary: #db4444;
 }
+button {
+  cursor: pointer;
+}
 body {
   font-family: "Poppins", sans-serif;
 }

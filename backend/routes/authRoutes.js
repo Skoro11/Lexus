@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post("/signup", RegisterUser);
 router.post("/login", LoginUser);
-router.get("/users", authenticateToken, ShowAllUsers);
+router.get("/users", ShowAllUsers);
 router.post("/token", generateNewAccessToken);
 router.delete("/logout", LogoutUser);
 router.get("/me", Me);

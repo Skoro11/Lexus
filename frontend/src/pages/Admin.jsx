@@ -153,12 +153,66 @@ const Orders = () => (
   </div>
 );
 
-const Users = () => (
-  <div>
-    <h1 className="text-3xl font-semibold mb-4">Users</h1>
-    <p>Manage user accounts and access.</p>
-  </div>
-);
+function Users() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function getUsers() {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/auth/users`);
+        console.log(response.data);
+        setUsers(response.data);
+      } catch (error) {
+        console.log("Error fetching users", error);
+      }
+    }
+
+    getUsers();
+  }, []);
+  return (
+    <div>
+      <h1 className="font-semibold mb-4 flex justify-between ">
+        <span className="text-3xl">Users</span>{" "}
+        <button className="text-2xl border text-white bg-green-600 rounded py-2 px-4 hover:opacity-50 cursor-pointer">
+          Add new
+        </button>
+      </h1>
+      {users && users.length > 0 ? (
+        <table className="min-w-full bg-white rounded shadow overflow-hidden">
+          <thead className="bg-gray-100 border-b">
+            <tr>
+              <th className="text-left py-3 px-4">ID</th>
+              <th className="text-left py-3 px-4">Name</th>
+              <th className="text-left py-3 px-4">Email</th>
+              <th className="text-left py-3 px-4">Password</th>
+              <th className="text-left py-3 px-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(({ name, email, _id, password }) => (
+              <tr key={_id} className="border-b hover:bg-gray-50">
+                <td className="py-3 px-4 text-xs text-gray-500">{_id}</td>
+                <td className="py-3 px-4 font-semibold">{name}</td>
+                <td className="py-3 px-4">{email}</td>
+                <td className="py-3 px-4">{password}</td>
+                <td className="py-3 px-4 space-x-2">
+                  <button className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Edit
+                  </button>
+                  <button className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No users found.</p>
+      )}
+    </div>
+  );
+}
 
 const StatCard = ({ label, value }) => (
   <div className="bg-white p-4 rounded-xl shadow">
