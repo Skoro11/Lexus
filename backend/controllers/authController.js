@@ -138,7 +138,7 @@ export async function ResendFunction(req, res) {
   try {
     const { data, error } = await resend.emails.send({
       from: "Lexus <onboarding@resend.dev>",
-      to: ["skoro.toni01@gmail.com"],
+      to: [`${process.env.EMAIL}`],
       subject: "Lexus contact",
       html: `<div style="font-family: Arial, sans-serif; color: #333;">
   <div style="margin-bottom: 20px">
@@ -157,16 +157,10 @@ export async function ResendFunction(req, res) {
 </div>
 `,
     });
-
+    console.log({ data });
     res.status(200).json({ message: "Email was sent" });
   } catch (error) {
     console.log("Resend error", error);
     res.status(500).json({ message: error });
   }
-
-  if (error) {
-    return console.error({ error });
-  }
-
-  console.log({ data });
 }
