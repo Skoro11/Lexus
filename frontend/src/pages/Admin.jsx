@@ -178,13 +178,28 @@ function Users() {
       alert("Error adding user");
     }
   }
-
   async function getUsers() {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/auth/users`);
       setUsers(response.data);
     } catch (error) {
       console.log("Error fetching users", error);
+    }
+  }
+  async function DeleteUser(_id) {
+    try {
+      console.log(_id);
+      const response = await axios.delete(`${API_BASE_URL}/api/auth/delete`, {
+        data: { _id: _id },
+      });
+      if (response.status === 200) {
+        getUsers();
+        return alert("User deleted", _id);
+      }
+      if (response.status === 404) return alert("User was not found");
+      return alert("Problem with user deletion");
+    } catch (error) {
+      console.log("Error deleting a user", error);
     }
   }
 
@@ -247,7 +262,10 @@ function Users() {
                   <button className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
                     Edit
                   </button>
-                  <button className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                  <button
+                    onClick={() => DeleteUser(_id)}
+                    className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                  >
                     Delete {_id}
                   </button>
                 </td>

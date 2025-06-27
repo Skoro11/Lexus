@@ -35,6 +35,16 @@ export async function RegisterUser(req, res) {
 }
 export async function DeleteUser(req, res) {
   const { _id } = req.body;
+
+  try {
+    const deletedUser = await UserAuth.findByIdAndDelete(_id);
+    if (!deletedUser)
+      return res.status(404).json({ message: "User not found" });
+    res.status(200).json({ deletedUser: deletedUser });
+  } catch (error) {
+    console.log("Error deleting a user", error);
+    res.status(500).json({ message: error });
+  }
 }
 export async function LoginUser(req, res) {
   try {

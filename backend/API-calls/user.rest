@@ -1,0 +1,46 @@
+@baseUrl=http://localhost:3000
+
+### 1. Register User
+POST {{baseUrl}}/api/auth/signup
+Content-Type: application/json
+
+{
+  "name": "newuser",
+  "email": "newuser@example.com",
+  "password": "securepassword"
+}
+### 2. Delete user
+DELETE {{baseUrl}}/api/auth/delete
+Content-Type: application/json
+
+{
+  "_id":"685e5cef8c5f06e178f8a2b5"
+}
+
+### 3. Login User
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "password": "securepassword"
+}
+
+###
+
+### 4. Get All Users
+GET {{baseUrl}}/api/auth/users
+
+
+### 5. Logout User
+DELETE {{baseUrl}}/api/auth/logout
+Content-Type: application/json
+
+
+### 6. Generate New Access Token
+POST {{baseUrl}}/api/auth/token
+Content-Type: application/json
+
+{
+  "refreshToken": "your_refresh_token_here"
+}
