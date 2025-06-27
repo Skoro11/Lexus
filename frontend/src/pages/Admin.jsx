@@ -155,28 +155,76 @@ const Orders = () => (
 
 function Users() {
   const [users, setUsers] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function Submit(e) {
+    e.preventDefault();
+    try {
+      if (!name || !email || !password) return "Missing information";
+      const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, {
+        name: name,
+        email: email,
+        password: password,
+      });
+      if (response.status === 200) alert("User successfully added");
+      setName("");
+      setEmail("");
+      setPassword("");
+      console.log(response);
+    } catch (error) {
+      console.log("Error adding user", error);
+      alert("Error adding user");
+    }
+  }
+
+  async function getUsers() {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/auth/users`);
+      setUsers(response.data);
+    } catch (error) {
+      console.log("Error fetching users", error);
+    }
+  }
 
   useEffect(() => {
-    async function getUsers() {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/api/auth/users`);
-        console.log(response.data);
-        setUsers(response.data);
-      } catch (error) {
-        console.log("Error fetching users", error);
-      }
-    }
-
     getUsers();
   }, []);
+
   return (
     <div>
-      <h1 className="font-semibold mb-4 flex justify-between ">
-        <span className="text-3xl">Users</span>{" "}
-        <button className="text-2xl border text-white bg-green-600 rounded py-2 px-4 hover:opacity-50 cursor-pointer">
-          Add new
-        </button>
+      <h1 className=" mb-4 flex justify-between ">
+        <span className="text-3xl font-semibold">Users</span>{" "}
+        <form onSubmit={Submit} className="flex  gap-2  ">
+          <input
+            className=" border bg-white rounded pl-2 border-gray-400 "
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          ></input>
+          <input
+            type="email"
+            className=" border bg-white rounded pl-2 border-gray-400 "
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          ></input>
+          <input
+            className=" border bg-white rounded pl-2 border-gray-400 "
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          ></input>
+          <button className="text-2xl border text-white bg-green-600 rounded py-2 px-4 hover:opacity-50 cursor-pointer">
+            Add new
+          </button>
+        </form>
       </h1>
+
       {users && users.length > 0 ? (
         <table className="min-w-full bg-white rounded shadow overflow-hidden">
           <thead className="bg-gray-100 border-b">
@@ -200,7 +248,7 @@ function Users() {
                     Edit
                   </button>
                   <button className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                    Delete
+                    Delete {_id}
                   </button>
                 </td>
               </tr>

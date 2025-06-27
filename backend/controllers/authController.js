@@ -23,17 +23,19 @@ export async function RegisterUser(req, res) {
         token: null,
       });
 
-      /* const savedUser = await newUser.save() */
-      db.push(newUser);
+      const savedUser = await newUser.save();
+      /* db.push(newUser); */
       res
         .status(200)
-        .json({ message: "Successfully created a new user", user: newUser });
+        .json({ message: "Successfully created a new user", user: savedUser });
     } catch (error) {
       res.status(400).send(error);
     }
   }
 }
-
+export async function DeleteUser(req, res) {
+  const { _id } = req.body;
+}
 export async function LoginUser(req, res) {
   try {
     if (!req.body.email || !req.body.password) {
@@ -43,8 +45,10 @@ export async function LoginUser(req, res) {
     const email = req.body.email;
     const inputPassword = req.body.password;
 
-    /* const wantedUser = await UserAuth.findOne({email:email}) */
-    const wantedUser = await db.find((user) => user.email === email);
+    const wantedUser = await UserAuth.findOne({ email: email });
+    console.log("User output", wantedUser);
+    console.log(email, inputPassword);
+    /* const wantedUser = await db.find((user) => user.email === email); */
 
     if (wantedUser == null) {
       return res.status(404).json({ message: "User not found" });
@@ -59,7 +63,6 @@ export async function LoginUser(req, res) {
         id: wantedUser._id,
         email: wantedUser.email,
       };
-
       function CookieCreation(accessToken, name) {
         res.cookie(name, accessToken, {
           httpOnly: true,
@@ -70,16 +73,15 @@ export async function LoginUser(req, res) {
       }
 
       CookieCreation(accessTokenCreation(payload), "accessToken");
-
       wantedUser.refreshToken = accessTokenCreation(payload);
-
       res.status(200).json({
         message: "Successfully logged in",
         user: wantedUser,
       });
     }
   } catch (error) {
-    res.status(400).send(error);
+    console.error(error);
+    res.status(400).json({ message: error.message || error.toString() });
   }
 }
 
@@ -94,8 +96,8 @@ export async function LogoutUser(req, res) {
 }
 export async function ShowAllUsers(req, res) {
   const allUsers = await UserAuth.find();
-  /* res.status(200).send(allUsers) */
-  res.status(200).send(db);
+  res.status(200).send(allUsers);
+  /* res.status(200).send(db); */
 }
 
 export function generateNewAccessToken(req, res) {
