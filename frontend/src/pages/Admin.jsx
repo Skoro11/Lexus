@@ -159,6 +159,13 @@ function Users() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [userData, setUserData] = useState({
+    _id: "",
+    name: "",
+    email: "",
+    password: "",
+  });
+
   async function Submit(e) {
     e.preventDefault();
     try {
@@ -168,10 +175,10 @@ function Users() {
         email: email,
         password: password,
       });
-      if (response.status === 200) alert("User successfully added");
       setName("");
       setEmail("");
       setPassword("");
+      getUsers();
       console.log(response);
     } catch (error) {
       console.log("Error adding user", error);
@@ -202,6 +209,23 @@ function Users() {
       console.log("Error deleting a user", error);
     }
   }
+
+  async function EditUser(_id, name, email, password) {
+    setUserData({
+      name: name,
+      _id: _id,
+      email: email,
+      password: password,
+    });
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   useEffect(() => {
     getUsers();
@@ -239,7 +263,49 @@ function Users() {
           </button>
         </form>
       </h1>
-
+      <form className="w-1/2 mx-auto bg-white border ">
+        <div className="flex flex-col ml-2">
+          Name{" "}
+          <input
+            name="name"
+            placeholder="Name"
+            value={userData.name}
+            onChange={handleChange}
+            className="border mb-2 rounded border-gray-400"
+          ></input>
+        </div>
+        <div className="flex flex-col ml-2">
+          Email{" "}
+          <input
+            name="email"
+            placeholder="Email"
+            value={userData.email}
+            onChange={handleChange}
+            className="border mb-2 rounded border-gray-400"
+          ></input>
+        </div>
+        <div className="flex flex-col ml-2">
+          Password{" "}
+          <input
+            name="password"
+            placeholder="Password"
+            value={userData.password}
+            onChange={handleChange}
+            className="border mb-2 rounded border-gray-400"
+          ></input>
+          <div className="flex justify-end">
+            <button className="mr-5 border py-2 px-4 rounded mb-2 bg-green-600 text-white hover:opacity-50 hover-change">
+              Save changes
+            </button>
+            <button
+              onClick={(e) => e.preventDefault()}
+              className="mr-5 border py-2 px-4 rounded mb-2  bg-black text-white hover:opacity-50 hover-change"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </form>
       {users && users.length > 0 ? (
         <table className="min-w-full bg-white rounded shadow overflow-hidden">
           <thead className="bg-gray-100 border-b">
@@ -259,7 +325,10 @@ function Users() {
                 <td className="py-3 px-4">{email}</td>
                 <td className="py-3 px-4">{password}</td>
                 <td className="py-3 px-4 space-x-2">
-                  <button className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                  <button
+                    onClick={(e) => EditUser(_id, name, email, password)}
+                    className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
                     Edit
                   </button>
                   <button
