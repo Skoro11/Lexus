@@ -1,0 +1,25 @@
+@baseUrl=http://localhost:3000
+
+GET {{baseUrl}}/api/product/all
+
+###
+
+POST {{baseUrl}}/api/product/add
+Content-Type: application/json
+
+{
+  "slug": "breed-dry-dog-food",
+  "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
+  "stars": 5,
+  "name": "Breed Dry Dog Food",
+  "price": 100,
+  "tag": "-40%",
+  "numOfReviews": 35,
+  "discountedPrice": 140,
+  "description": "High-quality dry dog food specially formulated for specific breeds. Packed with essential nutrients to keep your pet healthy and strong.",
+  "category": "Pet Supplies",
+  "specialCategory": "Flash Sales"
+}
+
+### Get all products
+GET {{baseUrl}}/api/product/store

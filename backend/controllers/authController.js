@@ -2,7 +2,7 @@ import { hashPassword, checkPassword } from "../utils/hashPassword.js";
 import UserAuth from "../models/user.model.js";
 import { accessTokenCreation } from "../utils/JwtSession.js";
 import jwt from "jsonwebtoken";
-import { db } from "../config/localDB.js";
+
 import dotenv from "dotenv";
 import { Resend } from "resend";
 
