@@ -12,12 +12,14 @@ import {
 
 const router = Router();
 
-router.get("/all", allProducts);
+/* router.get("/all", allProducts); */
 router.get("/flash_sales", flashSaleProducts);
 router.get("/best_selling", bestSellingProducts);
 router.get("/explore", exploreProducts);
+router.get("/all", AllProducts);
 router.get("/:id", fetchById);
+
 router.get("/", searchByQuery);
 router.post("/add", AddProduct);
-router.get("/store", AllProducts);
+
 export default router;

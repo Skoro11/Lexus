@@ -92,6 +92,57 @@ function Products() {
           Add new
         </button>
       </h1>
+      <div>
+        <input
+          className="bg-white border rounded mr-1 pl-1"
+          placeholder="Slug"
+        ></input>
+        <input
+          className="bg-white border rounded mx-1 pl-1"
+          placeholder="Image-url"
+        ></input>
+        <input
+          className="bg-white border rounded mx-1 pl-1"
+          placeholder="Stars"
+          type="number"
+          min="0"
+          max="5"
+        ></input>
+        <input
+          className="bg-white border rounded mx-1 pl-1"
+          placeholder="Name"
+        ></input>
+        <input
+          className="bg-white border rounded mx-1 pl-1"
+          placeholder="Price"
+          type="number"
+          min="0"
+        ></input>
+        <select placeholder="Tag" className="border bg-white rounded p-1">
+          <option>New</option>
+          <option>50%</option>
+          <option>40%</option>
+          <option>30%</option>
+          <option>20%</option>
+          <option>10%</option>
+        </select>
+        <input placeholder="Number of reviews" type="number" min="0"></input>
+        <input placeholder="Price after discount" type="number" min="0"></input>
+        <textarea placeholder="Description"></textarea>
+        <select className="border bg-white rounded p-1" placeholder="Category">
+          <option>Flash Sales</option>
+          <option>Explore</option>
+          <option>Best Selling</option>
+        </select>
+        <select
+          className="border bg-white rounded p-1"
+          placeholder="Special Category"
+        >
+          <option>Electronics</option>
+          <option>Pets</option>
+          <option>Other</option>
+        </select>
+      </div>
       {products && products.length > 0 ? (
         <table className="min-w-full bg-white rounded shadow overflow-hidden">
           <thead className="bg-gray-100 border-b">
