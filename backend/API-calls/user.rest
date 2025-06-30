@@ -17,6 +17,16 @@ Content-Type: application/json
   "_id":"685e5cef8c5f06e178f8a2b5"
 }
 
+### 3.Edit user
+PUT {{baseUrl}}/api/auth/update
+Content-Type: application/json
+
+{
+  "_id":"685e8dd11e6cfd3eda5f4b1a",
+  "name":"Rand",
+  "email":"test@ds.com"
+}
+
 ### 3. Login User
 POST {{baseUrl}}/api/auth/login
 Content-Type: application/json

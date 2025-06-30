@@ -158,7 +158,7 @@ function Users() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [isVisible, setIsVisible] = useState(false);
   const [userData, setUserData] = useState({
     _id: "",
     name: "",
@@ -210,12 +210,40 @@ function Users() {
     }
   }
 
-  async function EditUser(_id, name, email, password) {
+  async function EditUser(e) {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`${API_BASE_URL}/api/auth/update`, {
+        name: userData.name,
+        email: userData.email,
+        _id: userData._id,
+      });
+      const output = response.data;
+      console.log(output);
+      getUsers();
+      setIsVisible(false);
+    } catch (error) {
+      console.log("Error editing user", error.message);
+    }
+  }
+  async function FillUserDetails(_id, name, email, password) {
+    setIsVisible(true);
     setUserData({
       name: name,
       _id: _id,
       email: email,
       password: password,
+    });
+  }
+
+  async function closeEditTab(e) {
+    e.preventDefault();
+    setIsVisible(false);
+    setUserData({
+      name: "",
+      _id: "",
+      email: "",
+      password: "",
     });
   }
 
@@ -232,7 +260,7 @@ function Users() {
   }, []);
 
   return (
-    <div>
+    <div className="relative">
       <h1 className=" mb-4 flex justify-between ">
         <span className="text-3xl font-semibold">Users</span>{" "}
         <form onSubmit={Submit} className="flex  gap-2  ">
@@ -263,49 +291,58 @@ function Users() {
           </button>
         </form>
       </h1>
-      <form className="w-1/2 mx-auto bg-white border ">
-        <div className="flex flex-col ml-2">
-          Name{" "}
-          <input
-            name="name"
-            placeholder="Name"
-            value={userData.name}
-            onChange={handleChange}
-            className="border mb-2 rounded border-gray-400"
-          ></input>
+      {isVisible && (
+        <div>
+          <div className="fixed inset-0 bg-gray-100 opacity-50 z-40"></div>
+          <form
+            onSubmit={EditUser}
+            className=" fixed w-1/2 p-5 rounded bg-white z-100 border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          >
+            <div className="flex flex-col ml-2">
+              Name{" "}
+              <input
+                name="name"
+                placeholder="Name"
+                value={userData.name}
+                onChange={handleChange}
+                className="border mb-2 rounded border-gray-400"
+              ></input>
+            </div>
+            <div className="flex flex-col ml-2">
+              Email{" "}
+              <input
+                name="email"
+                placeholder="Email"
+                value={userData.email}
+                onChange={handleChange}
+                className="border mb-2 rounded border-gray-400"
+              ></input>
+            </div>
+            <div className="flex flex-col ml-2">
+              Password{" "}
+              <input
+                name="password"
+                placeholder="Password"
+                value={userData.password}
+                onChange={handleChange}
+                className="border mb-2 rounded border-gray-400"
+              ></input>
+              <div className="flex justify-end">
+                <button className="mr-5 border py-2 px-4 rounded mb-2 bg-green-600 text-white hover:opacity-50 hover-change">
+                  Save changes
+                </button>
+                <button
+                  onClick={closeEditTab}
+                  className="mr-5 border py-2 px-4 rounded mb-2  bg-black text-white hover:opacity-50 hover-change"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div className="flex flex-col ml-2">
-          Email{" "}
-          <input
-            name="email"
-            placeholder="Email"
-            value={userData.email}
-            onChange={handleChange}
-            className="border mb-2 rounded border-gray-400"
-          ></input>
-        </div>
-        <div className="flex flex-col ml-2">
-          Password{" "}
-          <input
-            name="password"
-            placeholder="Password"
-            value={userData.password}
-            onChange={handleChange}
-            className="border mb-2 rounded border-gray-400"
-          ></input>
-          <div className="flex justify-end">
-            <button className="mr-5 border py-2 px-4 rounded mb-2 bg-green-600 text-white hover:opacity-50 hover-change">
-              Save changes
-            </button>
-            <button
-              onClick={(e) => e.preventDefault()}
-              className="mr-5 border py-2 px-4 rounded mb-2  bg-black text-white hover:opacity-50 hover-change"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </form>
+      )}
+
       {users && users.length > 0 ? (
         <table className="min-w-full bg-white rounded shadow overflow-hidden">
           <thead className="bg-gray-100 border-b">
@@ -326,7 +363,7 @@ function Users() {
                 <td className="py-3 px-4">{password}</td>
                 <td className="py-3 px-4 space-x-2">
                   <button
-                    onClick={(e) => EditUser(_id, name, email, password)}
+                    onClick={(e) => FillUserDetails(_id, name, email, password)}
                     className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
                   >
                     Edit
@@ -335,7 +372,7 @@ function Users() {
                     onClick={() => DeleteUser(_id)}
                     className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                   >
-                    Delete {_id}
+                    Delete
                   </button>
                 </td>
               </tr>

@@ -8,6 +8,7 @@ import {
   Me,
   ResendFunction,
   DeleteUser,
+  EditUser,
 } from "../controllers/authController.js";
 import { authenticateToken } from "../middleware/TokenVerification.js";
 
@@ -21,5 +22,6 @@ router.delete("/logout", LogoutUser);
 router.get("/me", Me);
 router.post("/resend", ResendFunction);
 router.delete("/delete", DeleteUser);
+router.put("/update", EditUser);
 
 export default router;

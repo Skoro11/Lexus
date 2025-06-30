@@ -46,6 +46,21 @@ export async function DeleteUser(req, res) {
     res.status(500).json({ message: error });
   }
 }
+export async function EditUser(req, res) {
+  const { _id, name, email } = req.body;
+  try {
+    const updatedUser = await UserAuth.findByIdAndUpdate(
+      _id,
+      { name: name, email: email },
+      { new: true, runValidators: true }
+    );
+    if (!updatedUser)
+      return res.status(404).json({ message: "User not found" });
+    res.status(200).json({ message: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 export async function LoginUser(req, res) {
   try {
     if (!req.body.email || !req.body.password) {
