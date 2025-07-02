@@ -59,90 +59,470 @@ const Admin = () => {
 
 const Dashboard = () => (
   <div>
-    <h1 className="text-3xl font-semibold mb-4">Dashboard</h1>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <StatCard label="Total Sales" value="$5,200" />
-      <StatCard label="Orders" value="238" />
-      <StatCard label="Users" value="87" />
-    </div>
+    <h1 className="text-3xl font-semibold mb-4">Multiple Product insertion</h1>
+
+    <textarea
+      className="w-2/4 min-h-200 border bg-white rounded p-3 font-mono whitespace-pre-wrap"
+      placeholder={`JSON type data:
+Example:
+{
+  "slug": "breed-dry-dog-food",
+  "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
+  "stars": 5,
+  "name": "Breed Dry Dog Food",
+  "price": 100,
+  "tag": "-40%",
+  "numOfReviews": 35,
+  "discountedPrice": 140,
+  "description": "High-quality dry dog food specially formulated for specific breeds. Packed with essential nutrients to keep your pet healthy and strong.",
+  "category": "Pet Supplies",
+  "specialCategory": "Flash Sales"
+}`}
+    ></textarea>
   </div>
 );
 
 function Products() {
+  const [isVisibleAddProduct, setIsVisibleAddProduct] = useState(false);
+  const [isVisibleEditProduct, setIsVisibleEditProduct] = useState(false);
   const [products, setProducts] = useState([]);
+  const [formData, setFormData] = useState({
+    name: "",
+    price: null,
+    quantity: null,
+    image: "",
+    slug: "",
+    stars: null,
+    tag: "",
+    numOfReviews: null,
+    discountedPrice: null,
+    description: "",
+    category: "",
+    specialCategory: "",
+  });
+
+  const [productDetails, setProductDetails] = useState({
+    category: "",
+    description: "",
+    discountedPrice: null,
+    image: "",
+    name: "",
+    numOfReviews: null,
+    price: null,
+    quantity: null,
+    slug: "",
+    specialCategory: "",
+    stars: null,
+    tag: "",
+    _id: null,
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+  function handleChangeDetails(e) {
+    const { name, value } = e.target;
+
+    setProductDetails((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/product/add`,
+        formData
+      );
+
+      console.log(response.data);
+      if (response.status === 200) fetchProducts();
+      if (response.status === 400) {
+        console.log(`Error: ${response.error}`);
+      }
+    } catch (error) {
+      alert("Error adding product");
+      console.log("Error with adding new product", error.message);
+    }
+  }
+
+  async function handleUpdate(e) {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `${API_BASE_URL}/api/product/edit`,
+        productDetails
+      );
+
+      if (response.status === 200) {
+        fetchProducts();
+        setIsVisibleEditProduct(false);
+        alert("Item updated successfully");
+      }
+    } catch (error) {
+      console.log("Error updating product", error.message);
+    }
+
+    console.log(productDetails);
+  }
+  async function fetchProducts() {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/product/all`);
+      console.log(response.data.products);
+      setProducts(response.data.products);
+    } catch (error) {
+      console.log("FetchProducts error", error);
+    }
+  }
+  function isVisibleFunctionAddProduct() {
+    if (isVisibleAddProduct) setIsVisibleAddProduct(false);
+
+    if (!isVisibleAddProduct) setIsVisibleAddProduct(true);
+  }
+  function isVisibleFunctionEditProduct() {
+    if (isVisibleEditProduct == true) setIsVisibleEditProduct(false);
+
+    if (isVisibleEditProduct === false) setIsVisibleEditProduct(true);
+  }
+  function closeEditTab(e) {
+    e.preventDefault();
+    setIsVisibleEditProduct(false);
+  }
+  async function DeleteProduct(_id) {
+    try {
+      const response = await axios.delete(
+        `${API_BASE_URL}/api/product/remove`,
+        {
+          data: {
+            _id: _id,
+          },
+        }
+      );
+      if (response.status == 200) {
+        fetchProducts();
+        alert("Item deleted successfully");
+      }
+      if (response.status !== 200) alert("Problem with deleting product");
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/api/product/all`);
-        console.log(response.data.products);
-        setProducts(response.data.products);
-      } catch (error) {
-        console.log("FetchProducts error", error);
-      }
-    }
     fetchProducts();
   }, []);
 
   return (
-    <div>
-      <h1 className="font-semibold mb-4 flex justify-between ">
-        <span className="text-3xl">Products</span>{" "}
-        <button className="text-2xl border text-white bg-green-600 rounded py-2 px-4 hover:opacity-50 cursor-pointer">
-          Add new
+    <div className="relative">
+      <h1 className="font-semibold mb-4 flex justify-between">
+        <span className="text-3xl">Products</span>
+        <button onClick={() => isVisibleFunctionAddProduct()}>
+          Add Product
         </button>
       </h1>
-      <div>
-        <input
-          className="bg-white border rounded mr-1 pl-1"
-          placeholder="Slug"
-        ></input>
-        <input
-          className="bg-white border rounded mx-1 pl-1"
-          placeholder="Image-url"
-        ></input>
-        <input
-          className="bg-white border rounded mx-1 pl-1"
-          placeholder="Stars"
-          type="number"
-          min="0"
-          max="5"
-        ></input>
-        <input
-          className="bg-white border rounded mx-1 pl-1"
-          placeholder="Name"
-        ></input>
-        <input
-          className="bg-white border rounded mx-1 pl-1"
-          placeholder="Price"
-          type="number"
-          min="0"
-        ></input>
-        <select placeholder="Tag" className="border bg-white rounded p-1">
-          <option>New</option>
-          <option>50%</option>
-          <option>40%</option>
-          <option>30%</option>
-          <option>20%</option>
-          <option>10%</option>
-        </select>
-        <input placeholder="Number of reviews" type="number" min="0"></input>
-        <input placeholder="Price after discount" type="number" min="0"></input>
-        <textarea placeholder="Description"></textarea>
-        <select className="border bg-white rounded p-1" placeholder="Category">
-          <option>Flash Sales</option>
-          <option>Explore</option>
-          <option>Best Selling</option>
-        </select>
-        <select
-          className="border bg-white rounded p-1"
-          placeholder="Special Category"
+      {isVisibleEditProduct && (
+        <form
+          onSubmit={handleUpdate}
+          className="w-1/2 mx-auto  rounded-lg shadow-md space-y-4 fixed top-110 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 text-black"
         >
-          <option>Electronics</option>
-          <option>Pets</option>
-          <option>Other</option>
-        </select>
-      </div>
+          <h2 className="text-2xl font-semibold mb-4 text-center">
+            Edit Product
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              name="slug"
+              value={productDetails.slug}
+              onChange={handleChangeDetails}
+              className="border rounded px-3 py-2"
+              placeholder="Slug"
+              required
+            />
+
+            <input
+              name="image"
+              value={productDetails.image}
+              onChange={handleChangeDetails}
+              className="border rounded px-3 py-2"
+              placeholder="Image URL"
+              required
+            />
+
+            <input
+              name="stars"
+              value={productDetails.stars}
+              onChange={handleChangeDetails}
+              className="border rounded px-3 py-2"
+              placeholder="Stars (0–5)"
+              type="number"
+              min="0"
+              max="5"
+              required
+            />
+
+            <input
+              name="name"
+              value={productDetails.name}
+              onChange={handleChangeDetails}
+              className="border rounded px-3 py-2"
+              placeholder="Product Name"
+              required
+            />
+
+            <input
+              name="price"
+              value={productDetails.price}
+              onChange={handleChangeDetails}
+              className="border rounded px-3 py-2"
+              placeholder="Price"
+              type="number"
+              min="0"
+              required
+            />
+
+            <select
+              name="tag"
+              value={productDetails.tag}
+              onChange={handleChangeDetails}
+              className="border rounded px-3 py-2"
+              required
+            >
+              <option value="">Select Tag</option>
+              <option value="New">New</option>
+              <option value="50%">50%</option>
+              <option value="40%">40%</option>
+              <option value="30%">30%</option>
+              <option value="20%">20%</option>
+              <option value="10%">10%</option>
+            </select>
+
+            <input
+              name="numOfReviews"
+              value={productDetails.numOfReviews}
+              onChange={handleChangeDetails}
+              placeholder="Number of Reviews"
+              type="number"
+              min="0"
+              className="border rounded px-3 py-2"
+              required
+            />
+
+            <input
+              name="discountedPrice"
+              value={productDetails.discountedPrice}
+              onChange={handleChangeDetails}
+              placeholder="Discounted Price"
+              className="border rounded px-3 py-2"
+              type="number"
+              min="0"
+              required
+            />
+          </div>
+
+          <textarea
+            name="description"
+            value={productDetails.description}
+            onChange={handleChangeDetails}
+            placeholder="Description"
+            className="w-full border rounded px-3 py-2"
+            rows="4"
+            required
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <select
+              name="category"
+              value={productDetails.category}
+              onChange={handleChangeDetails}
+              className="border rounded px-3 py-2"
+              required
+            >
+              <option value="Flash Sales">Flash Sales</option>
+              <option value="Explore">Explore</option>
+              <option value="Best Selling">Best Selling</option>
+            </select>
+
+            <select
+              name="specialCategory"
+              className="border rounded px-3 py-2"
+              value={productDetails.specialCategory}
+              onChange={handleChangeDetails}
+              required
+            >
+              <option value="Electronics">Electronics</option>
+              <option value="Pets">Pets</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div className="flex gap-2 items-center justify-end">
+            <button
+              type="submit"
+              className="px-4  bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+            >
+              Apply changes
+            </button>
+            <button
+              className="text-white bg-black py-2 px-4 rounded hover:opacity-50 transition"
+              onClick={closeEditTab}
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      )}
+      {isVisibleAddProduct && (
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md space-y-4"
+        >
+          <h2 className="text-2xl font-semibold mb-4 text-center">
+            Add New Product
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+              className="border rounded px-3 py-2"
+              placeholder="Slug"
+              required
+            />
+
+            <input
+              name="image"
+              value={formData.image}
+              onChange={handleChange}
+              className="border rounded px-3 py-2"
+              placeholder="Image URL"
+              required
+            />
+
+            <input
+              name="stars"
+              value={formData.stars}
+              onChange={handleChange}
+              className="border rounded px-3 py-2"
+              placeholder="Stars (0–5)"
+              type="number"
+              min="0"
+              max="5"
+              required
+            />
+
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="border rounded px-3 py-2"
+              placeholder="Product Name"
+              required
+            />
+
+            <input
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              className="border rounded px-3 py-2"
+              placeholder="Price"
+              type="number"
+              min="0"
+              required
+            />
+
+            <select
+              name="tag"
+              value={formData.tag}
+              onChange={handleChange}
+              className="border rounded px-3 py-2"
+              required
+            >
+              <option value="">Select Tag</option>
+              <option value="New">New</option>
+              <option value="50%">50%</option>
+              <option value="40%">40%</option>
+              <option value="30%">30%</option>
+              <option value="20%">20%</option>
+              <option value="10%">10%</option>
+            </select>
+
+            <input
+              name="numOfReviews"
+              value={formData.numOfReviews}
+              onChange={handleChange}
+              placeholder="Number of Reviews"
+              type="number"
+              min="0"
+              className="border rounded px-3 py-2"
+              required
+            />
+
+            <input
+              name="discountedPrice"
+              value={formData.discountedPrice}
+              onChange={handleChange}
+              placeholder="Discounted Price"
+              className="border rounded px-3 py-2"
+              type="number"
+              min="0"
+              required
+            />
+          </div>
+
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Description"
+            className="w-full border rounded px-3 py-2"
+            rows="4"
+            required
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="border rounded px-3 py-2"
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Flash Sales">Flash Sales</option>
+              <option value="Explore">Explore</option>
+              <option value="Best Selling">Best Selling</option>
+            </select>
+
+            <select
+              name="specialCategory"
+              className="border rounded px-3 py-2"
+              value={formData.specialCategory}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Special Category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Pets">Pets</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full mt-4 bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+          >
+            Add Product
+          </button>
+        </form>
+      )}
       {products && products.length > 0 ? (
         <table className="min-w-full bg-white rounded shadow overflow-hidden">
           <thead className="bg-gray-100 border-b">
@@ -160,7 +540,21 @@ function Products() {
           </thead>
           <tbody>
             {products.map(
-              ({ _id, name, price, image, tag, category, specialCategory }) => (
+              ({
+                _id,
+                name,
+                price,
+                quantity,
+                image,
+                slug,
+                stars,
+                tag,
+                numOfReviews,
+                discountedPrice,
+                description,
+                category,
+                specialCategory,
+              }) => (
                 <tr key={_id} className="border-b hover:bg-gray-50">
                   <td className="py-3 px-4 text-xs text-gray-500">{_id}</td>
                   <td className="py-3 px-4">
@@ -178,10 +572,33 @@ function Products() {
                   <td className="py-3 px-4">${price}</td>
 
                   <td className="py-3 px-4 space-x-2">
-                    <button className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    <button
+                      onClick={() => {
+                        isVisibleFunctionEditProduct();
+                        setProductDetails({
+                          _id,
+                          name,
+                          price,
+                          quantity,
+                          image,
+                          slug,
+                          stars,
+                          tag,
+                          numOfReviews,
+                          discountedPrice,
+                          description,
+                          category,
+                          specialCategory,
+                        });
+                      }}
+                      className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
                       Edit
                     </button>
-                    <button className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                    <button
+                      onClick={() => DeleteProduct(_id)}
+                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
                       Delete
                     </button>
                   </td>

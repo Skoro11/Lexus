@@ -2,13 +2,13 @@
 
 GET {{baseUrl}}/api/product/all
 
-###
+### Add a new Product
 
 POST {{baseUrl}}/api/product/add
 Content-Type: application/json
 
 {
-  "slug": "breed-dry-dog-food",
+  "slug": "breed-dry-dog-foode",
   "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
   "stars": 5,
   "name": "Breed Dry Dog Food",
@@ -21,5 +21,24 @@ Content-Type: application/json
   "specialCategory": "Flash Sales"
 }
 
+### Remove Product
+
+DELETE {{baseUrl}}/api/product/remove
+Content-Type: application/json
+
+{
+  "_id":"68650b14314898ed2ba73668"
+}
+
+###
+PUT {{baseUrl}}/api/product/edit
+Content-Type: application/json
+
+{
+  "_id":"68628375edf189cb6baa0da1",
+  "name":"Nothing"
+}
+
+
 ### Get all products
-GET {{baseUrl}}/api/product/store
+GET {{baseUrl}}/api/product/all

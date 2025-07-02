@@ -109,6 +109,64 @@ export async function AddProduct(req, res) {
   }
 }
 
+export async function RemoveProduct(req, res) {
+  const { _id } = req.body;
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(_id);
+    if (!deletedProduct) {
+      res.status(404).json({ message: "Product not found" });
+    }
+    if (deletedProduct) {
+      res.status(200).json({ deletedProduct: deletedProduct });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+export async function EditProduct(req, res) {
+  const {
+    category,
+    description,
+    discountedPrice,
+    image,
+    name,
+    numOfReviews,
+    price,
+    quantity,
+    slug,
+    specialCategory,
+    stars,
+    tag,
+    _id,
+  } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      _id,
+      {
+        category,
+        description,
+        discountedPrice,
+        image,
+        name,
+        numOfReviews,
+        price,
+        quantity,
+        slug,
+        specialCategory,
+        stars,
+        tag,
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (updatedProduct)
+      res.status(200).json({ updatedProduct: updatedProduct });
+    if (!updatedProduct) res.status(404).json({ message: "Product not found" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 export async function AllProducts(req, res) {
   try {
     const response = await Product.find({});

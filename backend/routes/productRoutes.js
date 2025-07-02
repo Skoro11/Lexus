@@ -4,9 +4,11 @@ import {
   AllProducts,
   allProducts,
   bestSellingProducts,
+  EditProduct,
   exploreProducts,
   fetchById,
   flashSaleProducts,
+  RemoveProduct,
   searchByQuery,
 } from "../controllers/product.controller.js";
 
@@ -21,5 +23,7 @@ router.get("/:id", fetchById);
 
 router.get("/", searchByQuery);
 router.post("/add", AddProduct);
+router.delete("/remove", RemoveProduct);
+router.put("/edit", EditProduct);
 
 export default router;
