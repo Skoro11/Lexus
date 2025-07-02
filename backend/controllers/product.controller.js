@@ -1,58 +1,17 @@
-import { products } from "../config/localDB.js";
 import Product from "../models/product.model.js";
 
-export async function allProducts(req, res) {
-  try {
-    res.status(200).json({ products });
-  } catch (error) {
-    res.send(500).json({ message: error });
-  }
-}
-
-export async function flashSaleProducts(req, res) {
-  try {
-    const flashSaleProducts = products.filter(
-      (product) => product.specialCategory === "Flash Sales"
-    );
-    res.status(200).json({ flashSaleProducts });
-  } catch (error) {
-    res.send(500).json({ message: error });
-  }
-}
-
-export async function bestSellingProducts(req, res) {
-  try {
-    const bestSellingProducts = products.filter(
-      (product) => product.specialCategory === "Best Selling"
-    );
-    res.status(200).json({ bestSellingProducts });
-  } catch (error) {
-    res.status(500).json({ message: error });
-  }
-}
-
-export async function exploreProducts(req, res) {
-  try {
-    const exploreProducts = products.filter(
-      (product) => product.specialCategory === "Explore"
-    );
-    res.status(200).json({ exploreProducts });
-  } catch (error) {
-    res.status(500).json({ message: error });
-  }
-}
-
-export function fetchById(req, res) {
+export async function fetchById(req, res) {
   try {
     const { id } = req.params;
-    const IdItem = products.filter((product) => product._id == `${id}`);
-    res.status(200).json({ IdItem });
+
+    const idItem = await Product.find({ _id: id });
+    res.status(200).json({ product: idItem });
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: error.message });
   }
 }
 
-export function searchByQuery(req, res) {
+export async function searchByQuery(req, res) {
   try {
     const searchTerm = req.query.search;
 
@@ -63,9 +22,8 @@ export function searchByQuery(req, res) {
 
     const regex = new RegExp(searchTerm, "i");
 
-    const filteredProducts = products.filter((product) =>
-      regex.test(product.name)
-    );
+    // Query DB for products where the name matches regex (case-insensitive)
+    const filteredProducts = await Product.find({ name: { $regex: regex } });
 
     res.status(200).json({ filteredProducts });
   } catch (error) {
@@ -73,6 +31,23 @@ export function searchByQuery(req, res) {
   }
 }
 
+export async function filterProductsByCategory(req, res) {
+  try {
+    const { specialCategory } = req.body;
+
+    const foundedItems = await Product.find({
+      specialCategory: specialCategory,
+    });
+    if (foundedItems.length > 0)
+      res
+        .status(200)
+        .json({ specialCategory: specialCategory, products: foundedItems });
+    if (foundedItems.length < 1)
+      res.status(404).json({ message: "Items not found" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 export async function AddProduct(req, res) {
   try {
     const {
@@ -108,7 +83,16 @@ export async function AddProduct(req, res) {
     console.log("AddProduct error", error.message);
   }
 }
+export async function AddMultipleProducts(req, res) {
+  try {
+    const arrayOfProducts = req.body;
 
+    const response = await Product.insertMany(arrayOfProducts);
+    res.status(200).json({ insertedItems: response });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 export async function RemoveProduct(req, res) {
   const { _id } = req.body;
   try {

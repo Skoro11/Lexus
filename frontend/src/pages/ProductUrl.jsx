@@ -35,7 +35,7 @@ function ProductUrl() {
         console.log(dataAll);
 
         if (response) {
-          setProduct(data.product);
+          setProduct(data.product[0]);
           setAllProducts(dataAll.products);
         } else {
           console.log({
@@ -50,7 +50,7 @@ function ProductUrl() {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [id, API_BASE_URL]);
 
   if (!product) return <div>Loading...</div>;
 

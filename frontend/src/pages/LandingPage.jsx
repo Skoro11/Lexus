@@ -16,33 +16,24 @@ export function LandingPage() {
   const [bestSelling, setBestSelling] = useState([]);
   const [exploreProducts, setExploreProducts] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const responseFlash = await axios.get(
-          `${API_BASE_URL}/api/product/flash_sales`
-        );
-        const responseSelling = await axios.get(
-          `${API_BASE_URL}/api/product/best_selling`
-        );
-        const responseExplore = await axios.get(
-          `${API_BASE_URL}/api/product/explore`
-        );
-
-        if (responseFlash.status === 200)
-          setFlashProducts(responseFlash.data.flashSaleProducts);
-        if (responseSelling.status === 200)
-          setBestSelling(responseSelling.data.bestSellingProducts);
-        if (responseExplore.status === 200)
-          setExploreProducts(responseExplore.data.exploreProducts);
-        else {
-          console.log("Unsuccessful fetch");
-        }
-      } catch (error) {
-        console.log(error);
+  async function filterProducts(specialCategory, setProducts) {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/product/search`, {
+        specialCategory: specialCategory,
+      });
+      if (response.status === 200) {
+        console.log("Items are fetched");
+        setProducts(response.data.products);
       }
+    } catch (error) {
+      console.log("Error with filtering products", error.message);
     }
-    fetchData();
+  }
+
+  useEffect(() => {
+    filterProducts("Flash Sales", setFlashProducts);
+    filterProducts("Best Selling", setBestSelling);
+    filterProducts("Explore", setExploreProducts);
   }, []);
 
   return (

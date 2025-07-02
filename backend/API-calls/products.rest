@@ -21,6 +21,41 @@ Content-Type: application/json
   "specialCategory": "Flash Sales"
 }
 
+### Add multiple products
+POST {{baseUrl}}/api/product/multiple
+Content-Type: application/json
+
+[
+  {
+   "slug": "breed-dry-dog-food",
+  "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
+  "stars": 5,
+  "name": "Breed Dry Dog Food",
+  "price": 100,
+  "tag": "-40%",
+  "numOfReviews": 35,
+  "discountedPrice": 140,
+  "description": "High-quality dry dog food specially formulated for specific breeds. Packed with essential nutrients to keep your pet healthy and strong.",
+  "category": "Pet Supplies",
+  "specialCategory": "Flash Sales"
+  },
+  {
+    "slug": "canon-eos-dslr-camera",
+    "image":
+      "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347588/Camera_lkva3j.png",
+    "stars": 5,
+    "name": "CANON EOS DSLR Camera",
+    "price": 360,
+    "numOfReviews": 95,
+    "tag": "New",
+    "discountedPrice": 380,
+    "description":
+      "Capture stunning photos and videos with this versatile DSLR camera from Canon, offering excellent image quality and performance.",
+    "category": "Electronics",
+    "specialCategory": "Best Selling"
+  }
+
+]
 ### Remove Product
 
 DELETE {{baseUrl}}/api/product/remove
@@ -30,7 +65,7 @@ Content-Type: application/json
   "_id":"68650b14314898ed2ba73668"
 }
 
-###
+### Edit product 
 PUT {{baseUrl}}/api/product/edit
 Content-Type: application/json
 
@@ -39,6 +74,17 @@ Content-Type: application/json
   "name":"Nothing"
 }
 
+### Filter items based on category
+POST {{baseUrl}}/api/product/search
+Content-Type: application/json
+
+{
+  "specialCategory":"Flash Sales"
+}
+
+
+### Find by ID
+GET {{baseUrl}}/api/product/68655d43af0d379d60a631ac
 
 ### Get all products
 GET {{baseUrl}}/api/product/all

@@ -57,15 +57,38 @@ const Admin = () => {
   );
 };
 
-const Dashboard = () => (
-  <div>
-    <h1 className="text-3xl font-semibold mb-4">Multiple Product insertion</h1>
+function Dashboard() {
+  const [jsonData, setJsonData] = useState("");
 
-    <textarea
-      className="w-2/4 min-h-200 border bg-white rounded p-3 font-mono whitespace-pre-wrap"
-      placeholder={`JSON type data:
-Example:
-{
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const parsedData = JSON.parse(jsonData);
+      const response = await axios.post(
+        `${API_BASE_URL}/api/product/multiple`,
+        parsedData
+      );
+      if (response.status === 200) alert("Items added");
+      if (response.status !== 200) alert("Problems with adding multiple items");
+    } catch (error) {
+      console.log("Erorr inserting multiple items", error.message);
+    }
+  }
+  return (
+    <div>
+      <h1 className="text-3xl font-semibold mb-4">
+        Multiple Product insertion
+      </h1>
+      <form onSubmit={handleSubmit} className="flex">
+        <textarea
+          value={jsonData}
+          onChange={(e) => setJsonData(e.target.value)}
+          className="w-2/4 min-h-200 border bg-white rounded p-3 font-mono whitespace-pre-wrap"
+          placeholder={`JSON type data:
+Example: 
+[ 
+  {
   "slug": "breed-dry-dog-food",
   "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
   "stars": 5,
@@ -77,10 +100,29 @@ Example:
   "description": "High-quality dry dog food specially formulated for specific breeds. Packed with essential nutrients to keep your pet healthy and strong.",
   "category": "Pet Supplies",
   "specialCategory": "Flash Sales"
-}`}
-    ></textarea>
-  </div>
-);
+  },
+  {
+    "slug": "canon-eos-dslr-camera",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347588/Camera_lkva3j.png",
+    "stars": 5,
+    "name": "CANON EOS DSLR Camera",
+    "price": 360,
+    "numOfReviews": 95,
+    "tag": "New",
+    "discountedPrice": 380,
+    "description":
+      "Capture stunning photos and videos with this versatile DSLR camera from Canon, offering excellent image quality and performance.",
+    "category": "Electronics",
+    "specialCategory": "Best Selling"
+  }
+
+]`}
+        ></textarea>
+        <button className="border">Submit</button>
+      </form>
+    </div>
+  );
+}
 
 function Products() {
   const [isVisibleAddProduct, setIsVisibleAddProduct] = useState(false);

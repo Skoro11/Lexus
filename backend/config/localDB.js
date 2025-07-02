@@ -37,7 +37,6 @@ export const db = [
 
 export const products = [
   {
-    _id: 1,
     slug: "breed-dry-dog-food",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
@@ -53,7 +52,6 @@ export const products = [
     specialCategory: "Flash Sales",
   },
   {
-    _id: 2,
     slug: "canon-eos-dslr-camera",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347588/Camera_lkva3j.png",
@@ -69,7 +67,6 @@ export const products = [
     specialCategory: "Best Selling",
   },
   {
-    _id: 3,
     slug: "asus-fhd-gaming-laptop",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347729/Laptop_m63p40.png",
@@ -85,7 +82,6 @@ export const products = [
     specialCategory: "Flash Sales",
   },
   {
-    _id: 4,
     slug: "curology-product-set",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347626/Curology_dpnoua.png",
@@ -101,7 +97,6 @@ export const products = [
     specialCategory: "Explore",
   },
   {
-    _id: 5,
     slug: "kids-electric-car",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347593/Car_qi5jaq.png",
@@ -117,7 +112,6 @@ export const products = [
     specialCategory: "Best Selling",
   },
   {
-    _id: 6,
     slug: "jr-zoom-soccer-cleats",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347608/Cleats_nahfff.png",
@@ -133,7 +127,6 @@ export const products = [
     specialCategory: "Explore",
   },
   {
-    _id: 7,
     slug: "gp11-shooter-usb-gamepad",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347632/Gamepad_cqxvly.png",
@@ -149,7 +142,6 @@ export const products = [
     specialCategory: "Flash Sales",
   },
   {
-    _id: 8,
     slug: "quilted-satin-jacket",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347738/Quilted_y3s7pp.png",
@@ -165,7 +157,6 @@ export const products = [
     specialCategory: "Explore",
   },
   {
-    _id: 9,
     slug: "product-a-bag",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347570/bag_c509is.png",
@@ -181,7 +172,6 @@ export const products = [
     specialCategory: "Best Selling",
   },
   {
-    _id: 10,
     slug: "rain-coat",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347716/jacket_bwmnew.png",
@@ -197,7 +187,6 @@ export const products = [
     specialCategory: "Explore",
   },
   {
-    _id: 11,
     slug: "product-e-monitor",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347734/monitor_bawbru.png",
@@ -213,7 +202,6 @@ export const products = [
     specialCategory: "Flash Sales",
   },
   {
-    _id: 12,
     slug: "kitchen-chair",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347600/chair_cjchjd.png",
@@ -229,7 +217,6 @@ export const products = [
     specialCategory: "Flash Sales",
   },
   {
-    _id: 13,
     slug: "cooler",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347618/cooler_wlrrm0.png",
@@ -245,7 +232,6 @@ export const products = [
     specialCategory: "Best Selling",
   },
   {
-    _id: 14,
     slug: "flash-joystick",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347719/joystickFlash_iu80fa.png",
@@ -261,7 +247,6 @@ export const products = [
     specialCategory: "Flash Sales",
   },
   {
-    _id: 15,
     slug: "mechanical-keyboard",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347724/keyboard_ya3q0n.png",
@@ -277,7 +262,6 @@ export const products = [
     specialCategory: "Explore",
   },
   {
-    _id: 16,
     slug: "shelf",
     image:
       "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347742/shelf_u3cg5c.png",
