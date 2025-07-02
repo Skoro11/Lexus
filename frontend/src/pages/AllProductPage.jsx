@@ -67,7 +67,7 @@ function AllProductsPage() {
           </div>
         </div>
 
-        <div className=" grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
+        <div className=" grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 mb-10">
           {shouldRender &&
             allProduct.map((product) => (
               <div key={product._id}>
