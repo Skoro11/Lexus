@@ -125,7 +125,11 @@ function Carousel({ main, title, products, component }) {
                   {product.tag}
                 </div>
                 <Link to={`/product/${product._id}`}>
-                  <img className="w-full rounded-xl " src={product.image} />
+                  <img
+                    className="w-full rounded-xl "
+                    alt="Product"
+                    src={product.image}
+                  />
                 </Link>
 
                 <div className="text-xs pt-2 truncate overflow-hidden whitespace-nowrap">

@@ -55,9 +55,9 @@ function ProductUrl() {
   if (!product) return <div>Loading...</div>;
 
   return (
-    <section className="my-12  ">
-      <div className="mx-8">
-        <div className="max-w-[1170px] mx-auto md:flex justify-between ">
+    <section className="md:my-12 max-w-[1170px] mx-auto">
+      <div className="mx-4 md:mx-8">
+        <div className=" mx-auto md:flex justify-between ">
           <div className="hidden md:flex flex-col w-1/10 justify-between">
             <img src={product.image} alt={product.name} />
             <img src={product.image} alt={product.name} />
@@ -73,7 +73,9 @@ function ProductUrl() {
 
           <div className="md:w-3/7">
             <div className="flex justify-between items-center">
-              <h2 className="mt-5 md:mt-0 text-2xl">{product.name}</h2>
+              <h2 className="mt-5 md:mt-0 text-xl md:text-2xl">
+                {product.name}
+              </h2>
               <img
                 className="mt-5 md:mt-0"
                 src={
@@ -97,8 +99,12 @@ function ProductUrl() {
               ({product.numOfReviews}) |{" "}
               <span className="pl-1 text-green-600">In Stock</span>
             </div>
-            <div className="text-2xl">{product.price}$</div>
-            <div className="mb-2">{product.description}</div>
+            <div className="font-bold md:font-medium md:text-2xl">
+              {product.price}$
+            </div>
+            <div className="mb-2 text-sm md:text-base">
+              {product.description}
+            </div>
 
             <div>
               <button

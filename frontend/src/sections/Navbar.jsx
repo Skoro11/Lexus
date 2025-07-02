@@ -112,7 +112,7 @@ function Navbar() {
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
         <span className="underline">Shop now</span>
       </div>
-      <nav className="mobile bg-white mobile py-2 md:hidden ">
+      <nav className="mobile bg-white py-2 md:hidden ">
         <div className="pl-4 text-3xl font-bold bg-white py-4 flex justify-between text-black items-center">
           <a href="/">Lexus</a>
           <div className="flex w-40 pr-4 justify-between items-center">
@@ -236,12 +236,12 @@ function Navbar() {
         )}
       </nav>
 
-      <nav className="py-0 mx-auto relative max-w-[1230px] md:flex justify-between items-center px-7.5 md:py-3.5 bg-white">
+      <nav className="py-0 hidden mx-auto relative max-w-[1230px] md:flex justify-between items-center px-7.5 md:py-3.5 bg-white">
         {filteredItems.length > 0 && (
           <div className="absolute hidden md:block z-20 w-full top-full left-0 bg-white text-black px-4 md:px-6 max-w-[1230px] p-3 border-t border-gray-300">
             <div className="w-full border rounded-lg overflow-hidden max-h-[350px] overflow-y-auto">
               {/* Table Header */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 bg-gray-100 font-semibold text-center p-3 border-b text-sm md:text-base sticky top-0 z-10 bg-gray-100">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 bg-gray-100 font-semibold text-center p-3 border-b text-sm md:text-base sticky top-0 z-10 ">
                 <div>Product</div>
                 <div>Price</div>
                 <div className="hidden sm:block">Stock</div>
