@@ -10,7 +10,22 @@ import {
   X,
   UserPlus,
 } from "lucide-react";
-import isLoggedIn from "../sections/Navbar";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const handleLogout = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  window.location.reload();
+
+  if (response.ok) {
+    // Successfully logged out
+    window.location.reload();
+  } else {
+    console.error("Logout failed");
+  }
+};
 
 export function Sidebar({ isOpen, onClose }) {
   return (
@@ -67,7 +82,7 @@ export function Sidebar({ isOpen, onClose }) {
           </li>
           <li className="flex items-center space-x-3 hover:text-blue-600 transition">
             <LogOut className="w-5 h-5" />
-            <button>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </li>
         </ul>
       </div>
@@ -75,7 +90,7 @@ export function Sidebar({ isOpen, onClose }) {
   );
 }
 
-export function SidebarToggleButton({ onClick }) {
+export function SidebarToggleButton({ onClick, isLoggedIn }) {
   return (
     <button onClick={onClick}>
       <img
@@ -83,8 +98,8 @@ export function SidebarToggleButton({ onClick }) {
         alt="User Icon"
         className={
           isLoggedIn
-            ? " rounded-full bg-[#DB4444] cursor-pointer"
-            : " cursor-pointer"
+            ? "block rounded-full bg-[#DB4444] cursor-pointer"
+            : "block cursor-pointer"
         }
       />
     </button>

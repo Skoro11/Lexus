@@ -153,7 +153,10 @@ function Navbar() {
               </div>
             </a>
 
-            <SidebarToggleButton onClick={() => setIsOpen(true)} />
+            <SidebarToggleButton
+              onClick={() => setIsOpen(true)}
+              isLoggedIn={isLoggedIn}
+            />
           </div>
         </div>
         {showItem && (
