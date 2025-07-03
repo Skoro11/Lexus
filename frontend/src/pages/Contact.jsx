@@ -49,16 +49,16 @@ function ContactPage() {
   };
 
   return (
-    <section className="mx-8 my-12">
+    <section className=" mx-4 md:mx-8 md:my-12 ">
       <div className="max-w-[1170px] mx-auto">
-        <div className="mb-10 flex">
+        <div className="hidden mb-10 md:flex">
           <a className="hidden md:block text-gray-500" href="/">
             Home
           </a>{" "}
           / Sign Up
         </div>
 
-        <div className="justify-between flex gap ">
+        <div className="md:justify-between md:flex md:gap ">
           <div className="hidden lg:block w-4/12  p-8 border rounded-2xl shadow-2xl border-gray-400">
             <ul className="flex flex-col">
               <li className="flex items-center font-bold pb-2">
@@ -82,13 +82,16 @@ function ContactPage() {
             </ul>
           </div>
 
-          <div className="w-full max-w-160 mx-auto lg:mx-0 lg:w-7/12 p-8 border border-gray-400 rounded-2xl">
+          <div className="w-full md:max-w-160 mx-auto lg:mx-0 lg:w-7/12 px-4 py-8 md:p-8 border border-gray-400 rounded-2xl">
             <form onSubmit={handleSubmit}>
-              <div className="gap-4 flex">
+              <div className="flex-col md:gap-4 flex md:flex-row ">
+                <div className="md:hidden text-center text-xl mb-4">
+                  Send us a message
+                </div>
                 <input
                   type="text"
-                  className="w-1/3 pl-3 border rounded bg-gray-100 border-gray-400"
-                  placeholder="Your Name*"
+                  className="md:w-1/3 md:pl-3 py-1 border-b-1 md:border md:rounded mb-4 md:mb-0 md:bg-gray-100 border-gray-400"
+                  placeholder="Your Name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
@@ -97,8 +100,8 @@ function ContactPage() {
 
                 <input
                   type="email"
-                  className="w-1/3 pl-3 border rounded bg-gray-100 border-gray-400"
-                  placeholder="Your Email*"
+                  className="md:w-1/3 md:pl-3 py-1 border-b-1 md:border md:rounded mb-4 md:mb-0 md:bg-gray-100 border-gray-400"
+                  placeholder="Your Email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
@@ -107,8 +110,8 @@ function ContactPage() {
 
                 <input
                   type="text"
-                  className="w-1/3 pl-3 border rounded bg-gray-100 border-gray-400"
-                  placeholder="Your Phone*"
+                  className="md:w-1/3 md:pl-3 py-1 border-b-1 md:border md:rounded mb-0 md:bg-gray-100 border-gray-400"
+                  placeholder="Your Phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
@@ -118,8 +121,8 @@ function ContactPage() {
 
               <div className="mt-6">
                 <textarea
-                  className="w-full pl-3 pt-3 min-h-40 border rounded bg-gray-100 border-gray-400"
-                  placeholder="Your Message"
+                  className="w-full pl-3 pt-3 min-h-40 border rounded md:bg-gray-100 border-gray-400"
+                  placeholder="Your Message goes here..."
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
@@ -128,7 +131,7 @@ function ContactPage() {
               </div>
 
               <button
-                className="float-right outline py-2 px-4 rounded bg-[#db4444] text-white hover:opacity-50 hover-change pointer"
+                className="w-full md:w-1/4 md:float-right outline py-2 px-4 rounded-3xl md:rounded bg-[#db4444] text-white hover:opacity-50 hover-change pointer"
                 type="submit"
               >
                 Send Message

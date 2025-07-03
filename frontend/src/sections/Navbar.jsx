@@ -20,7 +20,7 @@ function Navbar() {
   const [notification, setNotification] = useState(""); // Store notification message
   const [notificationType, setNotificationType] = useState("");
   const [user, setUser] = useState(null);
-  const [sidebar, setSidebar] = useState(true);
+
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
   const [showItem, setShowItem] = useState(false);
@@ -96,11 +96,6 @@ function Navbar() {
     if (showItem === false) setShowItem(true);
   }
 
-  function showSidebar() {
-    if (!sidebar) setSidebar(true);
-    if (sidebar) setSidebar(false);
-    console.log("Clicked");
-  }
   return (
     <div className="sticky top-0 z-10 md:border-b md:border-b-[#02020226] bg-white">
       {logoutMessage && (
