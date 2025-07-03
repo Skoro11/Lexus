@@ -5,6 +5,7 @@ import axios from "axios";
 
 // Importing React Icons
 import { FaSignOutAlt } from "react-icons/fa";
+import { Sidebar, SidebarToggleButton } from "../components/sidebar";
 
 function Navbar() {
   // State to toggle dropdown visibility
@@ -19,8 +20,9 @@ function Navbar() {
   const [notification, setNotification] = useState(""); // Store notification message
   const [notificationType, setNotificationType] = useState("");
   const [user, setUser] = useState(null);
+  const [sidebar, setSidebar] = useState(true);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+  const [isOpen, setIsOpen] = useState(false);
   const [showItem, setShowItem] = useState(false);
 
   function changeText(event) {
@@ -93,6 +95,12 @@ function Navbar() {
     if (showItem === true) setShowItem(false);
     if (showItem === false) setShowItem(true);
   }
+
+  function showSidebar() {
+    if (!sidebar) setSidebar(true);
+    if (sidebar) setSidebar(false);
+    console.log("Clicked");
+  }
   return (
     <div className="sticky top-0 z-10 md:border-b md:border-b-[#02020226] bg-white">
       {logoutMessage && (
@@ -107,6 +115,8 @@ function Navbar() {
           {notification}
         </div>
       )}
+
+      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
       <div className="hidden md:block bg-black text-sm md:bg-yellow-500 lg:bg-black py-4 text-white text-center ">
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
@@ -147,17 +157,8 @@ function Navbar() {
                 )}
               </div>
             </a>
-            <div>
-              <img
-                src={isLoggedIn ? "user-active.png" : "user-icon.png"}
-                alt="User Icon"
-                className={
-                  isLoggedIn
-                    ? " rounded-full bg-[#DB4444] cursor-pointer float-right"
-                    : "  cursor-pointer float-right"
-                }
-              />
-            </div>
+
+            <SidebarToggleButton onClick={() => setIsOpen(true)} />
           </div>
         </div>
         {showItem && (
