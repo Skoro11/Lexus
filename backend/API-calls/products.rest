@@ -70,8 +70,8 @@ PUT {{baseUrl}}/api/product/edit
 Content-Type: application/json
 
 {
-  "_id":"68628375edf189cb6baa0da1",
-  "name":"Nothing"
+  "_id":"68655d43af0d379d60a631ac",
+  "name":"Breed dog food"
 }
 
 ### Filter items based on category
@@ -79,7 +79,7 @@ POST {{baseUrl}}/api/product/search
 Content-Type: application/json
 
 {
-  "specialCategory":"Flash Sales"
+  "specialCategory":"Flash Sale"
 }
 
 

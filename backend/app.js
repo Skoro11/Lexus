@@ -31,4 +31,5 @@ app.use("/api/likelist", authenticateToken, LikeListRoutes);
 app.get("/", (req, res) => {
   res.send("Backend");
 });
+app.get("/apilet/red", (req, res) => res.json({ success: true }));
 export default app;

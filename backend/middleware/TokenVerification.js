@@ -1,13 +1,10 @@
-import dotenv from "dotenv"
-import jwt from "jsonwebtoken"
-dotenv.config()
-
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+dotenv.config();
 
 export function authenticateToken(req, res, next) {
- 
   const authHeader = req.headers["authorization"];
   let token = authHeader && authHeader.split(" ")[1];
-
   // If no token in header, check cookie
   if (!token && req.cookies) {
     token = req.cookies.accessToken;
@@ -18,10 +15,9 @@ export function authenticateToken(req, res, next) {
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: "Access token is invalid" });
+    if (err)
+      return res.status(403).json({ message: "Access token is invalid" });
     req.user = user;
     next();
   });
 }
-
-
