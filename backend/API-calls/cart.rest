@@ -8,7 +8,7 @@ Authorization: Bearer {{bearerToken}}
 Content-Type: application/json
 
 {
-    "_id":"68655d43af0d379d60a631ad"
+    "_id":"68655d43af0d379d60a631ac"
 }
 
 ### Subtract product quantity by 1

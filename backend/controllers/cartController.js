@@ -71,7 +71,7 @@ export async function RemoveFromCart(req, res) {
 
     // Safely get user's cart, defaulting to empty array if not set
     const userCart = foundedUser.cart || [];
-
+    console.log("User cart", userCart);
     // Filter out the item with the given _id
     const updatedCart = userCart.filter(
       (item) => item._id.toString() !== productId
@@ -117,15 +117,16 @@ export async function GetCartItems(req, res) {
     }
     const userCart = foundedUser.cart || [];
 
-    console.log(userCart[0]);
-
     for (const cartItem of userCart) {
       let item = cartItem._id;
+      let quantity = cartItem.quantity;
       let response = await Product.findById(item);
-      console.log("Item", item);
-      console.log("Response", response);
+
+      response.quantity = quantity;
+
       productData.push(response);
     }
+
     res.status(200).json({ ProductData: productData });
   } catch (error) {
     console.error("GetCartItems error:", error);
