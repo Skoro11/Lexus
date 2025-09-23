@@ -1,0 +1,22 @@
+@BACKEND = http://localhost:3000
+
+
+###
+GET http://localhost:3000/
+
+###
+//Resend API 
+POST {{BACKEND}}/api/auth/resend
+Content-Type: application/json
+
+{
+    "name":"Toni",
+    "email":"test@gmail.com",
+    "phone":"983980982739",
+    "message":"This is my API test from REST CLIENT"
+}
+###
+GET {{BACKEND}}/api/product/flash_sales
+
+###
+GET {{BACKEND}}/api/product/all

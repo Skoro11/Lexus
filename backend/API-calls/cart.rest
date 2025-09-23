@@ -1,0 +1,38 @@
+@baseUrl=http://localhost:3000
+@bearerToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NjI1ZjFlMzQ3ZDBhZmI4MDUxMGFjYyIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3NTE2MDk4NjksImV4cCI6MTc1MjIxNDY2OX0.zhMHUOne9kA2oZynWV34M9xFbMFF6algV7AKmgNH21k
+
+
+### Add product quantity by one
+POST {{baseUrl}}/api/cart/add
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+{
+    "_id":"68655d43af0d379d60a631ac"
+}
+
+### Subtract product quantity by 1
+POST {{baseUrl}}/api/cart/subtract
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+{
+    "_id":"68655d43af0d379d60a631ac"
+}
+
+### Remove item from the cart
+POST {{baseUrl}}/api/cart/remove
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+{
+    "_id":"68655d43af0d379d60a631ac"
+}
+
+### Remove all products from the cart
+POST {{baseUrl}}/api/cart/remove/all
+Authorization: Bearer {{bearerToken}}
+
+### Get cart items
+GET {{baseUrl}}/api/cart/get
+Authorization: Bearer {{bearerToken}}
