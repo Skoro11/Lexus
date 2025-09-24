@@ -100,6 +100,7 @@ export const CartProvider = ({ children }) => {
     } else {
       const updatedCart = cart.filter((item) => item._id !== productId);
       setCart(updatedCart);
+      localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
     }
   }
 
@@ -193,6 +194,7 @@ export const CartProvider = ({ children }) => {
         console.log("Error with clearing the cart", error.message);
       }
     }
+    localStorage.removeItem("guest_cart");
     setCart([]);
   }
 
@@ -322,13 +324,36 @@ export const CartProvider = ({ children }) => {
 
         <div className="mt-23">
           <div className="py-4 fixed bottom-0 flex items-center justify-center bg-black w-full text-white">
-            Go to Checkout
+            <a href="/checkout">Go to Checkout</a>
           </div>
         </div>
       </div>
     );
   };
 
+  const showCartItemsMinimal = () => {
+    if (cart.length === 0) {
+      return <div className="mx-4">Your cart is empty</div>;
+    }
+    return (
+      <div className="">
+        {cart.map((item) => (
+          <div className="" key={item._id}>
+            <div className="flex items-center mb-2 ">
+              <img
+                className=" w-1/5 object-contain pr-5"
+                src={item.image}
+                alt={item.name}
+              />
+              <div>{item.name}</div>
+            </div>
+
+            <div></div>
+          </div>
+        ))}
+      </div>
+    );
+  };
   return (
     <CartContext.Provider
       value={{
@@ -342,6 +367,7 @@ export const CartProvider = ({ children }) => {
         showCartItems,
         ShowCartItemsMobile,
         moveAllToCart,
+        showCartItemsMinimal,
         loading, // Pass loading state to the consumers
       }}
     >
