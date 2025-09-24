@@ -39,7 +39,6 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (!isLoggedIn) {
       if (cart.length > 0) {
@@ -50,12 +49,6 @@ export const CartProvider = ({ children }) => {
         // Or you can just remove it completely
         // localStorage.removeItem("guest_cart");
       }
-=======
-  // Update localStorage whenever the cart changes
-  useEffect(() => {
-    if (cart.length > 0 && !isLoggedIn) {
-      localStorage.setItem("guest_cart", JSON.stringify(cart));
->>>>>>> d980f86d5bb7c747afbe7f2b9a6727d94bca4abc
     }
   }, [cart, isLoggedIn]);
 
