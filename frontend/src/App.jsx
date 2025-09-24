@@ -22,7 +22,7 @@ import Test from "./test";
 import { AuthProvider } from "./context/AuthContext";
 import Admin from "./pages/Admin";
 import LandingPage from "./pages/LandingPage";
-
+import CheckoutPage from "./pages/CheckoutPage";
 function App() {
   return (
     <Router>
@@ -77,7 +77,7 @@ function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/options" element={<MobileOptions />} />
                 <Route path="/test" element={<Test />} />
-
+                <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <MobileLinks /> <Footer />

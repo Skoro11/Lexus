@@ -75,9 +75,11 @@ const CartPage = () => {
               <span className="font-bold">Total:</span>
               <span className="font-bold">${calculateTotal()}</span>
             </div>
-            <button className="mt-5 text-white bg-[#db4444] py-3 px-6 rounded lg:float-right flex mx-auto pointer hover:opacity-50 hover-change">
-              Proceed to Checkout
-            </button>
+            <a href="/checkout">
+              <button className="mt-5 text-white bg-[#db4444] py-3 px-6 rounded lg:float-right flex mx-auto pointer hover:opacity-50 hover-change">
+                Proceed to Checkout
+              </button>
+            </a>
           </div>
         </div>
       </div>
