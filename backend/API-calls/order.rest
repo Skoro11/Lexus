@@ -1,0 +1,24 @@
+@baseUrl=http://localhost:3000
+
+
+POST {{baseUrl}}/order
+Content-Type: application/json
+
+    {
+    "billingDetails": {
+        "apartment": "",
+        "city": "New Delhi",
+        "email": "email@com",
+        "firstName":"Toni",
+        "phone":"2368936",
+        "street": "Leppestrasse"
+    },
+    "cart": [
+    { "id": "68658fd3dc48e452d0ea4040", "name": "HAVIT HV-G92 Gamepad", "quantity": 1 },
+    { "id": "68658fd3dc48e452d0ea4033", "name": "Breed Dry Dog Food", "quantity": 1 },
+    { "id": "68658fd3dc48e452d0ea403d", "name": "IPS LCD Gaming Monitor", "quantity": 1 },
+    { "id": "68658fd3dc48e452d0ea4039", "name": "Another Product", "quantity": 1 }
+  ],
+    "paymentMethod": "Payment Method"
+}
+

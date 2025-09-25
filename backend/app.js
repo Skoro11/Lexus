@@ -7,6 +7,8 @@ import productRoutes from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
 import LikeListRoutes from "./routes/LikeListRoutes.js";
 import { authenticateToken } from "./middleware/TokenVerification.js";
+import { AddOrder } from "./controllers/ordersController.js";
+
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
@@ -22,7 +24,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.post("/order", AddOrder);
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", authenticateToken, cartRoutes);

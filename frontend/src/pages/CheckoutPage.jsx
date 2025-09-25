@@ -1,6 +1,9 @@
 import { useCart } from "../context/ContextCart";
 import { useState } from "react";
+import axios from "axios";
 function CheckoutPage() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const validateForm = () => {
     // Check required inputs
     const { firstName, email, street, city, phone } = formData;
@@ -40,17 +43,31 @@ function CheckoutPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const submitForm = () => {
+  async function submitForm() {
     if (!validateForm()) return;
+    if (cart.length < 1) {
+      alert("Cart is empty");
+      return;
+    }
     const payload = {
       cart: cartSummary,
       paymentMethod: selectedPayment,
       billingDetails: formData,
     };
 
+    try {
+      const response = await axios.post(`${API_BASE_URL}/order`, payload);
+      if (response.status == 200) {
+        localStorage.removeItem("guest_cart");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("Error with axios CheckoutPage ", error.message);
+    }
+
     console.log("Payment information", payload);
     alert("Order placed successfully");
-  };
+  }
   const handleChange = (e) => {
     setSelectedPayment(e.target.value);
   };
