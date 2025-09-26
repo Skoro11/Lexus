@@ -1,7 +1,7 @@
 [
   {
     "slug": "breed-dry-dog-food",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661619/Cart_6_titm8x.png",
     "stars": 5,
     "name": "Breed Dry Dog Food",
     "price": 100,
@@ -10,11 +10,11 @@
     "discountedPrice": 140,
     "description": "High-quality dry dog food specially formulated for specific breeds. Packed with essential nutrients to keep your pet healthy and strong.",
     "category": "Pet Supplies",
-    "specialCategory": "Flash Sales"
+    "campaign": "Flash Sales"
   },
   {
     "slug": "canon-eos-dslr-camera",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347588/Camera_lkva3j.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758662156/Cart_10_b3rche.png",
     "stars": 5,
     "name": "CANON EOS DSLR Camera",
     "price": 360,
@@ -23,11 +23,11 @@
     "discountedPrice": 380,
     "description": "Capture stunning photos and videos with this versatile DSLR camera from Canon, offering excellent image quality and performance.",
     "category": "Electronics",
-    "specialCategory": "Best Selling"
+    "campaign": "Best Selling"
   },
   {
     "slug": "asus-fhd-gaming-laptop",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347729/Laptop_m63p40.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661465/Cart_4_lx3xrh.png",
     "stars": 4,
     "name": "ASUS FHD Gaming Laptop",
     "price": 700,
@@ -36,11 +36,11 @@
     "discountedPrice": 910,
     "description": "Powerful gaming laptop with a Full HD display, high-end GPU, and fast processor to give you an immersive gaming experience.",
     "category": "Electronics",
-    "specialCategory": "Flash Sales"
+    "campaign": "Flash Sales"
   },
   {
     "slug": "curology-product-set",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347626/Curology_dpnoua.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661744/Cart_m9z4tz.png",
     "stars": 5,
     "name": "Curology Product Set",
     "price": 500,
@@ -49,11 +49,11 @@
     "discountedPrice": 600,
     "description": "Customized skincare regimen designed for your unique needs. Helps with acne, wrinkles, and other skin concerns.",
     "category": "Beauty & Skincare",
-    "specialCategory": "Explore"
+    "campaign": "Explore"
   },
   {
     "slug": "kids-electric-car",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347593/Car_qi5jaq.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758662060/Cart_9_hayppf.png",
     "stars": 4,
     "name": "Kids Electric Car",
     "price": 960,
@@ -62,11 +62,11 @@
     "discountedPrice": 1056,
     "description": "A fun, battery-powered electric car for kids, offering hours of entertainment and outdoor play. Comes with safety features for peace of mind.",
     "category": "Toys & Games",
-    "specialCategory": "Best Selling"
+    "campaign": "Best Selling"
   },
   {
     "slug": "jr-zoom-soccer-cleats",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347608/Cleats_nahfff.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661923/Cart_8_vphgge.png",
     "stars": 4,
     "name": "Jr. Zoom Soccer Cleats",
     "price": 320,
@@ -75,11 +75,11 @@
     "discountedPrice": 350,
     "description": "High-performance soccer cleats designed for young athletes. Provides excellent traction and comfort for the best play on the field.",
     "category": "Sports & Outdoors",
-    "specialCategory": "Explore"
+    "campaign": "Explore"
   },
   {
     "slug": "gp11-shooter-usb-gamepad",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347632/Gamepad_cqxvly.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661559/Cart_5_htb2lc.png",
     "stars": 4,
     "name": "GP11 Shooter USB Gamepad",
     "price": 210,
@@ -88,11 +88,11 @@
     "discountedPrice": 273,
     "description": "Ergonomic USB gamepad designed for shooter games. Offers precision controls and comfortable gameplay for hours of fun.",
     "category": "Electronics",
-    "specialCategory": "Flash Sales"
+    "campaign": "Flash Sales"
   },
   {
     "slug": "quilted-satin-jacket",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347738/Quilted_y3s7pp.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661388/Cart_3_wzz61y.png",
     "stars": 5,
     "name": "Quilted Satin Jacket",
     "price": 599,
@@ -101,11 +101,11 @@
     "discountedPrice": 629,
     "description": "Stylish quilted satin jacket that offers both warmth and luxury. Perfect for chilly evenings or adding a touch of elegance to your wardrobe.",
     "category": "Fashion",
-    "specialCategory": "Explore"
+    "campaign": "Explore"
   },
   {
     "slug": "product-a-bag",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347570/bag_c509is.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758638786/Cart_1_ct2mb2.png",
     "stars": 3,
     "name": "Gucci duffle bag",
     "price": 10,
@@ -114,11 +114,11 @@
     "tag": "-50%",
     "description": "A versatile and affordable bag that’s perfect for everyday use, offering ample space and durability.",
     "category": "Accessories",
-    "specialCategory": "Best Selling"
+    "campaign": "Best Selling"
   },
   {
     "slug": "rain-coat",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347716/jacket_bwmnew.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758638583/Cart_rcanpf.png",
     "stars": 4,
     "name": "Rain Coat",
     "price": 40,
@@ -127,11 +127,11 @@
     "tag": "-20%",
     "description": "Comfortable and stylish jacket perfect for cooler weather, offering a casual yet fashionable look.",
     "category": "Fashion",
-    "specialCategory": "Explore"
+    "campaign": "Explore"
   },
   {
     "slug": "product-e-monitor",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347734/monitor_bawbru.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758638117/Frame_570_1_ouoxmm.png",
     "stars": 4,
     "name": "IPS LCD Gaming Monitor",
     "price": 50,
@@ -140,11 +140,11 @@
     "tag": "",
     "description": "Affordable and compact monitor with great resolution, ideal for home offices or casual gaming setups.",
     "category": "Electronics",
-    "specialCategory": "Flash Sales"
+    "campaign": "Flash Sales"
   },
   {
     "slug": "kitchen-chair",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347600/chair_cjchjd.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758638043/Frame_570_wmr9nm.png",
     "stars": 5,
     "name": "Kitchen Chair",
     "price": 120,
@@ -153,11 +153,11 @@
     "tag": "",
     "description": "Ergonomic gaming chair designed for long hours of comfort and support. Adjustable and sleek, perfect for gaming or work.",
     "category": "Furniture",
-    "specialCategory": "Flash Sales"
+    "campaign": "Flash Sales"
   },
   {
     "slug": "cooler",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347618/cooler_wlrrm0.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661830/Cart_7_zkr6wg.png",
     "stars": 4,
     "name": "RGB liquid CPU Cooler",
     "price": 89,
@@ -166,11 +166,11 @@
     "tag": "",
     "description": "Portable cooler with spacious capacity to keep your drinks and snacks fresh on the go. Ideal for outdoor adventures.",
     "category": "Outdoor Gear",
-    "specialCategory": "Best Selling"
+    "campaign": "Best Selling"
   },
   {
     "slug": "flash-joystick",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347719/joystickFlash_iu80fa.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758638200/Frame_570_2_ccpmso.png",
     "stars": 4,
     "name": "HAVIT HV-G92 Gamepad",
     "price": 50,
@@ -179,11 +179,11 @@
     "tag": "-15%",
     "description": "A high-quality joystick for gaming enthusiasts, featuring responsive controls and smooth gameplay experience.",
     "category": "Electronics",
-    "specialCategory": "Flash Sales"
+    "campaign": "Flash Sales"
   },
   {
     "slug": "mechanical-keyboard",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347724/keyboard_ya3q0n.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758638345/Frame_570_4_zdqfdd.png",
     "stars": 5,
     "name": "AK-900 Wired Keyboard",
     "price": 95,
@@ -192,11 +192,11 @@
     "tag": "-10%",
     "description": "A durable mechanical keyboard designed for fast typists and gamers, with customizable RGB lighting and responsive keys.",
     "category": "Electronics",
-    "specialCategory": "Explore"
+    "campaign": "Explore"
   },
   {
     "slug": "shelf",
-    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347742/shelf_u3cg5c.png",
+    "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1758661281/Cart_2_bqgrhh.png",
     "stars": 4,
     "name": "Small BookShelf",
     "price": 70,
@@ -205,6 +205,6 @@
     "tag": "",
     "description": "Stylish and functional wooden shelf perfect for any room, offering plenty of space for books, plants, or decor.",
     "category": "Furniture",
-    "specialCategory": "Best Selling"
+    "campaign": "Best Selling"
   }
 ]

@@ -33,15 +33,13 @@ export async function searchByQuery(req, res) {
 
 export async function filterProductsByCategory(req, res) {
   try {
-    const { specialCategory } = req.body;
+    const { campaign } = req.body;
 
     const foundedItems = await Product.find({
-      specialCategory: specialCategory,
+      campaign: campaign,
     });
     if (foundedItems.length > 0)
-      res
-        .status(200)
-        .json({ specialCategory: specialCategory, products: foundedItems });
+      res.status(200).json({ campaign: campaign, products: foundedItems });
     if (foundedItems.length < 1)
       res.status(404).json({ message: "Items not found" });
   } catch (error) {
@@ -61,7 +59,7 @@ export async function AddProduct(req, res) {
       discountedPrice,
       description,
       category,
-      specialCategory,
+      campaign,
     } = req.body;
 
     const response = await Product.create({
@@ -75,7 +73,7 @@ export async function AddProduct(req, res) {
       discountedPrice,
       description,
       category,
-      specialCategory,
+      campaign,
     });
     res.status(200).json({ response: response });
   } catch (error) {
@@ -93,6 +91,7 @@ export async function AddMultipleProducts(req, res) {
     res.status(500).json({ message: error.message });
   }
 }
+
 export async function RemoveProduct(req, res) {
   const { _id } = req.body;
   try {
@@ -118,7 +117,7 @@ export async function EditProduct(req, res) {
     price,
     quantity,
     slug,
-    specialCategory,
+    campaign,
     stars,
     tag,
     _id,
@@ -137,7 +136,7 @@ export async function EditProduct(req, res) {
         price,
         quantity,
         slug,
-        specialCategory,
+        campaign,
         stars,
         tag,
       },

@@ -7,29 +7,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const WatchlistPage = () => {
-  const {
-    watchlist,
-    clearWatchlist,
-    addToWatchlist,
-    getWatchlistItemsCount,
-    APIwatchList,
-  } = useWatchlist(); // Destructure functions and state from watchlist context
+  const { watchlist, clearWatchlist, addToWatchlist, getWatchlistItemsCount } =
+    useWatchlist(); // Destructure functions and state from watchlist context
   const { addToCart, moveAllToCart } = useCart(); // Get the cart functions
   const [filteredItems, setFilteredItems] = useState([]);
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
-  const [hasFetchedAPIList, setHasFetchedAPIList] = useState(false);
   // Function to handle adding all items to the cart and removing from watchlist
   const handleMoveAllToCart = () => {
-    console.log(APIwatchList);
-    APIwatchList.forEach((item) => {
-      console.log("Item", item);
-      addToCart(item);
-    });
-
     moveAllToCart(watchlist, addToCart, addToWatchlist);
     clearWatchlist(); // Move all items from watchlist to cart and clear watchlist
     setFilteredItems([]);
@@ -41,30 +27,11 @@ const WatchlistPage = () => {
   };
 
   useEffect(() => {
-    async function filteredProducts() {
-      if (isLoggedIn) {
-        const itemIds = APIwatchList.map((item) => item._id);
-        if (itemIds.length === 0) {
-          setFilteredItems([]);
-          return;
-        }
-        try {
-          const response = await axios.post(
-            `${API_BASE_URL}/api/watchlist/id`,
-            { ids: itemIds },
-            { withCredentials: true }
-          );
-          setFilteredItems(response.data.foundedItems || []);
-        } catch (error) {
-          console.log("Error with axios Watchlistpage /watchlist/id " + error);
-          setFilteredItems([]);
-        }
-      } else {
-        setFilteredItems(watchlist);
-      }
+    async function fetchData() {
+      setFilteredItems(watchlist);
     }
-    filteredProducts();
-  }, [APIwatchList, isLoggedIn, watchlist]);
+    fetchData();
+  }, [watchlist]);
 
   let list = filteredItems;
 

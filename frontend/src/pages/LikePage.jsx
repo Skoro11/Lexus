@@ -3,29 +3,15 @@ import { useCart } from "../context/ContextCart"; // Import for cart functionali
 import GetTag from "../components/Tags";
 import RenderStars from "../components/RenderStars";
 import { FaTrashAlt } from "react-icons/fa";
-import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const LikePage = () => {
-  const { likeList, clearAllLikes, addToLike, getLikeItemsCount, APIlikeList } =
-    useLike(); // Destructure functions and state from like context
+  const { likeList, clearAllLikes, addToLike, getLikeItemsCount } = useLike(); // Destructure functions and state from like context
   const { addToCart, moveAllToCart } = useCart(); // Get the cart functions
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [hasFetchedAPIList, setHasFetchedAPIList] = useState(false);
   const [filteredItems, setFilteredItems] = useState([]);
   // Function to handle adding all items to the cart and removing from like list
   const handleMoveAllToCart = () => {
-    if (isLoggedIn) {
-      console.log("APIlikeList", APIlikeList);
-      APIlikeList.forEach((item) => {
-        console.log("Item", item);
-        addToCart(item);
-      });
-    }
-
     moveAllToCart(likeList, addToCart, addToLike);
     clearAllLikes(); // Move all items from like list to cart
     setFilteredItems([]);
@@ -38,31 +24,11 @@ const LikePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (isLoggedIn) {
-        const itemIds = APIlikeList.map((item) => item._id);
-        if (itemIds.length === 0) {
-          setFilteredItems([]);
-          return;
-        }
-
-        try {
-          const response = await axios.post(
-            `${API_BASE_URL}/api/likelist/id`,
-            { ids: itemIds },
-            { withCredentials: true }
-          );
-          setFilteredItems(response.data.foundedItems || []);
-        } catch (error) {
-          console.error("Error fetching liked products:", error);
-          setFilteredItems([]);
-        }
-      } else {
-        setFilteredItems(likeList);
-      }
+      setFilteredItems(likeList);
     };
 
     fetchData();
-  }, [isLoggedIn, APIlikeList, likeList]);
+  }, [likeList]);
 
   let list = filteredItems;
 

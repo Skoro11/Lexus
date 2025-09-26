@@ -1,40 +1,21 @@
+// Components
 import Carousel from "../components/Carousel";
+import Clock from "../components/Clock";
+import { SlickCategories } from "../components/Slick-categories";
+
+// Sections
 import Hero from "../sections/Hero";
 import CategorySection from "../sections/CategorySection";
 import Banner from "../sections/Banner";
-import Services from "../sections/Services";
 import NewArrival from "../sections/NewArrival";
-import { useEffect, useState } from "react";
-import Clock from "../components/Clock";
-import axios from "axios";
-import { SlickCategories } from "../components/Slick-categories";
+import Services from "../sections/Services";
+
+import { useCampaignProducts } from "../hooks/useCampaignProducts";
 
 export function LandingPage() {
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-  const [flashProducts, setFlashProducts] = useState([]);
-  const [bestSelling, setBestSelling] = useState([]);
-  const [exploreProducts, setExploreProducts] = useState([]);
-
-  async function filterProducts(specialCategory, setProducts) {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/product/search`, {
-        specialCategory: specialCategory,
-      });
-      if (response.status === 200) {
-        console.log("Items are fetched");
-        setProducts(response.data.products);
-      }
-    } catch (error) {
-      console.log("Error with filtering products", error.message);
-    }
-  }
-
-  useEffect(() => {
-    filterProducts("Flash Sales", setFlashProducts);
-    filterProducts("Best Selling", setBestSelling);
-    filterProducts("Explore", setExploreProducts);
-  }, []);
+  const { days, hours, minutes, seconds } = Clock();
+  const { flashProducts, bestSelling, exploreProducts, isLoading, error } =
+    useCampaignProducts();
 
   return (
     <section>
@@ -45,14 +26,24 @@ export function LandingPage() {
         main="Today"
         component={<Clock />}
         products={flashProducts}
+        isLoading={isLoading}
+        error={error}
       />
       <CategorySection />
-      <Carousel title="Best Selling" main="This Month" products={bestSelling} />
+      <Carousel
+        title="Best Selling"
+        main="This Month"
+        products={bestSelling}
+        isLoading={isLoading}
+        error={error}
+      />
       <Banner />
       <Carousel
         title="Explore Our Products"
         main="Our Products"
         products={exploreProducts}
+        isLoading={isLoading}
+        error={error}
       />
 
       <NewArrival />

@@ -55,7 +55,7 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    specialCategory: {
+    campaign: {
       type: String,
       required: true,
     },

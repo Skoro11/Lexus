@@ -1,74 +1,42 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { VscChevronUp, VscChevronDown, VscClose } from "react-icons/vsc";
-import axios from "axios";
-import { useAuth } from "./AuthContext";
 
 // Create Context
 const CartContext = createContext();
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // CartProvider Component to wrap the root of the app (or part of the component tree)
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state for fetch
   const [showPopup, setShowPopup] = useState(false); // Popup visibility state
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  async function getUserCart() {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/api/cart/get`, {
-        withCredentials: true,
-      });
-      setCart(response.data.ProductData);
-      console.log("Response getUserData", response.data.ProductData);
-    } catch (error) {
-      console.log("Error getting user cart", error.message);
-    }
-  }
 
   useEffect(() => {
-    if (isLoggedIn) {
-      getUserCart();
-    }
-  }, [isLoggedIn]);
+    let timer;
+    if (showPopup) timer = setTimeout(() => setShowPopup(false), 6000);
+    return () => clearTimeout(timer);
+  }, [showPopup]);
+
   // Load cart from localStorage when the component mounts
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("guest_cart"));
-    if (storedCart && !isLoggedIn) {
+    if (storedCart) {
       setCart(storedCart);
     }
   }, []);
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      if (cart.length > 0) {
-        localStorage.setItem("guest_cart", JSON.stringify(cart));
-      } else {
-        // Cart is empty, store 0 or clear it
-        localStorage.setItem("guest_cart", JSON.stringify(0));
-        // Or you can just remove it completely
-        // localStorage.removeItem("guest_cart");
-      }
+    if (cart.length > 0) {
+      localStorage.setItem("guest_cart", JSON.stringify(cart));
+    } else {
+      // Cart is empty, store 0 or clear it
+      localStorage.removeItem("guest_cart");
+      // Or you can just remove it completely
+      // localStorage.removeItem("guest_cart");
     }
-  }, [cart, isLoggedIn]);
+  }, [cart]);
 
   // Add product to the cart
   async function addToCart(product) {
-    if (isLoggedIn) {
-      try {
-        const response = await axios.post(
-          `${API_BASE_URL}/api/cart/add`,
-          {
-            _id: product._id,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-      } catch (error) {
-        console.log("Error adding to cart", error.message);
-      }
-    }
     const existingProduct = cart.find((item) => item._id === product._id);
 
     if (existingProduct) {
@@ -91,23 +59,9 @@ export const CartProvider = ({ children }) => {
   // Remove product from the cart
 
   async function removeFromCart(productId) {
-    if (isLoggedIn) {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/cart/remove`,
-        {
-          _id: productId,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      getUserCart();
-      console.log("Response wit removing an item", response);
-    } else {
-      const updatedCart = cart.filter((item) => item._id !== productId);
-      setCart(updatedCart);
-      localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
-    }
+    const updatedCart = cart.filter((item) => item._id !== productId);
+    setCart(updatedCart);
+    localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
   }
 
   const moveAllToCart = (likeList, addToCart, addToLike) => {
@@ -149,58 +103,14 @@ export const CartProvider = ({ children }) => {
     });
 
     //If the user is logged in it also sends API requests
-    if (isLoggedIn) {
-      if (action == "add") {
-        try {
-          const response = await axios.post(
-            `${API_BASE_URL}/api/cart/add`,
-            {
-              _id: productId,
-            },
-            {
-              withCredentials: true,
-            }
-          );
-
-          console.log("Response add to cart button", response);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      if (action == "subtract") {
-        const response = await axios.post(
-          `${API_BASE_URL}/api/cart/subtract`,
-          {
-            _id: productId,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        console.log("Subtract", response);
-      }
-    }
 
     setCart(updatedCart);
   }
 
   // Clear the cart
   async function clearCart() {
-    if (isLoggedIn) {
-      try {
-        const response = await axios.post(
-          `${API_BASE_URL}/api/cart/remove/all`,
-          {},
-          {
-            withCredentials: true,
-          }
-        );
-        console.log(response);
-      } catch (error) {
-        console.log("Error with clearing the cart", error.message);
-      }
-    }
     localStorage.removeItem("guest_cart");
+
     setCart([]);
   }
 
