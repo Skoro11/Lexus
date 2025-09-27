@@ -1,8 +1,8 @@
-import { useCart } from "../context/ContextCart"; // Adjust the import path accordingly
+import { CartTable } from "../components/cart/CartTable";
+import { CartSummary } from "../components/cart/CartSummary";
+import { CartItemsMobile } from "../components/cart/CartItemsMobile"; // Adjust the import path accordingly
+import { ClearCartButton } from "../components/cart/ClearCartButton";
 const CartPage = () => {
-  const { showCartItems, calculateTotal, clearCart, ShowCartItemsMobile } =
-    useCart();
-
   return (
     <section className="my-12 md:mx-8">
       <div className="hidden md:block min-height max-w-[1170px] mx-auto ">
@@ -31,7 +31,7 @@ const CartPage = () => {
                 </th>
               </tr>
             </thead>
-            {showCartItems()}
+            <CartTable />
           </table>
         </div>
         <div className="flex justify-between">
@@ -44,12 +44,7 @@ const CartPage = () => {
             </button>
           </a>
 
-          <button
-            className="outline outline-gray-700 rounded py-4 px-16 font-bold pointer hover-change hover:bg-[#db4444] hover:text-white hover:outline-0"
-            onClick={clearCart}
-          >
-            Clear Cart
-          </button>
+          <ClearCartButton />
         </div>
 
         <div className="flex justify-between  mt-10 lg:mt-30">
@@ -63,28 +58,13 @@ const CartPage = () => {
             </button>
           </div>
 
-          <div className="mx-auto w-3/5 outline py-10 px-10 lg:mx-0 lg:w-2/5">
-            <h1 className="font-bold">Cart Total</h1>
-            <div className="flex underline-one justify-between py-3">
-              <span>Subtotal:</span> <span>${calculateTotal()}</span>
-            </div>
-            <div className="flex underline-one justify-between py-3">
-              <span>Shipping:</span> <span>Free</span>
-            </div>
-            <div className="flex underline-one justify-between py-3">
-              <span className="font-bold">Total:</span>
-              <span className="font-bold">${calculateTotal()}</span>
-            </div>
-            <a href="/checkout">
-              <button className="mt-5 text-white bg-[#db4444] py-3 px-6 rounded lg:float-right flex mx-auto pointer hover:opacity-50 hover-change">
-                Proceed to Checkout
-              </button>
-            </a>
-          </div>
+          <CartSummary />
         </div>
       </div>
 
-      <div className="md:hidden">{ShowCartItemsMobile()}</div>
+      <div className="md:hidden">
+        <CartItemsMobile />
+      </div>
     </section>
   );
 };

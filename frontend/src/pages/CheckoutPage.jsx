@@ -1,5 +1,6 @@
 import { useCart } from "../context/ContextCart";
 import { useState } from "react";
+import { CartItemsPreview } from "../components/cart/CartItemsPreview";
 import axios from "axios";
 function CheckoutPage() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -72,7 +73,7 @@ function CheckoutPage() {
     setSelectedPayment(e.target.value);
   };
 
-  const { showCartItemsMinimal, calculateTotal } = useCart();
+  const { calculateTotal } = useCart();
   return (
     <section className="mx-4 md:mx-8 md:my-12">
       <h1 className="text-xl md:text-4xl my-8 md:my-12 max-w-[1170px] mx-auto">
@@ -145,7 +146,9 @@ function CheckoutPage() {
           </ul>
         </form>
         <div className="md:w-1/2 lg:w-1/3">
-          <div className="mt-4">{showCartItemsMinimal()}</div>
+          <div className="mt-4">
+            <CartItemsPreview />
+          </div>
 
           <div className="mx-auto  lg:mx-0">
             <div className="flex underline-one justify-between py-3">
