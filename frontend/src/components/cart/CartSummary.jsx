@@ -6,7 +6,8 @@ export function CartSummary() {
     <div className="mx-auto w-3/5 outline py-10 px-10 lg:mx-0 lg:w-2/5">
       <h1 className="font-bold">Cart Total</h1>
       <div className="flex underline-one justify-between py-3">
-        <span>Subtotal:</span> <span>${calculateTotal()}</span>
+        <span>Subtotal:</span>{" "}
+        <span data-cy={`total`}>${calculateTotal()}</span>
       </div>
       <div className="flex underline-one justify-between py-3">
         <span>Shipping:</span> <span>Free</span>

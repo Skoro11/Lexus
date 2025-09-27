@@ -137,7 +137,7 @@ export const CartProvider = ({ children }) => {
 };
 
 CartProvider.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
 };
 // Custom hook to access the Cart context
 export const useCart = () => {

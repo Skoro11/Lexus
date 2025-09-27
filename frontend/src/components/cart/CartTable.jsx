@@ -15,10 +15,11 @@ export function CartTable() {
   }
   return (
     <tbody>
-      {cart.map((item) => (
-        <tr key={item._id}>
+      {cart.map((item, index) => (
+        <tr key={item._id} data-cy={`row-${index}`}>
           <td className="border-gray-400 border-1 border-r-0 p-3.5 rounded-l-2xl relative min-h-22 flex items-center ">
             <VscClose
+              data-cy={`remove-item-${index}`}
               className="pointer hover:opacity-50 bg-red-500 text-white rounded-full w-5 h-auto absolute top-[13%] left-[9%]"
               onClick={() => removeFromCart(item._id)}
             />
@@ -26,17 +27,24 @@ export function CartTable() {
             <span className="pl-10">{item.name}</span>
           </td>
           <td className="px-4 border-t border-b border-gray-400 ">
-            ${item.price}
+            $<span data-cy={`item-price-${index}`}>{item.price}</span>
           </td>
-          <td className="px-4 border-t border-b border-gray-400">
+          <td
+            data-cy={`quantity-${index}`}
+            className="px-4 border-t border-b border-gray-400"
+          >
             <div className="flex items-center border w-fit rounded-xl">
-              <span className="m-2 w-3">{item.quantity}</span>
+              <span data-cy={`item-quantity-${index}`} className="m-2 w-3">
+                {item.quantity}
+              </span>
               <span className="flex flex-col cursor-pointer">
                 <VscChevronUp
+                  data-cy={`add-item-${index}`}
                   className="pointer w-6"
                   onClick={() => updateQuantity(item._id, "add")}
                 />
                 <VscChevronDown
+                  data-cy={`subtract-item-${index}`}
                   className="pointer w-6"
                   onClick={() => updateQuantity(item._id, "subtract")}
                   disabled={item.quantity === 1}
@@ -45,7 +53,10 @@ export function CartTable() {
             </div>
           </td>
 
-          <td className="px-4 border border-gray-400 rounded-r-2xl border-l-0">
+          <td
+            data-cy={`item-subtotal-${index}`}
+            className="px-4 border border-gray-400 rounded-r-2xl border-l-0"
+          >
             $
             {(
               (typeof item.price === "string"

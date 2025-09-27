@@ -25,3 +25,4 @@ dist-ssr
 link.txt
 TODO.js
 .env
+/coverage

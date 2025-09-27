@@ -1,0 +1,14 @@
+{
+  "_id": "68d65dd201d7b246d68f7612",
+  "slug": "breed-dry-dog-foode",
+  "price": 100,
+  "name": "Breed Dry Dog Food",
+  "image": "https://res.cloudinary.com/dvsuhy8uh/image/upload/v1741347629/dogFood_ksds31.png",
+  "stars": 5,
+  "tag": "-40%",
+  "numOfReviews": 35,
+  "discountedPrice": 140,
+  "description": "High-quality dry dog food...",
+  "category": "Pet Supplies",
+  "campaign": "Flash Sales"
+}

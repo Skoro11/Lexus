@@ -119,8 +119,12 @@ function Carousel({ main, title, products, component, isLoading, error }) {
         {!isLoading && !error && (
           <>
             <div className="md:hidden w-full flex flex-wrap">
-              {products.map((product) => (
-                <section key={product._id} className="w-1/2 ">
+              {products.map((product, index) => (
+                <section
+                  key={product._id}
+                  data-cy={`product-${index}`}
+                  className="w-1/2 "
+                >
                   <div className="m-2 relative">
                     <div className="absolute top-2 left-2 bg-[var(--orange-primary)] text-white rounded-full px-1">
                       {product.tag}
@@ -145,9 +149,9 @@ function Carousel({ main, title, products, component, isLoading, error }) {
             <div className="hidden md:block mx-auto max-w-[1188px]">
               <Slider ref={sliderRef} {...settings} className="hidden mb:block">
                 {/* Dynamically map through the products */}
-                {products.map((product) => (
+                {products.map((product, index) => (
                   <div key={product._id}>
-                    <div className="group relative w-11/12 mx-auto bg-gray-100 rounded-xl p-10">
+                    <div className=" group relative w-11/12 mx-auto bg-gray-100 rounded-xl p-10 ">
                       <Link to={`/product/${product._id}`}>
                         <img
                           className="w-full h-auto rounded-lg object-cover"
@@ -158,6 +162,7 @@ function Carousel({ main, title, products, component, isLoading, error }) {
 
                       <button
                         className="hidden lg:block hover-animation absolute w-full cursor-pointer bottom-0 rounded left-[0] py-4 bg-black text-white "
+                        data-cy={`add-to-cart-${index}`}
                         onClick={() => {
                           addToCart(product); // Add the product to the cart
                         }}

@@ -366,12 +366,16 @@ function Navbar() {
           <a href="/cart">
             <div className="relative">
               <img
+                data-cy="cart-icon"
                 src="cart-icon.png"
                 alt="Shopping Cart Icon"
                 className="hidden md:block"
               />
               {getCartItemsCount() !== 0 && (
-                <span className="hidden bg-[#db4444] text-white absolute md:flex justify-center w-6 h-6 rounded-full bottom-3.5 left-4">
+                <span
+                  data-cy="counter"
+                  className=" hidden bg-[#db4444] text-white absolute md:flex justify-center w-6 h-6 rounded-full bottom-3.5 left-4"
+                >
                   <span>{getCartItemsCount()}</span>
                 </span>
               )}
