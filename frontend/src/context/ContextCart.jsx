@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types";
 
 // Create Context
 const CartContext = createContext();
@@ -135,6 +136,9 @@ export const CartProvider = ({ children }) => {
   );
 };
 
+CartProvider.propTypes = {
+  children: PropTypes.array,
+};
 // Custom hook to access the Cart context
 export const useCart = () => {
   return useContext(CartContext);
