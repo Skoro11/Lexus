@@ -126,8 +126,8 @@ function Carousel({ main, title, products, component, isLoading, error }) {
                   className="w-1/2 "
                 >
                   <div className="m-2 relative">
-                    <div className="absolute top-2 left-2 bg-[var(--orange-primary)] text-white rounded-full px-1">
-                      {product.tag}
+                    <div className="absolute top-2 left-2  text-white rounded-full px-1">
+                      {GetTag(product.tag)}
                     </div>
                     <Link to={`/product/${product._id}`}>
                       <img
@@ -151,10 +151,10 @@ function Carousel({ main, title, products, component, isLoading, error }) {
                 {/* Dynamically map through the products */}
                 {products.map((product, index) => (
                   <div key={product._id}>
-                    <div className=" group relative w-11/12 mx-auto bg-gray-100 rounded-xl p-10 ">
+                    <div className=" group relative w-11/12 mx-auto  rounded-xl ">
                       <Link to={`/product/${product._id}`}>
                         <img
-                          className="w-full h-auto rounded-lg object-cover"
+                          className="w-full h-full object-cover"
                           src={product.image}
                           alt={product.name}
                         />
@@ -176,7 +176,7 @@ function Carousel({ main, title, products, component, isLoading, error }) {
                       {/* Image based Like button */}
                       <button
                         type="button"
-                        className="absolute top-3 right-5 w-fit lg:top-6 p-1.5 rounded-2xl lg:right-9 bg-white hover:opacity-50 cursor-pointer"
+                        className="absolute top-3 right-5 w-fit lg:top-5 p-1.5 rounded-2xl lg:right-6 bg-white hover:opacity-50 cursor-pointer"
                         onClick={() => addToLike(product)}
                         aria-label={
                           isLiked(product._id)
@@ -201,7 +201,7 @@ function Carousel({ main, title, products, component, isLoading, error }) {
 
                       <button
                         type="button"
-                        className="absolute top-10 right-3.5 w-fit lg:top-15 p-2 rounded-2xl lg:right-7 cursor-pointer hover:opacity-50 bg-transparent border-none"
+                        className="absolute top-10 right-3.5 w-fit lg:top-15 p-2 rounded-2xl lg:right-4 cursor-pointer hover:opacity-50 bg-transparent border-none"
                         onClick={() => addToWatchlist(product)}
                         aria-label={
                           isInWatchlist(product._id)
