@@ -2,6 +2,11 @@ Lexus (E-Commerce Store) | Full-Stack MERN App
 
 🔗 Live Demo: (https://www.lexusshop.app/)
 
+# Preview
+
+<img width="1095" height="1025" alt="lexus-photo" src="https://github.com/user-attachments/assets/97779826-7296-4362-bdd3-3c51b63e1340" />
+
+
 Project Overview
 
 This is a full-stack e-commerce application built with React, Node.js, and MongoDB.
